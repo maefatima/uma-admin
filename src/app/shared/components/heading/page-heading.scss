@@ -1,0 +1,24 @@
+.heading-text {
+  padding-top: 1em;
+  padding-left: 3em;
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: -0.1em;
+  }
+  p {
+    font-size: 0.8em;
+    font-style: italic;
+  }
+}
+
+.design-element {
+  overflow: hidden;
+  max-width: max-content;
+  max-height: 8.8em;
+  height: 100%;
+  margin-top: 1em;
+
+  position: relative;
+  z-index: 50; /* Lower z-index so the image stays behind the chart */
+}

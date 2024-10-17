@@ -1,0 +1,95 @@
+.sidebar {
+  height: 100%;
+  color: white;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+  overflow-y: hidden;
+
+  .sidebar-logo {
+    margin-bottom: 4.5em;
+
+    img {
+      max-width: 7em;
+      width: 100%;
+      max-height: 6em;
+      height: 100%;
+      background-color: #c05850;
+    }
+  }
+
+  .sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+    .icon-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      margin-left: 1.6em;
+      background-color: transparent;
+      color: #666666;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 8px;
+      transition:
+        background-color 0.3s,
+        color 0.3s;
+
+      &:hover {
+        background-color: transparent;
+      }
+
+      &.active {
+        background-color: white;
+        color: #c05850;
+      }
+
+      &.inactive {
+        background-color: transparent;
+        color: #666666;
+      }
+
+      .icon {
+        margin-right: 10px;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #c05850;
+        }
+      }
+    }
+  }
+
+  .sidebar-footer {
+    margin-top: 11.5em;
+    margin-bottom: 2em;
+    margin-left: 2.3em;
+  }
+
+  .logout-button {
+    background-color: transparent;
+    color: #666666;
+    border: none; /* Remove border for a clean look */
+    cursor: pointer;
+    transition:
+      color 0.3s ease,
+      background-color 0.3s ease; /* Smooth hover effects */
+
+    &:hover {
+      color: #c05850; /* Hover color for logout */
+      background-color: white; /* Hover background */
+    }
+
+    .icon {
+      height: 2em;
+      width: 2em;
+    }
+  }
+}

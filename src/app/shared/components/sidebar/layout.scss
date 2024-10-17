@@ -1,0 +1,13 @@
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 7em;
+  background-color: white;
+}
+
+.main-content {
+  overflow-y: auto;
+}
