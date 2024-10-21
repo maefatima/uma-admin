@@ -66,6 +66,7 @@ function LoginForm() {
           </div>
 
           <PrimaryButton
+            className="login-button"
             buttonText="LOGIN"
             onClick={handleLogin}
             disabled={isLoggingIn} // Disable the button while logging in

@@ -1,11 +1,13 @@
 import React from "react";
 import "./PrimaryButton.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
 
 interface PrimaryButtonProps {
   className?: string; // Optional className prop
   buttonText: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean; // Optional disabled prop
+  icon?: any; // Optional icon prop (can be FontAwesome icon)
 }
 
 function PrimaryButton({
@@ -13,6 +15,7 @@ function PrimaryButton({
   buttonText,
   onClick,
   disabled,
+  icon, // Accept the icon prop
 }: PrimaryButtonProps) {
   return (
     <div>
@@ -21,6 +24,8 @@ function PrimaryButton({
         onClick={onClick}
         disabled={disabled}
       >
+        {icon && <FontAwesomeIcon icon={icon} className="button-icon" />}{" "}
+        {/* Render icon if provided */}
         {buttonText}
       </button>
     </div>

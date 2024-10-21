@@ -12,13 +12,23 @@
   }
 }
 
+.profile-heading {
+  margin-top: -3.7em;
+  margin-bottom: 0%;
+  margin-left: 81.5em;
+
+  img {
+    width: 3.3em;
+    height: 3.3em;
+    border-radius: 2em;
+    border: 3.5px solid #26b893;
+  }
+}
+
 .design-element {
   overflow: hidden;
   max-width: max-content;
   max-height: 8.8em;
   height: 100%;
   margin-top: 1em;
-
-  position: relative;
-  z-index: 50; /* Lower z-index so the image stays behind the chart */
 }

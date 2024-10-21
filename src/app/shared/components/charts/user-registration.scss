@@ -1,23 +1,133 @@
 .user-registration-chart {
+  position: relative;
   width: 100%;
-  max-width: 60em;
-  height: 25em;
-  position: absolute; /* Change to absolute to position it relative to its container */
-  z-index: 200; /* Ensure the chart is above the image */
-
+  max-width: 61em;
+  height: 22em;
+  z-index: 100;
   margin-left: 3em;
   margin-top: -4em;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  border: 1.8px solid #bcbcbc;
-
-  @media (max-width: 768px) {
-    height: 300px;
-  }
+  padding: 1em;
+  padding-top: 0.7em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 1em;
+  background-color: #fff; /* Background to match the card */
 
   canvas {
     width: 100% !important;
-    height: 100% !important;
+    height: 88% !important;
+  }
+
+  /* Header styling */
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0%;
+
+    .user-heading {
+      margin-bottom: 1.5em;
+
+      .user-header-icon {
+        margin-top: 0%;
+        display: flex;
+
+        h4 {
+          font-size: 16px;
+          color: #333;
+        }
+
+        .tooltip-container {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+
+          .tooltip-text {
+            visibility: hidden;
+            font-size: 0.8em;
+            width: 25em;
+            background-color: white;
+            color: #333;
+            text-align: justify;
+            padding: 1em;
+            border-radius: 1em;
+            position: absolute;
+            z-index: 1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            bottom: -270%;
+            left: 620%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+          }
+
+          &:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+
+        .exclamation {
+          width: 1em;
+          height: 1em;
+          color: #888; /* Yellow color for the exclamation */
+          margin-left: 1.1em;
+          margin-top: 0.3em;
+        }
+      }
+    }
+
+    .chart-month-selector {
+      display: flex;
+      align-items: center;
+      background-color: #f9f9f9;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      font-size: 0.9em;
+      font-weight: bold;
+      color: #202020;
+
+      .calendar-icon {
+        margin-right: 8px;
+        color: #6f6f6f;
+      }
+    }
+  }
+
+  .chart-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.8
+    ); /* Semi-transparent background for contrast */
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .calendar-container {
+    position: absolute; /* Make the calendar position absolute */
+    top: 3em; /* Adjust this depending on the layout */
+    right: 0; /* Align it to the right of the chart */
+    z-index: 9999; /* Ensure it's displayed above other elements */
+    background-color: #fff; /* White background for the calendar */
+    padding: 1em;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // background-color: rgba(0, 0, 0, 0.5); // Semi-transparent background
+    z-index: 999; // Lower than the calendar but higher than other elements
   }
 }

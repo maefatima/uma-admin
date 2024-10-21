@@ -1,7 +1,4 @@
 .primary-button {
-  width: 89%;
-  height: 3.4em;
-  max-width: 50em;
   padding: 0.75rem;
   margin-left: 2em;
   background-color: #c05850;
@@ -20,5 +17,10 @@
   &:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
+  }
+
+  .button-icon {
+    margin-right: 0.5em; // Add space between the icon and text
+    vertical-align: middle; // Center the icon vertically with text
   }
 }

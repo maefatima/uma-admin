@@ -1,0 +1,63 @@
+.user-table-container {
+  width: 84em;
+  margin-left: 3em;
+  border-radius: 20px;
+
+  .ant-table {
+    margin-bottom: 16px;
+
+    .ant-table-thead > tr > th {
+      background-color: #505668;
+      font-weight: bold;
+      color: white;
+    }
+
+    .ant-table-tbody > tr:hover {
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+
+    .ant-table-tbody > tr > td {
+      padding: 8px 8px 10px 10px;
+    }
+
+    .ant-table-tbody > tr {
+      height: 40px;
+    }
+  }
+
+  .ant-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    margin-bottom: 1.5em;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 0.9em;
+    justify-content: center;
+
+    .edit-icon {
+      color: #4caf50; // Green color for Edit
+    }
+
+    .flagged-icon {
+      color: #ff9800; // Orange color for Flag
+    }
+
+    .delete-icon {
+      color: #f44336; // Red color for Delete
+    }
+
+    &:hover {
+      color: #1890ff; // Optional: Hover color for icons
+    }
+  }
+
+  .custom-row td {
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Display ellipsis for truncated text */
+  }
+}

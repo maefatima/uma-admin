@@ -1,6 +1,9 @@
 import React from "react";
 import "./page-heading.scss";
-import vector from "../../assets/images/Group-284.jpg";
+import vector from "../../assets/images/vector.svg";
+import profile from "../../assets/images/profile.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 interface PageHeadingProps {
   title: string;
@@ -17,12 +20,17 @@ function PageHeading({ title, subtitle, icon, className }: PageHeadingProps) {
       <div className="heading-text">
         <h1>{title}</h1>
         {subtitle && <p className="heading-subtitle">{subtitle}</p>}
+        <div className="profile-heading">
+          <span className="profile-span">
+            <img src={profile} alt="Profile" />
+          </span>
+        </div>
       </div>
 
-      {/* Design element or image */}
       <div className="design-element">
         <img src={vector} alt="Vector" />
       </div>
+      {/* Design element or image */}
     </div>
   );
 }
