@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginForm.scss";
 import InputField from "../../shared/components/fields/InputFields";
 import PrimaryButton from "../../shared/components/buttons/PrimaryButton";
-import LottieAnimation from "../../shared/components/lottie-animation/LoginAnimation";
+import LottieAnimation from "../../shared/components/lottie-animation/Animation";
+import loginAnimationData from "../../shared/assets/animation/login.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,8 +13,8 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -24,22 +26,24 @@ function LoginForm() {
       return;
     }
 
-    // Simulate a login action
     setIsLoggingIn(true);
     setTimeout(() => {
       console.log("Logging in with:", { username, password });
       setIsLoggingIn(false);
+
+      // Redirect to the dashboard after successful login
+      navigate("/dashboard");
     }, 2000);
   }
 
   return (
     <div className="login-container">
       <div className="login-left">
-        <LottieAnimation />
+        <LottieAnimation animationData={loginAnimationData} />
       </div>
 
       <div className="login-right">
-        <h2>Welcome Back!</h2>
+        <h2>Welcome to UMA!</h2>
         <form className="login-form" onSubmit={handleLogin}>
           <InputField
             className="username"
@@ -69,7 +73,7 @@ function LoginForm() {
             className="login-button"
             buttonText="LOGIN"
             onClick={handleLogin}
-            disabled={isLoggingIn} // Disable the button while logging in
+            disabled={isLoggingIn}
           />
 
           <p className="forgot-password">

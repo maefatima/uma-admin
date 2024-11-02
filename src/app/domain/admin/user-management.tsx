@@ -16,16 +16,7 @@ function UserManagement() {
       role: "Admin",
       status: "Active",
     },
-    {
-      key: 2,
-      id: 222,
-      username: "John Doe ABCDEFGHIJKLMNOPQRSTWXYZ",
-      contactNumber: "09635292636",
-      email: "aladadmaefatima.virtudazo@gmail.com",
-      address: "Tubigon",
-      role: "Admin",
-      status: "Active",
-    },
+
     // Add more users as needed
   ]);
 
@@ -84,20 +75,23 @@ function UserManagement() {
             onFilter={handleFilter}
           />
         </div>
-        <h2>Account Management Table</h2>
-        <UserTable
-          users={users.slice(
-            (currentPage - 1) * pageSize,
-            currentPage * pageSize
-          )} // Pass paginated user data
-          totalUsers={users.length} // Set total users for pagination
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-          onEdit={handleEdit} // Pass the handleEdit function
-          onFlag={handleFlag} // Pass the handleFlag function
-          onDelete={handleDelete} // Pass the handleDelete function
-        />
+        <div className="table">
+          <h2>Account Management Table</h2>
+
+          <UserTable
+            users={users.slice(
+              (currentPage - 1) * pageSize,
+              currentPage * pageSize
+            )} // Pass paginated user data
+            totalUsers={users.length} // Set total users for pagination
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            onEdit={handleEdit} // Pass the handleEdit function
+            onFlag={handleFlag} // Pass the handleFlag function
+            onDelete={handleDelete} // Pass the handleDelete function
+          />
+        </div>
       </div>
     </div>
   );

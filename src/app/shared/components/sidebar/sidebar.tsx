@@ -12,15 +12,31 @@ import {
 import "./sidebar.scss";
 import logo from "../../assets/images/logo.png";
 import SidebarIconButton from "../buttons/sidebar-icon-button";
+import ConfirmationModal from "../modals/confirmation-modal";
 
 function Sidebar() {
   const [activePath, setActivePath] = useState("/dashboard"); // Track active route
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
 
   // Set the active path based on the current route
   React.useEffect(() => {
     setActivePath(location.pathname);
   }, [location.pathname]);
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutModal(false);
+    navigate("/login"); // Redirect to login after confirming
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutModal(false);
+  };
 
   return (
     <div className="sidebar">
@@ -81,14 +97,21 @@ function Sidebar() {
 
       <div className="sidebar-footer">
         <SidebarIconButton
-          className="icon-button"
-          to="/logout"
+          className="logout-button"
+          to="#"
           icon={faSignOutAlt}
           tooltip="Logout"
           isActive={activePath === "/logout"}
-          onClick={() => setActivePath("/logout")}
+          onClick={handleLogoutClick}
         />
       </div>
+
+      <ConfirmationModal
+        isOpen={showLogoutModal} // Use the correct state variable
+        message="Are you sure you want to log out?"
+        onConfirm={confirmLogout} // Use the correct handler
+        onCancel={cancelLogout} // Use the correct handler
+      />
     </div>
   );
 }

@@ -1,0 +1,107 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  margin-top: 10em;
+  background-color: white;
+  padding: 1.3em;
+  padding-left: 1em;
+  border-radius: 2em;
+  width: 50em;
+  height: 26em;
+  max-width: 95%;
+  text-align: center;
+
+  h2 {
+    font-size: 1.5em;
+    text-align: left;
+    margin-left: 0.6em;
+    color: #083a50;
+  }
+
+  p {
+    font-size: 0.8em;
+    text-align: left;
+    margin-left: 1.2em;
+    margin-top: -2em;
+    font-style: italic;
+  }
+}
+
+.price-inputfields {
+  display: flex;
+  flex-direction: row;
+  gap: 6em;
+  margin-bottom: 1.5rem;
+  margin-top: 3em;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3em;
+  gap: 2em;
+}
+
+.cancel-button {
+  width: 10em;
+  background-color: #d9d9d9;
+  color: black;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  margin-left: 0.5em;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #a3a2a2;
+  }
+}
+
+.setprice {
+  width: 10em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+}
+
+.dropdown-container {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-top: 2.5em;
+
+  .dropdown {
+    appearance: none; /* Hide the default arrow */
+    width: 30%;
+    height: 3em;
+    padding: 0.5rem;
+    padding-left: 1em;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .dropdown-icon {
+    position: absolute;
+    right: 19.5em; /* Adjust for desired icon position */
+    pointer-events: none; /* Prevent icon from blocking dropdown clicks */
+    color: #333; /* Adjust icon color */
+    font-size: 0.9em;
+  }
+}

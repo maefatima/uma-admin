@@ -1,14 +1,17 @@
 import React from "react";
 import Lottie from "lottie-react"; // Import Lottie
-import "./LoginAnimation.scss";
-import animationData from "../../assets/animation/animationlogin.json";
+import "./Animation.scss";
 
-function LottieAnimation() {
+interface LottieAnimationProps {
+  animationData: object; // Define the type for animationData prop
+}
+
+const LottieAnimation: React.FC<LottieAnimationProps> = ({ animationData }) => {
   return (
     <div className="animation-container">
       <Lottie animationData={animationData} loop={true} />
     </div>
   );
-}
+};
 
 export default LottieAnimation;
