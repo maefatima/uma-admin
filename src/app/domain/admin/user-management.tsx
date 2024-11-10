@@ -5,6 +5,7 @@ import SearchBar from "../../shared/components/search-bar/search-bar";
 import UserTable from "../../shared/components/table/table";
 import ViewUserModal from "../../shared/components/modals/view-user-modal";
 import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
+import FlaggedModal from "../../shared/components/modals/flagged-modal";
 
 interface User {
   key: number;
@@ -32,14 +33,25 @@ function UserManagement() {
   ]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalVisible, setModalVisible] = useState(false); // State for modal visibility
+  const [isViewModalVisible, setViewModalVisible] = useState(false);
+  const [isFlaggedModalVisible, setFlaggedModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const pageSize = 10; // Set your desired page size
+  const [notifyUser, setNotifyUser] = useState(false);
+  const [action, setAction] = useState("Action"); // Initialize action dropdown with "Action"
+  const pageSize = 10;
 
   const handleView = (id: number) => {
-    const user = users.find((user) => user.id === id) || null; // Find the user by ID or default to null
-    setSelectedUser(user); // Set the selected user data
-    setModalVisible(true); // Show the modal
+    const user = users.find((user) => user.id === id) || null;
+    setSelectedUser(user);
+    setViewModalVisible(true);
+    setFlaggedModalVisible(false);
+  };
+
+  const handleFlag = (id: number) => {
+    const user = users.find((user) => user.id === id) || null;
+    setSelectedUser(user);
+    setFlaggedModalVisible(true);
+    setViewModalVisible(false);
   };
 
   const handleSearch = (query: string) => {
@@ -54,21 +66,30 @@ function UserManagement() {
     console.log("Filter by:", filterValue);
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // const handlePageChange = (page: number) => {
+  //   setCurrentPage(page);
+  // };
 
-  const handleFlag = (id: number) => {
-    console.log("Flag user with ID:", id);
-  };
-
-  const handleDelete = (id: number) => {
-    console.log("Delete user with ID:", id);
-  };
+  // const handleDelete = (id: number) => {
+  //   console.log("Delete user with ID:", id);
+  // };
 
   const handleCloseModal = () => {
-    setModalVisible(false); // Hide the modal
-    setSelectedUser(null); // Clear the selected user data
+    setViewModalVisible(false);
+    setFlaggedModalVisible(false);
+    setSelectedUser(null);
+    resetModalState(); // Reset checkbox and action dropdown
+  };
+
+  const handleSave = () => {
+    console.log("Flagged user action saved");
+    setFlaggedModalVisible(false);
+    resetModalState();
+  };
+
+  const resetModalState = () => {
+    setNotifyUser(false); // Clear checkbox
+    setAction("Action"); // Reset dropdown to default
   };
 
   return (
@@ -89,10 +110,7 @@ function UserManagement() {
               { value: "date", label: "Date" },
               { value: "address", label: "Address" },
             ]}
-            filterOptions={[
-              { value: "admin", label: "Admin" },
-              { value: "user", label: "User" },
-            ]}
+            filterOptions={[{ value: "user", label: "User" }]}
           />
         </div>
         <div className="table">
@@ -106,15 +124,15 @@ function UserManagement() {
             totalUsers={users.length}
             pageSize={pageSize}
             currentPage={currentPage}
-            onPageChange={handlePageChange}
+            onPageChange={setCurrentPage}
             onView={handleView}
             onFlag={handleFlag}
-            onDelete={handleDelete}
+            onDelete={(id) => console.log("Delete user with ID:", id)}
           />
         </div>
       </div>
 
-      {isModalVisible && selectedUser && (
+      {isViewModalVisible && selectedUser && (
         <ViewUserModal
           username={selectedUser.username}
           contactNumber={selectedUser.contactNumber}
@@ -124,6 +142,28 @@ function UserManagement() {
           birthdate={selectedUser.birthdate || "July 2, 2003"}
           profileImage={selectedUser.profileImage || sampleProfileImage}
           onClose={handleCloseModal}
+        />
+      )}
+
+      {isFlaggedModalVisible && selectedUser && (
+        <FlaggedModal
+          username={selectedUser.username}
+          reportedBy="Michelle Bentulan"
+          reason="Pretending to be someone"
+          actionOptions={[
+            "Action",
+            "Mark as Reviewed",
+            "Issue Warning",
+            "Suspend Account",
+            "Dismiss Report",
+          ]}
+          notifyUser={notifyUser}
+          profileImage={selectedUser.profileImage || sampleProfileImage}
+          onClose={handleCloseModal}
+          onSave={handleSave}
+          onNotifyChange={setNotifyUser}
+          onActionChange={setAction}
+          selectedAction={action} // Pass current action
         />
       )}
     </div>
