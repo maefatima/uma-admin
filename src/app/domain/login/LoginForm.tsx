@@ -4,7 +4,7 @@ import "./LoginForm.scss";
 import InputField from "../../shared/components/fields/InputFields";
 import PrimaryButton from "../../shared/components/buttons/PrimaryButton";
 import LottieAnimation from "../../shared/components/lottie-animation/Animation";
-import loginAnimationData from "../../shared/assets/animation/login.json";
+import loginAnimationData from "../../shared/assets/animation/animationlogin.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -31,8 +31,8 @@ function LoginForm() {
       console.log("Logging in with:", { username, password });
       setIsLoggingIn(false);
 
-      // Redirect to the dashboard after successful login
-      navigate("/dashboard");
+      // Navigate to the welcome screen
+      navigate("/welcome");
     }, 2000);
   }
 

@@ -2,6 +2,8 @@
   width: 84em;
   margin-left: 3em;
   border-radius: 20px;
+  background: #fff;
+  padding-bottom: 1px;
 
   .ant-table {
     margin-bottom: 16px;
@@ -18,7 +20,8 @@
     }
 
     .ant-table-tbody > tr > td {
-      padding: 8px 8px 10px 10px;
+      padding: 12px;
+      padding-left: 15px;
     }
 
     .ant-table-tbody > tr {
@@ -36,10 +39,9 @@
   .action-buttons {
     display: flex;
     gap: 0.9em;
-    justify-content: center;
 
-    .edit-icon {
-      color: #4caf50; // Green color for Edit
+    .view-icon {
+      color: #00b7fe; // Green color for Edit
     }
 
     .flagged-icon {

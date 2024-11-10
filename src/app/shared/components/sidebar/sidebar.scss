@@ -1,6 +1,5 @@
 .sidebar {
   height: 100%;
-  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,15 +76,15 @@
     .logout-button {
       background-color: transparent;
       color: #666666;
-      border: none; /* Remove border for a clean look */
+      border: none;
       cursor: pointer;
       transition:
         color 0.3s ease,
-        background-color 0.3s ease; /* Smooth hover effects */
+        background-color 0.3s ease;
 
       &:hover {
-        color: #c05850; /* Hover color for logout */
-        background-color: white; /* Hover background */
+        color: #c05850;
+        background-color: white;
       }
 
       .icon {
@@ -97,8 +96,7 @@
 
   @media (max-height: 600px) {
     .sidebar-footer {
-      // margin-top: 12em;
-      margin-bottom: 3em; /* Reduce margin when screen height is limited */
+      margin-bottom: 3em;
     }
     .sidebar-links {
       gap: 1em;

@@ -14,7 +14,7 @@ interface LivestockData {
   livestockType: string;
   weight: number;
   price: number;
-  date: string; // Added date field
+  date: string;
 }
 
 function PriceMonitoring() {
@@ -23,7 +23,7 @@ function PriceMonitoring() {
   const [inactiveLivestockData, setInactiveLivestockData] = useState<
     LivestockData[]
   >([]);
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false); // State for alert modal
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
 
   function openModal() {
     setModalOpen(true);
@@ -38,40 +38,43 @@ function PriceMonitoring() {
     weight: number;
     price: number;
   }) {
-    const dateSet = new Date().toLocaleDateString(); // Get current date
+    const dateSet = new Date().toLocaleDateString();
 
-    // Check for an existing entry for the same livestock type
+    // Check for an existing entry with the same livestock type and either matching weight or price
+    const duplicateEntry = livestockData.find(
+      (item) =>
+        item.livestockType === newData.livestockType &&
+        (item.weight === newData.weight || item.price === newData.price)
+    );
+
+    if (duplicateEntry) {
+      setIsAlertModalOpen(true); // Show alert if a duplicate is found
+      return;
+    }
+
+    // Check if there is an existing entry with the same livestock type
     const existingEntry = livestockData.find(
       (item) => item.livestockType === newData.livestockType
     );
 
     if (existingEntry) {
-      // Check if the weight and price are the same as the existing entry
-      if (
-        existingEntry.weight === newData.weight &&
-        existingEntry.price === newData.price
-      ) {
-        // Show the alert modal if a duplicate exists
-        setIsAlertModalOpen(true);
-        return; // Prevent saving the duplicate
-      } else {
-        // Move the existing entry to inactive list before adding the new one
-        setInactiveLivestockData((prev) => [...prev, existingEntry]);
-      }
+      // Move the existing entry to the inactive list before adding the new one
+      setInactiveLivestockData((prev) => [...prev, existingEntry]);
     }
 
-    // Save the new entry and remove any previous entry of the same type from the active list
+    // Save the new entry and ensure only one active entry for each livestock type
     setLivestockData((prevData) => [
       ...prevData.filter(
         (item) => item.livestockType !== newData.livestockType
-      ), // Remove previous entries of the same type
+      ),
       { ...newData, key: prevData.length + 1, date: dateSet },
     ]);
+
     closeModal();
   }
 
   const handleCloseAlertModal = () => {
-    setIsAlertModalOpen(false); // Close alert modal
+    setIsAlertModalOpen(false);
   };
 
   return (
@@ -133,12 +136,12 @@ function PriceMonitoring() {
         onSubmit={handleSetPrice}
       />
 
-      {/* Alert Confirmation Modal */}
+      {/* Alert Modal for Duplicate Entry */}
       <AlertModal
         className="alert-message"
         isOpen={isAlertModalOpen}
         title="Duplicate Entry Alert"
-        message="An entry with the same livestock type, weight, or price already exists."
+        message="An entry with the same livestock type and either matching weight or price already exists."
         onCancel={handleCloseAlertModal}
       />
     </div>

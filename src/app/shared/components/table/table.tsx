@@ -2,7 +2,7 @@ import React from "react";
 import { Table, Pagination } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faFlag, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faListAlt, faFlag, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./table.scss";
 
 interface User {
@@ -12,8 +12,6 @@ interface User {
   contactNumber: string;
   email: string;
   address: string;
-  role: string;
-  status: string;
 }
 
 interface UserTableProps {
@@ -21,8 +19,8 @@ interface UserTableProps {
   totalUsers: number;
   pageSize: number;
   currentPage: number;
-  onPageChange: (page: number, pageSize?: number) => void;
-  onEdit: (id: number) => void;
+  onPageChange: (page: number) => void;
+  onView: (id: number) => void;
   onFlag: (id: number) => void;
   onDelete: (id: number) => void;
 }
@@ -30,10 +28,10 @@ interface UserTableProps {
 const UserTable: React.FC<UserTableProps> = ({
   users,
   totalUsers,
-  pageSize,
+  pageSize = 10,
   currentPage,
   onPageChange,
-  onEdit,
+  onView,
   onFlag,
   onDelete,
 }) => {
@@ -42,48 +40,36 @@ const UserTable: React.FC<UserTableProps> = ({
       title: "ID",
       dataIndex: "id",
       key: "id",
-      width: 70,
+      width: 60,
       fixed: "left",
     },
     {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      width: 260,
-      ellipsis: true, // Truncate long usernames
+      width: 230,
+      ellipsis: true,
     },
     {
       title: "Contact Number",
       dataIndex: "contactNumber",
       key: "contactNumber",
       width: 150,
-      ellipsis: true, // Truncate long contact numbers
+      ellipsis: true,
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
       width: 230,
-      ellipsis: true, // Truncate long emails
+      ellipsis: true,
     },
     {
       title: "Address",
       dataIndex: "address",
       key: "address",
       width: 240,
-      ellipsis: true, // Truncate long addresses
-    },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-      width: 90,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      width: 90,
+      ellipsis: true,
     },
     {
       title: "Action",
@@ -92,9 +78,9 @@ const UserTable: React.FC<UserTableProps> = ({
       render: (_, record: User) => (
         <div className="action-buttons">
           <FontAwesomeIcon
-            icon={faEdit}
-            onClick={() => onEdit(record.id)}
-            className="edit-icon"
+            icon={faListAlt}
+            onClick={() => onView(record.id)}
+            className="view-icon"
           />
           <FontAwesomeIcon
             icon={faFlag}
@@ -113,26 +99,25 @@ const UserTable: React.FC<UserTableProps> = ({
 
   return (
     <div className="user-table-container">
-      <div className="table">
-        <Table<User>
-          dataSource={users}
-          columns={columns}
-          pagination={false}
-          rowKey="key"
-          rowClassName="custom-row"
-          scroll={{ x: "max-content" }} // Allow horizontal scrolling
+      <Table<User>
+        dataSource={users}
+        columns={columns}
+        pagination={false}
+        rowKey="key"
+        rowClassName="custom-row"
+        scroll={{ x: "max-content" }}
+      />
+      <div
+        className="pagination-container"
+        style={{ textAlign: "center", marginTop: "20px" }}
+      >
+        <Pagination
+          total={totalUsers}
+          pageSize={10}
+          current={currentPage}
+          onChange={onPageChange}
         />
       </div>
-      <Pagination
-        total={totalUsers}
-        pageSize={pageSize}
-        current={currentPage}
-        onChange={onPageChange}
-        style={{
-          marginTop: 16,
-          textAlign: "center",
-        }}
-      />
     </div>
   );
 };

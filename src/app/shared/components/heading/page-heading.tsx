@@ -2,8 +2,6 @@ import React from "react";
 import "./page-heading.scss";
 import vector from "../../assets/images/vector.svg";
 import profile from "../../assets/images/profile.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 interface PageHeadingProps {
   title: string;

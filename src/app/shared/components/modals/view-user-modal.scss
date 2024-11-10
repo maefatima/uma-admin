@@ -1,0 +1,114 @@
+.view-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); // Semi-transparent dark overlay
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.view-user-modal {
+  margin-top: 4em;
+  background-color: white;
+  border-radius: 1em;
+  width: 65em;
+  height: 40em;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+
+  .view-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: -0.9em !important;
+    margin-left: -0.4em !important;
+    text-align: left;
+  }
+
+  .view-subtitle {
+    font-size: 0.8em;
+    color: black;
+    margin-bottom: 2.5em;
+    font-style: italic;
+    margin-top: -2em;
+    margin-left: -0.5em;
+    text-align: left;
+  }
+
+  .view-content {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+
+    .user-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .input-field-readonly {
+        pointer-events: none; // Disable interactions
+
+        input {
+          background-color: #f9f9f9;
+          border: none;
+          border-radius: 15px;
+          padding: 10px;
+          font-size: 1em;
+          box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+          width: 25em;
+          margin-left: 8.6em;
+          margin-bottom: -0.3em;
+          color: black;
+        }
+
+        label {
+          position: absolute;
+          margin-top: 0.8em;
+          margin-left: -1.3em;
+          color: black;
+        }
+      }
+    }
+
+    .profile-image {
+      width: 14em;
+      height: 14em;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #26b893;
+      display: flex;
+      align-items: center;
+      margin-top: 0.5em;
+      margin-right: 4em;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .close-button {
+    width: 10em;
+    background-color: #d9d9d9;
+    color: black;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    margin-left: 25.5em;
+    margin-top: 0.8em;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #a3a2a2;
+    }
+  }
+}

@@ -7,6 +7,7 @@ import ContentModeration from "../../domain/admin/content-moderation";
 import Message from "../../domain/admin/message";
 import PriceMonitoring from "../../domain/admin/price-monitoring";
 import Settings from "../../domain/admin/settings";
+import Welcome from "../../domain/login/welcome";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginForm />,
+      },
+      {
+        path: "welcome",
+        element: <Welcome />,
       },
       {
         path: "dashboard",

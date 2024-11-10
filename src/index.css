@@ -27,3 +27,7 @@ h6 {
 table {
   font-family: "Montserrat", sans-serif; /* Apply Montserrat font to all tables */
 }
+
+.ant-tabs {
+  font-family: "Montserrat", sans-serif;
+}

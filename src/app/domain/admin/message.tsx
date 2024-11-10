@@ -31,6 +31,14 @@ function Message() {
             onSearch={handleSearch}
             onSort={handleSort}
             onFilter={handleFilter}
+            sortOptions={[
+              { value: "name", label: "Name" },
+              { value: "date", label: "Date" },
+            ]}
+            filterOptions={[
+              { value: "admin", label: "Admin" },
+              { value: "user", label: "User" },
+            ]}
           />
         </div>
       </div>

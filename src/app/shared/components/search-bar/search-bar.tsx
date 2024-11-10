@@ -7,9 +7,17 @@ interface SearchBarProps {
   onSearch: (query: string) => void;
   onSort: (sortValue: string) => void;
   onFilter: (filterValue: string) => void;
+  sortOptions: { value: string; label: string }[];
+  filterOptions: { value: string; label: string }[];
 }
 
-function SearchBar({ onSearch, onSort, onFilter }: SearchBarProps) {
+function SearchBar({
+  onSearch,
+  onSort,
+  onFilter,
+  sortOptions,
+  filterOptions,
+}: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortValue, setSortValue] = useState("");
   const [filterValue, setFilterValue] = useState("");
@@ -50,9 +58,11 @@ function SearchBar({ onSearch, onSort, onFilter }: SearchBarProps) {
           <div className="select-wrapper">
             <select id="sort-by" value={sortValue} onChange={handleSortChange}>
               <option value="">Sort By</option>
-              <option value="name">Name</option>
-              <option value="date">Date</option>
-              <option value="address">Address</option>
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
             <div className="separator"></div>
             <FontAwesomeIcon icon={faSort} className="icon-inside" />
@@ -67,8 +77,11 @@ function SearchBar({ onSearch, onSort, onFilter }: SearchBarProps) {
               onChange={handleFilterChange}
             >
               <option value="">Filter By</option>
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
+              {filterOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
             <div className="separator"></div>
             <FontAwesomeIcon icon={faFilter} className="icon-inside" />
