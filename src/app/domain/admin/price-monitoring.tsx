@@ -40,29 +40,23 @@ function PriceMonitoring() {
   }) {
     const dateSet = new Date().toLocaleDateString();
 
-    // Check for an existing entry with the same livestock type and either matching weight or price
-    const duplicateEntry = livestockData.find(
-      (item) =>
-        item.livestockType === newData.livestockType &&
-        (item.weight === newData.weight || item.price === newData.price)
-    );
-
-    if (duplicateEntry) {
-      setIsAlertModalOpen(true); // Show alert if a duplicate is found
-      return;
-    }
-
-    // Check if there is an existing entry with the same livestock type
+    // Check if there's an existing entry with the same livestock type in the active list
     const existingEntry = livestockData.find(
       (item) => item.livestockType === newData.livestockType
     );
 
     if (existingEntry) {
-      // Move the existing entry to the inactive list before adding the new one
-      setInactiveLivestockData((prev) => [...prev, existingEntry]);
+      if (existingEntry.price === newData.price) {
+        // Show alert if the price is the same
+        setIsAlertModalOpen(true);
+        return;
+      } else {
+        // Move existing entry to inactive list if price is different
+        setInactiveLivestockData((prev) => [...prev, existingEntry]);
+      }
     }
 
-    // Save the new entry and ensure only one active entry for each livestock type
+    // Update active list with the new entry
     setLivestockData((prevData) => [
       ...prevData.filter(
         (item) => item.livestockType !== newData.livestockType
@@ -98,35 +92,33 @@ function PriceMonitoring() {
             <LottieAnimation animationData={PriceAnimationData} />
           </div>
         ) : (
-          <>
-            <div className="price-table">
-              <div className="active-price-table">
-                <h2>Active Livestock Price List</h2>
+          <div className="price-table">
+            <div className="active-price-table">
+              <h2>Active Livestock Price List</h2>
+              <LivestockTable
+                data={livestockData}
+                totalItems={livestockData.length}
+                pageSize={10}
+                currentPage={1}
+                onPageChange={() => {}}
+                headerBgColor="#505668"
+              />
+            </div>
+
+            {inactiveLivestockData.length > 0 && (
+              <div className="inactive-price-table">
+                <h2>Inactive Livestock Price List</h2>
                 <LivestockTable
-                  data={livestockData}
-                  totalItems={livestockData.length}
+                  data={inactiveLivestockData}
+                  totalItems={inactiveLivestockData.length}
                   pageSize={10}
                   currentPage={1}
                   onPageChange={() => {}}
-                  headerBgColor="#505668"
+                  headerBgColor="#a05a54"
                 />
               </div>
-
-              {inactiveLivestockData.length > 0 && (
-                <div className="inactive-price-table">
-                  <h2>Inactive Livestock Price List</h2>
-                  <LivestockTable
-                    data={inactiveLivestockData}
-                    totalItems={inactiveLivestockData.length}
-                    pageSize={10}
-                    currentPage={1}
-                    onPageChange={() => {}}
-                    headerBgColor="#a05a54"
-                  />
-                </div>
-              )}
-            </div>
-          </>
+            )}
+          </div>
         )}
       </div>
 
@@ -141,7 +133,7 @@ function PriceMonitoring() {
         className="alert-message"
         isOpen={isAlertModalOpen}
         title="Duplicate Entry Alert"
-        message="An entry with the same livestock type and either matching weight or price already exists."
+        message="An entry with the same livestock type and price already exists."
         onCancel={handleCloseAlertModal}
       />
     </div>

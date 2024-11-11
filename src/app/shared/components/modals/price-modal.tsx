@@ -16,13 +16,13 @@ interface SetPriceModalProps {
 }
 
 function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
-  const [weight, setWeight] = useState<number | "">("");
+  const [weight, setWeight] = useState<number>(1); // Set weight to 1 kg by default
   const [price, setPrice] = useState<number | "">("");
-  const [livestockType, setLivestockType] = useState<string>(""); // Dropdown state
+  const [livestockType, setLivestockType] = useState<string>("");
 
   // Function to reset fields to their default values
   function resetFields() {
-    setWeight("");
+    setWeight(1); // Reset to 1 kg
     setPrice("");
     setLivestockType("");
   }
@@ -30,18 +30,9 @@ function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
   // Clear the fields when modal closes
   useEffect(() => {
     if (!isOpen) {
-      resetFields(); // Reset fields when modal is closed
+      resetFields();
     }
   }, [isOpen]);
-
-  function handleWeightChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = parseFloat(e.target.value);
-    if (!isNaN(value)) {
-      setWeight(value);
-    } else {
-      setWeight("");
-    }
-  }
 
   function handlePriceChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = parseFloat(e.target.value);
@@ -57,14 +48,15 @@ function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
   }
 
   function handleSubmit() {
-    if (weight !== "" && price !== "" && livestockType) {
-      onSubmit({ livestockType, weight: Number(weight), price: Number(price) });
-      onClose(); // Close the modal after submission
-      resetFields(); // Reset the fields after submission
+    if (price !== "" && livestockType) {
+      // Pass livestockType, weight (1 kg), and price
+      onSubmit({ livestockType, weight, price: Number(price) });
+      onClose();
+      resetFields();
     }
   }
 
-  if (!isOpen) return null; // Don't render anything if modal is not open
+  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
@@ -98,8 +90,9 @@ function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
             label="KG."
             type="number"
             value={weight.toString()}
-            onChange={handleWeightChange}
+            onChange={() => {}}
             placeholder="Set Weight"
+            readOnly // Make weight read-only
           />
           <SetPriceField
             label="PHP"

@@ -7,6 +7,7 @@ interface InputFieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string; // Add the type prop here
+  readOnly?: boolean;
 }
 
 const SetPriceField: React.FC<InputFieldProps> = ({
@@ -14,6 +15,7 @@ const SetPriceField: React.FC<InputFieldProps> = ({
   value,
   onChange,
   placeholder,
+  readOnly,
   type = "text", // Default type to "text" if not provided
 }) => {
   return (
@@ -25,6 +27,7 @@ const SetPriceField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        readOnly={readOnly}
       />
     </div>
   );
