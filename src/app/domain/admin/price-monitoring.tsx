@@ -12,8 +12,7 @@ import AlertModal from "../../shared/components/modals/alert-modal";
 interface LivestockData {
   key: number;
   livestockType: string;
-  weight: number;
-  price: number;
+  price: number; // Price Per Kilogram
   date: string;
 }
 
@@ -33,30 +32,22 @@ function PriceMonitoring() {
     setModalOpen(false);
   }
 
-  function handleSetPrice(newData: {
-    livestockType: string;
-    weight: number;
-    price: number;
-  }) {
+  function handleSetPrice(newData: { livestockType: string; price: number }) {
     const dateSet = new Date().toLocaleDateString();
 
-    // Check if there's an existing entry with the same livestock type in the active list
     const existingEntry = livestockData.find(
       (item) => item.livestockType === newData.livestockType
     );
 
     if (existingEntry) {
       if (existingEntry.price === newData.price) {
-        // Show alert if the price is the same
         setIsAlertModalOpen(true);
         return;
       } else {
-        // Move existing entry to inactive list if price is different
         setInactiveLivestockData((prev) => [...prev, existingEntry]);
       }
     }
 
-    // Update active list with the new entry
     setLivestockData((prevData) => [
       ...prevData.filter(
         (item) => item.livestockType !== newData.livestockType
@@ -75,7 +66,7 @@ function PriceMonitoring() {
     <div className="price-display">
       <PageHeading
         title="Price Suggestion Monitoring"
-        subtitle="Set Price Value per Livestock Type"
+        subtitle="Set Price Per Kilogram per Livestock Type"
       />
       <div className="price-content">
         <div className="setprice-button">
@@ -128,12 +119,11 @@ function PriceMonitoring() {
         onSubmit={handleSetPrice}
       />
 
-      {/* Alert Modal for Duplicate Entry */}
       <AlertModal
         className="alert-message"
         isOpen={isAlertModalOpen}
-        title="Duplicate Entry Alert"
-        message="An entry with the same livestock type and price already exists."
+        title="Duplicate Entry!"
+        message="A same price entry for this livestock type already exists. Please enter a different price to avoid duplicates."
         onCancel={handleCloseAlertModal}
       />
     </div>

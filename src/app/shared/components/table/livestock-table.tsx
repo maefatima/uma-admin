@@ -6,9 +6,8 @@ import "./livestock-table.scss";
 interface LivestockData {
   key: number;
   livestockType: string;
-  weight: number;
-  price: number;
-  date: string; // Added date field
+  price: number; // Price Per Kilogram
+  date: string;
 }
 
 interface LivestockTableProps {
@@ -17,8 +16,8 @@ interface LivestockTableProps {
   pageSize: number;
   currentPage: number;
   onPageChange: (page: number, pageSize?: number) => void;
-  titleColor?: string; // Color for table title
-  headerBgColor?: string; // Color for table header row
+  titleColor?: string;
+  headerBgColor?: string;
 }
 
 const LivestockTable: React.FC<LivestockTableProps> = ({
@@ -27,8 +26,8 @@ const LivestockTable: React.FC<LivestockTableProps> = ({
   pageSize,
   currentPage,
   onPageChange,
-  titleColor = "black", // Default title color if not provided
-  headerBgColor = "#f5f5f5", // Default header background color if not provided
+  titleColor = "black",
+  headerBgColor = "#f5f5f5",
 }) => {
   const columns: ColumnsType<LivestockData> = [
     {
@@ -36,27 +35,16 @@ const LivestockTable: React.FC<LivestockTableProps> = ({
       dataIndex: "livestockType",
       key: "livestockType",
     },
-    { title: "Weight", dataIndex: "weight", key: "weight" },
-    { title: "Price", dataIndex: "price", key: "price" },
+    { title: "Price Per Kilogram", dataIndex: "price", key: "price" },
     { title: "Date Set", dataIndex: "date", key: "date" },
   ];
 
-  // Define the custom header cell
   const components = {
     header: {
-      cell: ({
-        style,
-        ...restProps
-      }: {
-        style?: React.CSSProperties;
-        [key: string]: any;
-      }) => (
+      cell: (props: any) => (
         <th
-          {...restProps}
-          style={{
-            ...style,
-            backgroundColor: headerBgColor, // Apply header background color
-          }}
+          {...props}
+          style={{ ...props.style, backgroundColor: headerBgColor }}
         />
       ),
     },

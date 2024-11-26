@@ -8,26 +8,18 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 interface SetPriceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: {
-    livestockType: string;
-    weight: number;
-    price: number;
-  }) => void;
+  onSubmit: (data: { livestockType: string; price: number }) => void;
 }
 
 function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
-  const [weight, setWeight] = useState<number>(1); // Set weight to 1 kg by default
   const [price, setPrice] = useState<number | "">("");
   const [livestockType, setLivestockType] = useState<string>("");
 
-  // Function to reset fields to their default values
   function resetFields() {
-    setWeight(1); // Reset to 1 kg
     setPrice("");
     setLivestockType("");
   }
 
-  // Clear the fields when modal closes
   useEffect(() => {
     if (!isOpen) {
       resetFields();
@@ -36,11 +28,7 @@ function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
 
   function handlePriceChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = parseFloat(e.target.value);
-    if (!isNaN(value)) {
-      setPrice(value);
-    } else {
-      setPrice("");
-    }
+    setPrice(isNaN(value) ? "" : value);
   }
 
   function handleDropdownChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -49,8 +37,7 @@ function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
 
   function handleSubmit() {
     if (price !== "" && livestockType) {
-      // Pass livestockType, weight (1 kg), and price
-      onSubmit({ livestockType, weight, price: Number(price) });
+      onSubmit({ livestockType, price: Number(price) });
       onClose();
       resetFields();
     }
@@ -62,7 +49,7 @@ function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>Set Suggested Price</h2>
-        <p>Set Price Value per Livestock Type</p>
+        <p>Set Price Per Kilogram per Livestock Type</p>
 
         <div className="dropdown-container">
           <select
@@ -87,15 +74,7 @@ function SetPriceModal({ isOpen, onClose, onSubmit }: SetPriceModalProps) {
 
         <div className="price-inputfields">
           <SetPriceField
-            label="KG."
-            type="number"
-            value={weight.toString()}
-            onChange={() => {}}
-            placeholder="Set Weight"
-            readOnly // Make weight read-only
-          />
-          <SetPriceField
-            label="PHP"
+            label="Price Per Kilogram"
             type="number"
             value={price.toString()}
             onChange={handlePriceChange}
