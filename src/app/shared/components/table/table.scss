@@ -40,19 +40,36 @@
 
   .action-buttons {
     display: flex;
-    gap: 0.9em;
     justify-content: center;
 
-    .view-icon {
-      color: #00b7fe; // Green color for Edit
+    button {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.9;
+      }
     }
 
-    .flagged-icon {
-      color: #ff9800; // Orange color for Flag
+    .user-details-button {
+      background-color: #00b7fe;
+      color: white;
+
+      &:hover {
+        background-color: #09759e;
+      }
     }
 
-    .delete-icon {
-      color: #f44336; // Red color for Delete
+    .review-button {
+      background-color: #ff9800;
+      color: white;
+
+      &:hover {
+        background-color: #c0770a;
+      }
     }
   }
 
@@ -60,36 +77,6 @@
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden; /* Hide overflowing content */
     text-overflow: ellipsis; /* Display ellipsis for truncated text */
-  }
-
-  .verification-indicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-left: 2.5em;
-  }
-
-  .verified {
-    color: #4caf50; // Green
-    background-color: #d4edda;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .unverified {
-    color: #f44336; // Red
-    background-color: #f8d7da;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .status-indicator {

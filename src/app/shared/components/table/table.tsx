@@ -1,14 +1,6 @@
 import React from "react";
 import { Table, Pagination, Tooltip } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {
-  faListAlt,
-  faFlag,
-  faTrash,
-  // faCheck,
-  // faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./table.scss";
 
 interface User {
@@ -99,44 +91,18 @@ const UserTable: React.FC<UserTableProps> = ({
             width: 240,
             ellipsis: true,
           },
-          // {
-          //   title: "Verified",
-          //   key: "verified",
-          //   width: 120,
-          //   render: (_, record: User) => (
-          //     <div
-          //       className={`verification-indicator ${
-          //         record.verified ? "verified" : "unverified"
-          //       }`}
-          //     >
-          //       {record.verified ? (
-          //         <FontAwesomeIcon icon={faCheck} className="icon-check" />
-          //       ) : (
-          //         <FontAwesomeIcon icon={faTimes} className="icon-times" />
-          //       )}
-          //     </div>
-          //   ),
-          // },
           {
             title: "Action",
             key: "action",
             width: 140,
             render: (_, record: User) => (
               <div className="action-buttons">
-                <Tooltip title="View Details">
-                  <FontAwesomeIcon
-                    icon={faListAlt}
-                    onClick={() => onView(record.id)}
-                    className="view-icon"
-                  />
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    onClick={() => onDelete(record.id)}
-                    className="delete-icon"
-                  />
-                </Tooltip>
+                <button
+                  className="user-details-button"
+                  onClick={() => onView(record.id)}
+                >
+                  User Details
+                </button>
               </div>
             ),
           },
@@ -179,23 +145,15 @@ const UserTable: React.FC<UserTableProps> = ({
           {
             title: "Action",
             key: "action",
-            width: 100,
+            width: 140,
             render: (_, record: Report) => (
               <div className="action-buttons">
-                <Tooltip title="Flag">
-                  <FontAwesomeIcon
-                    icon={faFlag}
-                    onClick={() => onFlag(record.id)}
-                    className="flagged-icon"
-                  />
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    onClick={() => onDelete(record.id)}
-                    className="delete-icon"
-                  />
-                </Tooltip>
+                <button
+                  className="review-button"
+                  onClick={() => onFlag(record.id)}
+                >
+                  Review
+                </button>
               </div>
             ),
           },
