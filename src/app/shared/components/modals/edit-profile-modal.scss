@@ -1,0 +1,154 @@
+.edit-profile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.edit-profile-modal {
+  background-color: white;
+  border-radius: 1.5em;
+  width: 62em;
+  height: 34.5em;
+  padding: 40px;
+  margin-top: 5em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+
+  .edit-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.5em;
+    margin-top: -1em;
+    margin-left: -0.6em;
+  }
+
+  .edit-subtitle {
+    font-size: 0.8em;
+    color: black;
+    font-style: italic;
+    margin-bottom: 1.5em;
+    margin-top: -1.1em;
+    margin-left: -1em;
+  }
+
+  .edit-content {
+    display: flex;
+    gap: 30px;
+    margin-top: 2em;
+
+    .profile-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      input {
+        background-color: #f9f9f9;
+        border: none;
+        border-radius: 15px;
+        padding: 10px;
+        font-size: 1em;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+        width: 25em;
+        margin-left: 9.5em;
+        margin-bottom: 0.2em;
+        color: black;
+      }
+
+      label {
+        position: absolute;
+        margin-top: 0.8em;
+        margin-left: -1.3em;
+        color: black;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: -1.7em;
+        margin-bottom: 0.1em;
+        margin-left: 13em;
+        font-style: italic;
+      }
+    }
+
+    .profile-image-container {
+      position: relative;
+      width: 14em;
+      height: 14em;
+      border-radius: 50%;
+      border: 4px solid #26b893;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 2em;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .camera-button {
+        position: absolute;
+        top: calc(75% + 10px);
+        left: 80%;
+        transform: translateX(-50%);
+        background-color: #26b893;
+        color: white;
+        border-radius: 50%;
+        width: 3em;
+        height: 3em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background-color: #2ecc71;
+        }
+      }
+    }
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    margin-top: 1.2em;
+
+    .cancel-button {
+      background-color: #d9d9d9;
+      color: black;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      width: 10em;
+
+      &:hover {
+        background-color: #a3a2a2;
+      }
+    }
+
+    .save-button {
+      background-color: #c05850;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      width: 10em;
+
+      &:hover {
+        background-color: #a94442;
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 .user-table-container {
-  width: 84em;
-  margin-left: 3em;
+  width: 95em;
+  margin-left: 3.5em;
   border-radius: 20px;
   background: #fff;
   padding-bottom: 1px;
@@ -12,6 +12,7 @@
       background-color: #505668;
       font-weight: bold;
       color: white;
+      text-align: center;
     }
 
     .ant-table-tbody > tr:hover {
@@ -22,6 +23,7 @@
     .ant-table-tbody > tr > td {
       padding: 12px;
       padding-left: 15px;
+      text-align: center;
     }
 
     .ant-table-tbody > tr {
@@ -39,6 +41,7 @@
   .action-buttons {
     display: flex;
     gap: 0.9em;
+    justify-content: center;
 
     .view-icon {
       color: #00b7fe; // Green color for Edit
@@ -51,15 +54,60 @@
     .delete-icon {
       color: #f44336; // Red color for Delete
     }
-
-    &:hover {
-      color: #1890ff; // Optional: Hover color for icons
-    }
   }
 
   .custom-row td {
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden; /* Hide overflowing content */
     text-overflow: ellipsis; /* Display ellipsis for truncated text */
+  }
+
+  .verification-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-left: 2.5em;
+  }
+
+  .verified {
+    color: #4caf50; // Green
+    background-color: #d4edda;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .unverified {
+    color: #f44336; // Red
+    background-color: #f8d7da;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .status-indicator {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-align: center;
+    display: inline-block;
+    font-weight: 500;
+
+    &.resolved {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    &.pending {
+      background-color: #cfe2ff;
+      color: #084298;
+    }
   }
 }

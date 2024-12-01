@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import "./user-management.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
-import UserTable from "../../shared/components/table/table";
 import ViewUserModal from "../../shared/components/modals/view-user-modal";
 import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
 import FlaggedModal from "../../shared/components/modals/flagged-modal";
+import { Tabs } from "antd";
+import UserTable from "../../shared/components/table/table";
 
 interface User {
   key: number;
@@ -14,42 +15,111 @@ interface User {
   contactNumber: string;
   email: string;
   address: string;
-  gender?: string; // Optional fields if they are not always present
-  birthdate?: string;
-  profileImage?: string;
+  // verified: boolean; // true for verified, false for unverified
+  gender?: string; // Optional field
+  birthdate?: string; // Optional field
+  profileImage?: string; // Optional field
+}
+
+interface Report {
+  key: number;
+  id: number;
+  username: string;
+  dateReported: string;
+  status: string;
 }
 
 function UserManagement() {
-  const [users, setUsers] = useState([
+  type TabKey = "userAccounts" | "reports";
+
+  const [users] = useState<User[]>([
     {
       key: 1,
       id: 111,
       username: "Mae Fatima Cabilan Aladad",
       contactNumber: "09635292636",
-      email: "cheskacarlaanne.cabilan.noynay@bisu.edu.ph",
-      address: "Tubigon",
+      email: "maefatima.aladad@bisu.edu.ph",
+      address: "Panadtaran, Tubigon, Bohol",
     },
-    // Add more users as needed
+    {
+      key: 2,
+      id: 112,
+      username: "Michelle Dupa Bentulan",
+      contactNumber: "09055885742",
+      email: "michelle.bentulan@bisu.edu.ph",
+      address: "Ilijan Norte, Tubigon, Bohol",
+    },
+  ]);
+
+  const [reports] = useState<Report[]>([
+    {
+      key: 1,
+      id: 201,
+      username: "John Doe",
+      dateReported: "2024-11-25",
+      status: "Pending",
+    },
+    {
+      key: 2,
+      id: 202,
+      username: "Jane Smith",
+      dateReported: "2024-11-26",
+      status: "Resolved",
+    },
   ]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [isViewModalVisible, setViewModalVisible] = useState(false);
   const [isFlaggedModalVisible, setFlaggedModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [notifyUser, setNotifyUser] = useState(false);
-  const [action, setAction] = useState("Action"); // Initialize action dropdown with "Action"
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [activeTab, setActiveTab] = useState<TabKey>("userAccounts");
   const pageSize = 10;
+
+  const [adminProfile, setAdminProfile] = useState({
+    username: "Admin User", // Placeholder username
+    profileImage: sampleProfileImage, // Placeholder profile image
+  });
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key === "1" ? "userAccounts" : "reports");
+    setCurrentPage(1);
+  };
+
+  const sortOptions: Record<TabKey, { value: string; label: string }[]> = {
+    userAccounts: [
+      { value: "name", label: "Name" },
+      { value: "address", label: "Address" },
+    ],
+    reports: [
+      { value: "dateReported", label: "Date Reported" },
+      { value: "status", label: "Status" },
+    ],
+  };
+
+  const filterOptions: Record<TabKey, { value: string; label: string }[]> = {
+    userAccounts: [
+      { value: "id", label: "ID" },
+      // { value: "unverified", label: "Unverified" },
+    ],
+    reports: [
+      { value: "pending", label: "Pending" },
+      { value: "resolved", label: "Resolved" },
+    ],
+  };
 
   const handleView = (id: number) => {
     const user = users.find((user) => user.id === id) || null;
+    setSelectedReport(null);
     setSelectedUser(user);
     setViewModalVisible(true);
     setFlaggedModalVisible(false);
   };
 
   const handleFlag = (id: number) => {
-    const user = users.find((user) => user.id === id) || null;
-    setSelectedUser(user);
+    const report = reports.find((report) => report.id === id) || null;
+    setSelectedUser(null);
+    setSelectedReport(report);
     setFlaggedModalVisible(true);
     setViewModalVisible(false);
   };
@@ -66,37 +136,20 @@ function UserManagement() {
     console.log("Filter by:", filterValue);
   };
 
-  // const handlePageChange = (page: number) => {
-  //   setCurrentPage(page);
-  // };
-
-  // const handleDelete = (id: number) => {
-  //   console.log("Delete user with ID:", id);
-  // };
-
   const handleCloseModal = () => {
     setViewModalVisible(false);
     setFlaggedModalVisible(false);
     setSelectedUser(null);
-    resetModalState(); // Reset checkbox and action dropdown
-  };
-
-  const handleSave = () => {
-    console.log("Flagged user action saved");
-    setFlaggedModalVisible(false);
-    resetModalState();
-  };
-
-  const resetModalState = () => {
-    setNotifyUser(false); // Clear checkbox
-    setAction("Action"); // Reset dropdown to default
+    setSelectedReport(null);
   };
 
   return (
     <div className="user-display">
       <PageHeading
         title="User Management"
-        subtitle="Manage, Create, and Edit System Users"
+        subtitle="Manage System Users"
+        profileImage={adminProfile.profileImage} // Pass admin profile image
+        username={adminProfile.username} // Pass admin username
       />
 
       <div className="user-content">
@@ -105,31 +158,48 @@ function UserManagement() {
             onSearch={handleSearch}
             onSort={handleSort}
             onFilter={handleFilter}
-            sortOptions={[
-              { value: "name", label: "Name" },
-              { value: "date", label: "Date" },
-              { value: "address", label: "Address" },
-            ]}
-            filterOptions={[{ value: "user", label: "User" }]}
+            sortOptions={sortOptions[activeTab]} // Dynamic sort options
+            filterOptions={filterOptions[activeTab]} // Dynamic filter options
           />
         </div>
-        <div className="table">
-          <h2>Account Management Table</h2>
-
-          <UserTable
-            users={users.slice(
-              (currentPage - 1) * pageSize,
-              currentPage * pageSize
-            )}
-            totalUsers={users.length}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-            onView={handleView}
-            onFlag={handleFlag}
-            onDelete={(id) => console.log("Delete user with ID:", id)}
-          />
-        </div>
+        <Tabs defaultActiveKey="1" onChange={handleTabChange}>
+          <Tabs.TabPane tab="User Accounts" key="1">
+            <div className="table">
+              <h2>Account Management Table</h2>
+              <UserTable
+                users={users.slice(
+                  (currentPage - 1) * pageSize,
+                  currentPage * pageSize
+                )}
+                totalUsers={users.length}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+                onView={handleView}
+                onDelete={(id) => console.log("Delete user with ID:", id)}
+                tableType="userAccounts"
+              />
+            </div>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Reports" key="2">
+            <div className="table">
+              <h2>Reports Table</h2>
+              <UserTable
+                users={reports.slice(
+                  (currentPage - 1) * pageSize,
+                  currentPage * pageSize
+                )}
+                totalUsers={reports.length}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+                onFlag={handleFlag}
+                onDelete={(id) => console.log("Delete report with ID:", id)}
+                tableType="reports"
+              />
+            </div>
+          </Tabs.TabPane>
+        </Tabs>
       </div>
 
       {isViewModalVisible && selectedUser && (
@@ -145,25 +215,25 @@ function UserManagement() {
         />
       )}
 
-      {isFlaggedModalVisible && selectedUser && (
+      {isFlaggedModalVisible && selectedReport && (
         <FlaggedModal
-          username={selectedUser.username}
-          reportedBy="Michelle Bentulan"
-          reason="Pretending to be someone"
+          username={selectedReport.username}
+          reportedBy="System Admin"
+          reason="Reported for review"
           actionOptions={[
             "Action",
             "Mark as Reviewed",
-            "Issue Warning",
-            "Suspend Account",
+            "Disable Account",
+            "Ban Account",
             "Dismiss Report",
           ]}
-          notifyUser={notifyUser}
-          profileImage={selectedUser.profileImage || sampleProfileImage}
+          notifyUser={false}
+          profileImage={sampleProfileImage}
           onClose={handleCloseModal}
-          onSave={handleSave}
-          onNotifyChange={setNotifyUser}
-          onActionChange={setAction}
-          selectedAction={action} // Pass current action
+          onSave={() => console.log("Save Flag Action")}
+          onNotifyChange={() => {}}
+          onActionChange={() => {}}
+          selectedAction="Action"
         />
       )}
     </div>

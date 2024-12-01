@@ -1,15 +1,17 @@
 import React from "react";
-import "./InputFields.scss"; // For styling
+import "./InputFields.scss";
 
 interface InputFieldProps {
   className?: string;
   label: string;
   type: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
-  labelPosition?: "above" | "inline"; // New prop to customize label position
+  readOnly?: boolean;
+  labelPosition?: "above" | "inline";
 }
 
 function InputField({
@@ -17,10 +19,12 @@ function InputField({
   label,
   type,
   value,
+  id,
   onChange,
   placeholder,
   required,
-  labelPosition = "above", // Default to "above"
+  readOnly = false,
+  labelPosition = "above",
 }: InputFieldProps) {
   return (
     <div
@@ -31,11 +35,12 @@ function InputField({
       )}
       <input
         type={type}
-        id={label.toLowerCase()}
+        id={id}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         required={required}
+        readOnly={readOnly}
       />
       {labelPosition === "inline" && (
         <label htmlFor={label.toLowerCase()} className="inline-label">

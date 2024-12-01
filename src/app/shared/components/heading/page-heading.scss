@@ -1,34 +1,53 @@
-.heading-text {
-  padding-top: 1em;
-  padding-left: 3em;
+.page-heading {
+  .heading-text {
+    padding-top: 1em;
+    padding-left: 3em;
 
-  h1 {
-    font-size: 1.8rem;
-    margin-bottom: -0.1em;
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: -0.1em;
+    }
+
+    .heading-subtitle {
+      font-size: 0.8em;
+      font-style: italic;
+    }
   }
-  p {
-    font-size: 0.8em;
-    font-style: italic;
+
+  .profile-heading {
+    position: absolute;
+    top: 1.3em;
+    right: 2em;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    .profile-picture {
+      flex-shrink: 0;
+      img {
+        width: 3.3em;
+        height: 3.3em;
+        border-radius: 50%;
+        border: 3.5px solid #26b893;
+      }
+    }
+
+    .user-name {
+      max-width: 10em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+    }
   }
-}
 
-.profile-heading {
-  margin-top: -3.7em;
-  margin-bottom: 0%;
-  margin-left: 81.5em;
-
-  img {
-    width: 3.3em;
-    height: 3.3em;
-    border-radius: 2em;
-    border: 3.5px solid #26b893;
+  .design-element {
+    overflow: hidden;
+    max-width: max-content;
+    max-height: 8.8em;
+    height: 100%;
+    margin-top: 1em;
   }
-}
-
-.design-element {
-  overflow: hidden;
-  max-width: max-content;
-  max-height: 8.8em;
-  height: 100%;
-  margin-top: 1em;
 }

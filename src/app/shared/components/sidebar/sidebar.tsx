@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   faThLarge,
   faUsers,
-  faStickyNote,
-  faComment,
+  // faStickyNote,
+  // faComment,
   faCoins,
   faCog,
   faSignOutAlt,
@@ -61,7 +61,7 @@ function Sidebar() {
           isActive={activePath === "/dashboard/user-management"}
           onClick={() => setActivePath("/dashboard/user-management")}
         />
-        <SidebarIconButton
+        {/* <SidebarIconButton
           className="icon-button"
           to="/dashboard/content-moderation"
           icon={faStickyNote}
@@ -76,7 +76,7 @@ function Sidebar() {
           tooltip="Messages"
           isActive={activePath === "/dashboard/message"}
           onClick={() => setActivePath("/dashboard/message")}
-        />
+        /> */}
         <SidebarIconButton
           className="icon-button"
           to="/dashboard/price-monitoring"

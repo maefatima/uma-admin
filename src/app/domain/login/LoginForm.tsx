@@ -76,9 +76,9 @@ function LoginForm() {
             disabled={isLoggingIn}
           />
 
-          <p className="forgot-password">
+          {/* <p className="forgot-password">
             <a href="/forgot-password">Forgot your password?</a>
-          </p>
+          </p> */}
         </form>
       </div>
     </div>

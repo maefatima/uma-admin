@@ -8,11 +8,12 @@ import LivestockTable from "../../shared/components/table/livestock-table";
 import LottieAnimation from "../../shared/components/lottie-animation/Animation";
 import PriceAnimationData from "../../shared/assets/animation/empty.json";
 import AlertModal from "../../shared/components/modals/alert-modal";
+import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
 
 interface LivestockData {
   key: number;
   livestockType: string;
-  price: number; // Price Per Kilogram
+  price: number;
   date: string;
 }
 
@@ -62,11 +63,18 @@ function PriceMonitoring() {
     setIsAlertModalOpen(false);
   };
 
+  const [adminProfile, setAdminProfile] = useState({
+    username: "Admin User",
+    profileImage: sampleProfileImage,
+  });
+
   return (
     <div className="price-display">
       <PageHeading
         title="Price Suggestion Monitoring"
         subtitle="Set Price Per Kilogram per Livestock Type"
+        profileImage={adminProfile.profileImage}
+        username={adminProfile.username}
       />
       <div className="price-content">
         <div className="setprice-button">

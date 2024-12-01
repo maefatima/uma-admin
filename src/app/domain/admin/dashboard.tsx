@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./dashboard.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import UserRegistrationChart from "../../shared/components/charts/user-registration";
@@ -7,11 +7,22 @@ import DonutChart from "../../shared/components/charts/popular-livestock";
 import StatCard from "../../shared/components/charts/status-card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faList, faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
 
 function Dashboard() {
+  const [adminProfile, setAdminProfile] = useState({
+    username: "Admin User",
+    profileImage: sampleProfileImage,
+  });
+
   return (
     <div className="dashboard-display">
-      <PageHeading title="Dashboard" subtitle="UMA's Application Overview" />
+      <PageHeading
+        title="Dashboard"
+        subtitle="UMA's Application Overview"
+        profileImage={adminProfile.profileImage}
+        username={adminProfile.username}
+      />
 
       <div className="dashboard-content"></div>
       <UserRegistrationChart />
@@ -22,7 +33,7 @@ function Dashboard() {
         title="Total Users"
         count={850}
         icon={<FontAwesomeIcon icon={faUser} className="user-icon" />}
-        iconBgColor="#FFF2E9" // Light yellow background for the icon
+        iconBgColor="#FFF2E9"
       />
       <StatCard
         className="total-card"

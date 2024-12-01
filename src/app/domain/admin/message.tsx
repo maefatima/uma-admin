@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "./message.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
+import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
 
 const handleSearch = (query: string) => {
   console.log("Search query:", query);
-  // Add logic to filter users based on the search query
 };
 
 const handleSort = (sortValue: string) => {
   console.log("Sort by:", sortValue);
-  // Add logic to sort users based on the selected value
 };
 
 const handleFilter = (filterValue: string) => {
   console.log("Filter by:", filterValue);
-  // Add logic to filter users based on the selected value
 };
+
+const [adminProfile, setAdminProfile] = useState({
+  username: "Admin User",
+  profileImage: sampleProfileImage,
+});
 
 function Message() {
   return (
@@ -24,6 +27,8 @@ function Message() {
       <PageHeading
         title="Message"
         subtitle="Review Flagged Messages and Address User Abuse"
+        profileImage={adminProfile.profileImage}
+        username={adminProfile.username}
       />
       <div className="message-content">
         <div className="search-message">

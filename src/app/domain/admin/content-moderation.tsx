@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "./content-moderation.scss"; // Import a stylesheet for styling
+import "./content-moderation.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
 import Postings from "../../shared/components/table/content-postings";
 import PostDetailsModal from "../../shared/components/modals/post-modal";
 import img1 from "../../shared/assets/images/cow1.jpg";
 import img2 from "../../shared/assets/images/cow2.jpg";
+import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
 
 interface PostData {
   key: number;
@@ -22,17 +23,14 @@ interface PostData {
 
 const handleSearch = (query: string) => {
   console.log("Search query:", query);
-  // Add logic to filter content based on the search query
 };
 
 const handleSort = (sortValue: string) => {
   console.log("Sort by:", sortValue);
-  // Add logic to sort content based on the selected value
 };
 
 const handleFilter = (filterValue: string) => {
   console.log("Filter by:", filterValue);
-  // Add logic to filter content based on the selected value
 };
 
 const imageUrls = [img1, img2];
@@ -66,8 +64,12 @@ function ContentModeration() {
       weight: "350 kg.",
       imageUrls: ["https://example.com/cow3.jpg"],
     },
-    // Add more postings as needed
   ];
+
+  const [adminProfile, setAdminProfile] = useState({
+    username: "Admin User",
+    profileImage: sampleProfileImage,
+  });
 
   const handleViewDetails = (record: PostData) => {
     setSelectedPost(record);
@@ -84,6 +86,8 @@ function ContentModeration() {
       <PageHeading
         title="Content Moderation"
         subtitle="Manage Livestock Postings"
+        profileImage={adminProfile.profileImage}
+        username={adminProfile.username}
       />
 
       <div className="content-moderation-content">
@@ -101,7 +105,6 @@ function ContentModeration() {
 
           <h2>Posting Moderation Table</h2>
 
-          {/* Render the Postings component directly without tabs */}
           <Postings
             data={data}
             selectable={true}
@@ -119,7 +122,6 @@ function ContentModeration() {
             ]}
           />
 
-          {/* Post Details Modal */}
           {selectedPost && (
             <PostDetailsModal
               isVisible={isModalVisible}
