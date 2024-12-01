@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./dashboard.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import UserRegistrationChart from "../../shared/components/charts/user-registration";
@@ -7,13 +7,72 @@ import DonutChart from "../../shared/components/charts/popular-livestock";
 import StatCard from "../../shared/components/charts/status-card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faList, faFileAlt } from "@fortawesome/free-solid-svg-icons";
-import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
+import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
+import axios from "axios";
 
 function Dashboard() {
   const [adminProfile, setAdminProfile] = useState({
-    username: "Admin User",
-    profileImage: sampleProfileImage,
+    username: "Loading...",
+    profileImage: placeholderProfileImage, // Default to placeholder image
   });
+
+  const [userCount, setUserCount] = useState(0); // State for user count
+
+  useEffect(() => {
+    const fetchAdminProfile = async () => {
+      try {
+        const username = localStorage.getItem("adminUsername");
+        console.log(
+          "Fetching admin profile for username from localStorage:",
+          username
+        );
+
+        if (!username) {
+          console.error(
+            "No username found in localStorage. Redirecting to login..."
+          );
+          return;
+        }
+
+        const response = await axios.get(
+          `http://localhost:3000/admin-accounts/profile`,
+          { params: { username } }
+        );
+        console.log("Profile data received from backend:", response.data);
+
+        setAdminProfile({
+          username: response.data.username || "Unknown User",
+          profileImage: response.data.profileImage
+            ? `http://localhost:3000/${response.data.profileImage.replace(
+                /\\/g,
+                "/"
+              )}` // Prepend server URL and replace backslashes
+            : placeholderProfileImage,
+        });
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          console.error(
+            "Axios error response:",
+            err.response?.data || err.message
+          );
+        } else {
+          console.error("Unexpected error:", err);
+        }
+      }
+    };
+
+    const fetchUserCount = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/users/count");
+        setUserCount(response.data); // Update the state with the user count
+      } catch (err) {
+        console.error("Failed to fetch user count:", err);
+      }
+    };
+
+    fetchAdminProfile();
+    fetchUserCount(); // Fetch the user count when the component mounts
+  }, []);
 
   return (
     <div className="dashboard-display">
@@ -31,7 +90,7 @@ function Dashboard() {
       <StatCard
         className="user-card"
         title="Total Users"
-        count={850}
+        count={userCount}
         icon={<FontAwesomeIcon icon={faUser} className="user-icon" />}
         iconBgColor="#FFF2E9"
       />

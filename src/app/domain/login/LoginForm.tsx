@@ -7,6 +7,7 @@ import LottieAnimation from "../../shared/components/lottie-animation/Animation"
 import loginAnimationData from "../../shared/assets/animation/sample.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import axios, { AxiosError } from "axios"; // Import AxiosError
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -19,21 +20,56 @@ function LoginForm() {
     setShowPassword(!showPassword);
   };
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
+    console.log("Login form submitted with:", { username, password });
+
     if (!username || !password) {
       alert("Please fill in all fields");
+      console.log("Validation failed: Empty fields");
       return;
     }
 
     setIsLoggingIn(true);
-    setTimeout(() => {
-      console.log("Logging in with:", { username, password });
-      setIsLoggingIn(false);
 
-      // Navigate to the welcome screen
-      navigate("/welcome");
-    }, 2000);
+    try {
+      console.log("Sending login request to backend...");
+      const response = await axios.post(
+        "http://localhost:3000/admin-accounts/login",
+        { username, password }
+      );
+
+      console.log("Backend response received:", response.data);
+
+      // Explicitly check for the message
+      if (response.data?.message === "Login successful") {
+        console.log("Login successful. Proceeding to dashboard...");
+        localStorage.setItem("adminUsername", username); // Save username to localStorage
+
+        // Navigate to the dashboard
+        navigate("/dashboard");
+      } else {
+        console.error("Unexpected backend response format:", response.data);
+        alert(
+          "Unexpected response format from backend. Please contact support."
+        );
+      }
+    } catch (err) {
+      console.error("Login request failed:", err);
+
+      if (axios.isAxiosError(err)) {
+        console.error("Axios error response:", err.response?.data);
+        alert(
+          `Login failed: ${err.response?.data?.message || "Invalid credentials."}`
+        );
+      } else {
+        console.error("Unexpected error:", err);
+        alert("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setIsLoggingIn(false);
+      console.log("Login process finished.");
+    }
   }
 
   return (
@@ -75,10 +111,6 @@ function LoginForm() {
             onClick={handleLogin}
             disabled={isLoggingIn}
           />
-
-          {/* <p className="forgot-password">
-            <a href="/forgot-password">Forgot your password?</a>
-          </p> */}
         </form>
       </div>
     </div>
