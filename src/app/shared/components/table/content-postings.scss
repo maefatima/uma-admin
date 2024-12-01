@@ -1,0 +1,63 @@
+.content-table-container {
+  width: 80em;
+  margin-top: 1em;
+  margin-left: 2em;
+  border-radius: 15px;
+  background: #fff;
+
+  .ant-table {
+    margin-bottom: 16px;
+
+    .ant-table-thead > tr > th {
+      background-color: #505668;
+      font-weight: bold;
+      color: white;
+    }
+
+    .ant-table-tbody > tr:hover {
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+
+    .ant-table-tbody > tr > td {
+      padding: 12px;
+      padding-left: 18px;
+    }
+  }
+
+  .ant-checkbox-input {
+    color: #505668;
+    background-color: #505668;
+  }
+
+  .ant-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    margin-bottom: 1.5em;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1em;
+    justify-items: left;
+
+    .delete-icon {
+      color: #f44336;
+    }
+
+    .view-icon {
+      color: #00b7fe;
+    }
+
+    &:hover {
+      color: #1890ff;
+    }
+  }
+
+  .custom-row td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

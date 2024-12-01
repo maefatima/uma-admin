@@ -24,8 +24,10 @@ h6 {
   font-family: "Montserrat", sans-serif; /* Ensure headings use Montserrat */
 }
 
-/* Add this CSS rule to target Chart.js elements */
-/* 
-.chartjs-render-monitor {
-  font-family: "Montserrat", sans-serif !important; /* Force Montserrat font on Chart.js */
-/* } */
+table {
+  font-family: "Montserrat", sans-serif; /* Apply Montserrat font to all tables */
+}
+
+.ant-tabs {
+  font-family: "Montserrat", sans-serif !important;
+}

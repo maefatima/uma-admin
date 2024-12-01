@@ -4,22 +4,112 @@
   min-height: 100vh;
   max-width: max-content;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   .settings-content {
     margin-top: 20px;
+  }
 
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
+  .add-admin-button {
+    position: relative;
+    top: -2.8em;
+    right: -64em;
+    z-index: 1;
+
+    .add-button {
+      position: sticky;
+      padding: 0.5em;
+      width: 14em;
+      font-weight: 600;
+      font-size: 1.2em;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+      border-radius: 15px;
+
+      &:hover {
+        background-color: #c13d33;
+      }
+    }
+  }
+
+  .profile-container {
+    display: flex;
+    gap: 30px;
+
+    .profile-info {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1.2em;
+        margin-left: 2.5em;
+        margin-top: -2em;
+        color: #505668;
+      }
+
+      .settings-field {
+        margin-left: 2.5em;
+
+        input {
+          background-color: white;
+          border: none;
+          border-radius: 15px;
+          padding: 10px;
+          font-size: 1em;
+          box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+          width: 38em;
+          margin-left: 11em;
+          margin-bottom: -0.3em;
+          color: black;
+          cursor: pointer;
+        }
+
+        label {
+          position: absolute;
+          margin-top: 0.8em;
+          margin-left: -1.3em;
+          color: black;
+        }
+      }
     }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
+    .profile-picture {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 2em;
+      margin-top: 2em;
 
-      li {
-        margin: 5px 0;
-        font-size: 1.1rem;
+      .profile-image {
+        width: 20em;
+        height: 20em;
+        margin-right: 4em;
+        border-radius: 50%;
+        border: 5px solid #26b893;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .edit-profile-button {
+        background-color: #3a353f;
+        color: white;
+        font-size: 1rem;
+        padding: 10px 20px;
+        border-radius: 15px;
+        font-weight: bold;
+        margin-top: -1em;
+        margin-bottom: 1em;
+        margin-left: -31.8em;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+        &:hover {
+          background-color: #555555;
+        }
       }
     }
   }

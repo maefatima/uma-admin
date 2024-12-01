@@ -1,10 +1,10 @@
 .dashboard-layout {
   display: flex;
-  height: 100vh;
+  height: 100vh; /* Use full viewport height */
 }
 
 .sidebar {
-  width: 7em;
+  width: 6.8em;
   background-color: white;
 }
 

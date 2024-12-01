@@ -1,26 +1,42 @@
 .dashboard-display {
-  // flex: 1;
-  background-color: cadetblue;
-  min-height: 100vh;
-  max-width: max-content;
   width: 100%;
+  max-width: max-content;
+  height: 100vh;
+}
 
-  .dashboard-content {
-    margin-top: 20px;
+.dashboard-content {
+  margin-top: 20px;
+}
 
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
+.user-card {
+  display: flex;
+  margin-top: -20em;
+}
 
-    ul {
-      list-style-type: none;
-      padding: 0;
+.reports-card {
+  display: flex;
+  margin-top: 1.7em;
+}
 
-      li {
-        margin: 5px 0;
-        font-size: 1.1rem;
-      }
-    }
-  }
+.total-card {
+  color: #ede8ff;
+  display: flex;
+  margin-top: 1.7em;
+}
+.total-icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.4em;
+  margin-left: 0.4em;
+  color: #551fff; // Default orange color for the user icon
+  font-size: 24px;
+}
+
+.reports-icon {
+  color: #00b7fe;
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.4em;
+  margin-left: 0.4em;
+  font-size: 24px;
 }

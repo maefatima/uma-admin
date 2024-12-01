@@ -1,0 +1,72 @@
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+
+  .search-input-container {
+    position: relative;
+    width: 30em;
+
+    .search-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #505668;
+      pointer-events: none;
+    }
+
+    .search-input {
+      background-color: white;
+      padding: 0.6rem 0.6rem 0.5rem 3.3rem; /* Add padding for the search icon */
+      width: 100%;
+      border: 0.5px solid #d9d9d9;
+      border-radius: 15px;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .dropdown-container {
+    display: flex;
+    gap: 3rem;
+
+    .sort-container,
+    .filter-container {
+      display: flex;
+      align-items: center;
+      margin-top: -1.4em;
+
+      .select-wrapper {
+        display: flex;
+        align-items: center;
+
+        select {
+          padding: 0.6em;
+          font-size: 16px;
+          border-radius: 15px;
+          border: 0.5px solid #d9d9d9;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+          appearance: none;
+          padding-right: 3em; /* Creates space for the icon inside the dropdown */
+          width: 10em; /* Adjust width if necessary */
+          padding-left: 1em;
+        }
+
+        .separator {
+          width: 1.5px; /* Width of the separator */
+          height: 20px; /* Height of the separator */
+          background-color: #505668; /* Color of the separator */
+          //   margin: 0 0.5em; /* Space around the separator */
+          margin-left: -3em;
+        }
+
+        .icon-inside {
+          color: #505668; /* Icon color */
+          margin-left: 0.8em; /* Space between icon and separator */
+          pointer-events: none; /* Prevents the icon from blocking interaction */
+        }
+      }
+    }
+  }
+}

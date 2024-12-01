@@ -1,23 +1,159 @@
 .user-registration-chart {
+  position: relative;
   width: 100%;
-  max-width: 60em;
-  height: 25em;
-  position: absolute; /* Change to absolute to position it relative to its container */
-  z-index: 200; /* Ensure the chart is above the image */
-
+  max-width: 61em;
+  height: 22em;
+  z-index: 100;
   margin-left: 3em;
   margin-top: -4em;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  border: 1.8px solid #bcbcbc;
-
-  @media (max-width: 768px) {
-    height: 300px;
-  }
+  padding: 1em 1em 0.7em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 1em;
+  background-color: #fff;
 
   canvas {
     width: 100% !important;
-    height: 100% !important;
+    height: 88% !important;
+    margin-top: -1em !important;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .user-heading {
+      margin-bottom: 1.5em;
+
+      .user-header-icon {
+        display: flex;
+
+        h4 {
+          font-size: 16px;
+          color: #333;
+        }
+
+        .tooltip-container {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+
+          .tooltip-text {
+            visibility: hidden;
+            font-size: 0.8em;
+            width: 25em;
+            background-color: white;
+            color: #333;
+            text-align: justify;
+            padding: 1em;
+            border-radius: 1em;
+            position: absolute;
+            z-index: 1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            bottom: -260%;
+            left: 150%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+          }
+
+          &:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+
+        .exclamation {
+          width: 1em;
+          height: 1em;
+          color: #888;
+          margin-left: 1.1em;
+          margin-top: 0.3em;
+        }
+      }
+    }
+
+    .chart-month-selector {
+      display: flex;
+      align-items: center;
+      background-color: #f9f9f9;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      font-size: 0.9em;
+      font-weight: bold;
+      color: #202020;
+      margin-top: -1em;
+
+      .calendar-icon {
+        margin-right: 8px;
+        color: #6f6f6f;
+      }
+
+      cursor: pointer;
+    }
+  }
+
+  .calendar-container {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 3em;
+    right: 0;
+    z-index: 9999;
+    max-width: 40%;
+    background-color: #fff;
+    padding: 1em;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+    .react-datepicker {
+      border-radius: 0.5em;
+      font-family: "Montserrat", sans-serif;
+      border: none;
+    }
+
+    .react-datepicker__header {
+      background-color: white;
+    }
+
+    .react-datepicker__current-month {
+      font-size: 1.5em;
+      margin-bottom: 0.4em;
+      margin-top: -0.4em;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .date-inputs {
+    display: flex;
+    gap: 0.5em;
+    margin-bottom: 1em;
+    margin-right: -4.7em;
+
+    input {
+      width: 37%; /* Adjust width as necessary */
+      padding: 0.5em;
+      border: 1px solid gray;
+      border-radius: 15px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #ff5d5d; /* Change to your desired focus color */
+      }
+    }
+
+    select {
+      border-radius: 15px;
+      width: 37%;
+      &:focus {
+        outline: none;
+        border-color: #ff5d5d; /* Change to your desired focus color */
+      }
+    }
   }
 }

@@ -1,38 +1,52 @@
 import React from "react";
-import "./InputFields.scss"; // For styling
+import "./InputFields.scss";
 
 interface InputFieldProps {
-  className?: string; // Optional className prop
+  className?: string;
   label: string;
   type: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
+  readOnly?: boolean;
+  labelPosition?: "above" | "inline";
 }
 
 function InputField({
-  className, // Destructure the className prop
+  className,
   label,
   type,
   value,
+  id,
   onChange,
   placeholder,
   required,
+  readOnly = false,
+  labelPosition = "above",
 }: InputFieldProps) {
   return (
-    <div className={`input-field ${className ? className : ""}`}>
-      {" "}
-      {/* Apply custom className */}
-      <label htmlFor={label.toLowerCase()}>{label}</label>
+    <div
+      className={`input-field ${className ? className : ""} ${labelPosition}`}
+    >
+      {labelPosition === "above" && (
+        <label htmlFor={label.toLowerCase()}>{label}</label>
+      )}
       <input
         type={type}
-        id={label.toLowerCase()}
+        id={id}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         required={required}
+        readOnly={readOnly}
       />
+      {labelPosition === "inline" && (
+        <label htmlFor={label.toLowerCase()} className="inline-label">
+          {label}
+        </label>
+      )}
     </div>
   );
 }

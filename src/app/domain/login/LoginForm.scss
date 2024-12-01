@@ -24,9 +24,9 @@
 
 .login-form {
   width: 85%;
-  height: 48%;
+  height: 55%;
   max-width: 60em;
-  max-height: 30em;
+  max-height: 26em;
   padding: 2rem;
   margin-left: -10em;
   background: white;
@@ -68,16 +68,22 @@ h2 {
   font-weight: 600;
 }
 
-.forgot-password {
-  margin-top: 0.6em; // Space between the button and the link
-  text-align: center; // Center the link (optional)
-
-  a {
-    color: #666666;
-    text-decoration: underline; // Underline the link
-
-    &:hover {
-      text-decoration: none; // Remove underline on hover
-    }
-  }
+.login-button {
+  width: 89%;
+  height: 3.4em;
+  max-width: 50em;
 }
+
+// .forgot-password {
+//   margin-top: 0.6em; // Space between the button and the link
+//   text-align: center; // Center the link (optional)
+
+//   a {
+//     color: #666666;
+//     text-decoration: underline; // Underline the link
+
+//     &:hover {
+//       text-decoration: none; // Remove underline on hover
+//     }
+//   }
+// }
