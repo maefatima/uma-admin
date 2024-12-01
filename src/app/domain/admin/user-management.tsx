@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./user-management.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
 import ViewUserModal from "../../shared/components/modals/view-user-modal";
-import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
 import FlaggedModal from "../../shared/components/modals/flagged-modal";
 import { Tabs } from "antd";
 import UserTable from "../../shared/components/table/table";
+import placeholderProfileImage from "../../shared/assets/images/profile.jpg"; // Placeholder image
+import axios from "axios";
 
 interface User {
   key: number;
@@ -15,7 +16,6 @@ interface User {
   contactNumber: string;
   email: string;
   address: string;
-  // verified: boolean; // true for verified, false for unverified
   gender?: string; // Optional field
   birthdate?: string; // Optional field
   profileImage?: string; // Optional field
@@ -31,6 +31,60 @@ interface Report {
 
 function UserManagement() {
   type TabKey = "userAccounts" | "reports";
+
+  const [adminProfile, setAdminProfile] = useState({
+    username: "Loading...", // Placeholder username
+    profileImage: placeholderProfileImage, // Placeholder profile image
+  });
+
+  useEffect(() => {
+    const fetchAdminProfile = async () => {
+      try {
+        const username = localStorage.getItem("adminUsername");
+        console.log(
+          "Fetching admin profile for username from localStorage:",
+          username
+        );
+
+        if (!username) {
+          console.error(
+            "No username found in localStorage. Redirecting to login..."
+          );
+          return;
+        }
+
+        const response = await axios.get(
+          `http://localhost:3000/admin-accounts/profile`,
+          { params: { username } }
+        );
+        console.log("Profile data received from backend:", response.data);
+
+        setAdminProfile({
+          username: response.data.username || "Unknown User",
+          profileImage: response.data.profileImage
+            ? `http://localhost:3000/${response.data.profileImage.replace(
+                /\\/g,
+                "/"
+              )}` // Prepend server URL and replace backslashes
+            : placeholderProfileImage,
+        });
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          console.error(
+            "Axios error response:",
+            err.response?.data || err.message
+          );
+          alert(
+            `Failed to load profile: ${err.response?.data?.message || "Error occurred."}`
+          );
+        } else {
+          console.error("Unexpected error:", err);
+        }
+      }
+    };
+
+    fetchAdminProfile();
+  }, []);
 
   const [users] = useState<User[]>([
     {
@@ -76,36 +130,9 @@ function UserManagement() {
   const [activeTab, setActiveTab] = useState<TabKey>("userAccounts");
   const pageSize = 10;
 
-  const [adminProfile, setAdminProfile] = useState({
-    username: "Admin User", // Placeholder username
-    profileImage: sampleProfileImage, // Placeholder profile image
-  });
-
   const handleTabChange = (key: string) => {
     setActiveTab(key === "1" ? "userAccounts" : "reports");
     setCurrentPage(1);
-  };
-
-  const sortOptions: Record<TabKey, { value: string; label: string }[]> = {
-    userAccounts: [
-      { value: "name", label: "Name" },
-      { value: "address", label: "Address" },
-    ],
-    reports: [
-      { value: "dateReported", label: "Date Reported" },
-      { value: "status", label: "Status" },
-    ],
-  };
-
-  const filterOptions: Record<TabKey, { value: string; label: string }[]> = {
-    userAccounts: [
-      { value: "id", label: "ID" },
-      // { value: "unverified", label: "Unverified" },
-    ],
-    reports: [
-      { value: "pending", label: "Pending" },
-      { value: "resolved", label: "Resolved" },
-    ],
   };
 
   const handleView = (id: number) => {
@@ -148,8 +175,8 @@ function UserManagement() {
       <PageHeading
         title="User Management"
         subtitle="Manage System Users"
-        profileImage={adminProfile.profileImage} // Pass admin profile image
-        username={adminProfile.username} // Pass admin username
+        profileImage={adminProfile.profileImage}
+        username={adminProfile.username}
       />
 
       <div className="user-content">
@@ -158,8 +185,14 @@ function UserManagement() {
             onSearch={handleSearch}
             onSort={handleSort}
             onFilter={handleFilter}
-            sortOptions={sortOptions[activeTab]} // Dynamic sort options
-            filterOptions={filterOptions[activeTab]} // Dynamic filter options
+            sortOptions={[
+              { value: "name", label: "Name" },
+              { value: "address", label: "Address" },
+            ]}
+            filterOptions={[
+              { value: "id", label: "ID" },
+              { value: "unverified", label: "Unverified" },
+            ]}
           />
         </div>
         <Tabs defaultActiveKey="1" onChange={handleTabChange}>
@@ -210,7 +243,7 @@ function UserManagement() {
           address={selectedUser.address}
           gender={selectedUser.gender || "Female"}
           birthdate={selectedUser.birthdate || "July 2, 2003"}
-          profileImage={selectedUser.profileImage || sampleProfileImage}
+          profileImage={selectedUser.profileImage || placeholderProfileImage}
           onClose={handleCloseModal}
         />
       )}
@@ -228,7 +261,7 @@ function UserManagement() {
             "Dismiss Report",
           ]}
           notifyUser={false}
-          profileImage={sampleProfileImage}
+          profileImage={placeholderProfileImage}
           onClose={handleCloseModal}
           onSave={() => console.log("Save Flag Action")}
           onNotifyChange={() => {}}

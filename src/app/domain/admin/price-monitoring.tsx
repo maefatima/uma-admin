@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./price-monitoring.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SetPriceModal from "../../shared/components/modals/price-modal";
@@ -8,7 +8,8 @@ import LivestockTable from "../../shared/components/table/livestock-table";
 import LottieAnimation from "../../shared/components/lottie-animation/Animation";
 import PriceAnimationData from "../../shared/assets/animation/empty.json";
 import AlertModal from "../../shared/components/modals/alert-modal";
-import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
+import placeholderProfileImage from "../../shared/assets/images/profile.jpg"; // Placeholder image
+import axios from "axios";
 
 interface LivestockData {
   key: number;
@@ -24,6 +25,60 @@ function PriceMonitoring() {
     LivestockData[]
   >([]);
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+
+  const [adminProfile, setAdminProfile] = useState({
+    username: "Loading...", // Placeholder username
+    profileImage: placeholderProfileImage, // Placeholder profile image
+  });
+
+  useEffect(() => {
+    const fetchAdminProfile = async () => {
+      try {
+        const username = localStorage.getItem("adminUsername");
+        console.log(
+          "Fetching admin profile for username from localStorage:",
+          username
+        );
+
+        if (!username) {
+          console.error(
+            "No username found in localStorage. Redirecting to login..."
+          );
+          return; // Optionally, navigate to login screen here
+        }
+
+        const response = await axios.get(
+          `http://localhost:3000/admin-accounts/profile`,
+          { params: { username } }
+        );
+        console.log("Profile data received from backend:", response.data);
+
+        setAdminProfile({
+          username: response.data.username || "Unknown User",
+          profileImage: response.data.profileImage
+            ? `http://localhost:3000/${response.data.profileImage.replace(
+                /\\/g,
+                "/"
+              )}` // Prepend server URL and replace backslashes
+            : placeholderProfileImage,
+        });
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          console.error(
+            "Axios error response:",
+            err.response?.data || err.message
+          );
+          alert(
+            `Failed to load profile: ${err.response?.data?.message || "Error occurred."}`
+          );
+        } else {
+          console.error("Unexpected error:", err);
+        }
+      }
+    };
+
+    fetchAdminProfile();
+  }, []);
 
   function openModal() {
     setModalOpen(true);
@@ -62,11 +117,6 @@ function PriceMonitoring() {
   const handleCloseAlertModal = () => {
     setIsAlertModalOpen(false);
   };
-
-  const [adminProfile, setAdminProfile] = useState({
-    username: "Admin User",
-    profileImage: sampleProfileImage,
-  });
 
   return (
     <div className="price-display">

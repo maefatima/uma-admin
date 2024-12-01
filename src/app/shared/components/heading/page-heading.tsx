@@ -1,13 +1,14 @@
 import React from "react";
 import "./page-heading.scss";
 import vector from "../../assets/images/vector.svg";
+import placeholderImage from "../../assets/images/profile.jpg";
 
 interface PageHeadingProps {
   title: string;
   subtitle?: string;
   icon?: React.ReactNode;
   className?: string;
-  profileImage: string;
+  profileImage?: string; // Make profileImage optional
   username: string;
 }
 
@@ -32,7 +33,14 @@ function PageHeading({
           <p className="profile-username">{username}</p>
         </div>
         <div className="profile-picture">
-          <img src={profileImage} alt="Profile" />
+          <img
+            src={
+              profileImage && profileImage.trim() !== ""
+                ? profileImage
+                : placeholderImage
+            }
+            alt="Profile"
+          />
         </div>
       </div>
 
