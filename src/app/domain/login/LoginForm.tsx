@@ -68,7 +68,7 @@ function LoginForm() {
       }
     } finally {
       setIsLoggingIn(false);
-      console.log("Login process finished.");
+      console.log("Login Process finished.");
     }
   }
 
