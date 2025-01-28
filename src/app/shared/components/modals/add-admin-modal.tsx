@@ -230,7 +230,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
           <PrimaryButton
             buttonText="ADD"
             onClick={handleSubmit}
-            className="add-button"
+            className="add-admin-button"
           />
         </div>
       </div>

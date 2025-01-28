@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Pagination, Tooltip } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons"; // For the icon
+import ConfirmUserStatus from "../../components/modals/confirm-user-status"; // Confirm User Status Modal
 import type { ColumnsType } from "antd/es/table";
 import "./table.scss";
 
@@ -10,7 +12,7 @@ interface User {
   contactNumber: string;
   email: string;
   address: string;
-  // verified: boolean; // True for verified, false for unverified
+  status: string; // Adding the status property to track Pending/Approved/Rejected
 }
 
 interface Report {
@@ -18,7 +20,7 @@ interface Report {
   id: number;
   username: string;
   dateReported: string;
-  status: string; // "Pending" or "Resolved"
+  status: string;
 }
 
 interface UserTableBaseProps<T> {
@@ -27,7 +29,6 @@ interface UserTableBaseProps<T> {
   pageSize: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-  onDelete: (id: number) => void;
   tableType: string;
 }
 
@@ -39,7 +40,7 @@ type UserTableProps =
     })
   | (UserTableBaseProps<Report> & {
       tableType: "reports";
-      onFlag: (id: number) => void;
+      onFlag: (id: number) => void; // Passed function to handle flagged reports
       onView?: never;
     });
 
@@ -50,10 +51,64 @@ const UserTable: React.FC<UserTableProps> = ({
   currentPage,
   onPageChange,
   onView,
-  onFlag,
-  onDelete,
   tableType,
+  onFlag, // Passed function for handling flagged reports
 }) => {
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [updatedUsers, setUpdatedUsers] = useState<User[]>(users as User[]); // Local state to manage the users list with updates
+  const [updatedReports, setUpdatedReports] = useState<Report[]>(
+    users as Report[]
+  ); // Local state for reports
+
+  const handleApprove = () => {
+    if (selectedUser) {
+      const updatedUserList = updatedUsers.map((user) =>
+        user.id === selectedUser.id ? { ...user, status: "Approved" } : user
+      );
+      setUpdatedUsers(updatedUserList);
+    }
+    setIsConfirmModalOpen(false);
+  };
+
+  const handleReject = () => {
+    if (selectedUser) {
+      const updatedUserList = updatedUsers.map((user) =>
+        user.id === selectedUser.id ? { ...user, status: "Rejected" } : user
+      );
+      setUpdatedUsers(updatedUserList);
+    }
+    setIsConfirmModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsConfirmModalOpen(false);
+  };
+
+  const getButtonStyle = (status: string) => {
+    switch (status) {
+      case "Approved":
+        return {
+          backgroundColor: "#d4edda",
+          color: "#155724",
+          fontWeight: 500,
+        };
+      case "Rejected":
+        return {
+          backgroundColor: "#eab6b3",
+          color: "#8d120d",
+          fontWeight: 500,
+        };
+      case "Pending":
+      default:
+        return {
+          backgroundColor: "#cfe2ff",
+          color: "#084298",
+          fontWeight: 500,
+        };
+    }
+  };
+
   const columns: ColumnsType<any> =
     tableType === "userAccounts"
       ? [
@@ -91,19 +146,36 @@ const UserTable: React.FC<UserTableProps> = ({
             width: 240,
             ellipsis: true,
           },
+
           {
-            title: "Action",
-            key: "action",
+            title: "Status",
+            key: "status",
             width: 140,
             render: (_, record: User) => (
-              <div className="action-buttons">
+              <div className="status-buttons">
                 <button
-                  className="user-details-button"
-                  onClick={() => onView(record.id)}
+                  className="pending-button"
+                  onClick={() => {
+                    setSelectedUser(record); // Set selectedUser to the correct user
+                    setIsConfirmModalOpen(true); // Show the modal for pending users
+                  }}
+                  style={getButtonStyle(record.status)} // Apply dynamic button style based on status
                 >
-                  User Details
+                  {record.status === "Pending" ? "Pending" : record.status}
                 </button>
               </div>
+            ),
+          },
+          {
+            title: "User Details",
+            key: "userDetails",
+            width: 110,
+            render: (_, record: User) => (
+              <Tooltip title="View User Details">
+                <button className="icon" onClick={() => onView(record.id)}>
+                  <InfoCircleOutlined />
+                </button>
+              </Tooltip>
             ),
           },
         ]
@@ -150,7 +222,9 @@ const UserTable: React.FC<UserTableProps> = ({
               <div className="action-buttons">
                 <button
                   className="review-button"
-                  onClick={() => onFlag(record.id)}
+                  onClick={() => {
+                    onFlag(record.id); // Trigger flagging action for reports
+                  }}
                 >
                   Review
                 </button>
@@ -162,7 +236,7 @@ const UserTable: React.FC<UserTableProps> = ({
   return (
     <div className="user-table-container">
       <Table
-        dataSource={users}
+        dataSource={updatedUsers} // Use updatedUsers for user accounts
         columns={columns}
         pagination={false}
         rowKey="key"
@@ -180,6 +254,16 @@ const UserTable: React.FC<UserTableProps> = ({
           onChange={onPageChange}
         />
       </div>
+
+      {isConfirmModalOpen && selectedUser && (
+        <ConfirmUserStatus
+          isOpen={isConfirmModalOpen}
+          message={`Do you want to Approve or Reject ${selectedUser.username}'s account?`}
+          onApprove={handleApprove}
+          onReject={handleReject}
+          onCancel={handleCancel}
+        />
+      )}
     </div>
   );
 };

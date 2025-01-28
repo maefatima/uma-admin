@@ -1,6 +1,6 @@
 import React from "react";
 import "./page-heading.scss";
-import vector from "../../assets/images/vector.svg";
+import vector from "../../assets/images/frontendvector.svg";
 import placeholderImage from "../../assets/images/profile.jpg";
 
 interface PageHeadingProps {

@@ -92,7 +92,7 @@ function Dashboard() {
         title="Total Users"
         count={userCount}
         icon={<FontAwesomeIcon icon={faUser} className="user-icon" />}
-        iconBgColor="#FFF2E9"
+        iconBgColor="#d3f6b8"
       />
       <StatCard
         className="total-card"

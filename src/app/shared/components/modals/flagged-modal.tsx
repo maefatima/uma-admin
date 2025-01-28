@@ -103,7 +103,7 @@ const FlaggedModal: React.FC<FlaggedModalProps> = ({
           <PrimaryButton
             buttonText="SAVE"
             onClick={onSave}
-            className="save-button"
+            className="flagged-save-button"
           />
         </div>
       </div>

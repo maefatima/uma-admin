@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./view-user-modal.scss";
 import InputField from "../fields/InputFields";
 import PrimaryButton from "../buttons/PrimaryButton";
+import ImageModal from "../../components/modals/image-modal";
 
 interface ViewUserModalProps {
   username: string;
@@ -11,6 +12,7 @@ interface ViewUserModalProps {
   gender: string;
   birthdate: string;
   profileImage: string;
+  identificationCardImage: string; // Added prop for the identification card image
   onClose: () => void;
 }
 
@@ -22,15 +24,43 @@ const ViewUserModal: React.FC<ViewUserModalProps> = ({
   gender,
   birthdate,
   profileImage,
+  identificationCardImage, // Receive the identification card image
   onClose,
 }) => {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [clickedImage, setClickedImage] = useState<string>("");
+
+  const openModal = (image: string) => {
+    setClickedImage(image);
+    setIsImageModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsImageModalOpen(false);
+  };
   return (
     <div className="view-overlay">
       <div className="view-user-modal">
-        <h2 className="view-title">User Informations</h2>
-        <p className="view-subtitle">View Account Details</p>
+        <h2 className="view-title">User Details</h2>
+        <p className="view-subtitle">View Account Information</p>
+        <div className="picture-container">
+          <div
+            className="profile-image"
+            onClick={() => openModal(profileImage)}
+          >
+            <img src={profileImage} alt="User profile" />
+          </div>
+          <div className="id-card-label">Identification Card</div>{" "}
+          <div
+            className="identification-card"
+            onClick={() => openModal(identificationCardImage)}
+          >
+            <img src={identificationCardImage} alt="Identification Card" />
+          </div>
+        </div>
+
         <div className="view-content">
-          <div className="user-details">
+          <div className="user-details-column1">
             <InputField
               label="Username"
               type="text"
@@ -52,6 +82,8 @@ const ViewUserModal: React.FC<ViewUserModalProps> = ({
               onChange={() => {}}
               className="input-field-readonly"
             />
+          </div>
+          <div className="user-details-column2">
             <InputField
               label="Address"
               type="text"
@@ -74,16 +106,19 @@ const ViewUserModal: React.FC<ViewUserModalProps> = ({
               className="input-field-readonly"
             />
           </div>
-          <div className="profile-image">
-            <img src={profileImage} alt="User profile" />
-          </div>
         </div>
+
         <PrimaryButton
           buttonText="CLOSE"
           onClick={onClose}
           className="close-button"
         />
       </div>
+      <ImageModal
+        isOpen={isImageModalOpen}
+        imageSrc={clickedImage}
+        onClose={closeModal}
+      />
     </div>
   );
 };
