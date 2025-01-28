@@ -82,7 +82,7 @@ const UserRegistrationChart = () => {
           data: Array.from({ length: daysInMonth }, () =>
             Math.floor(Math.random() * 100)
           ),
-          borderColor: "#B8554C",
+          borderColor: "#32620e",
           backgroundColor: "rgba(184, 85, 76, 0.2)",
           borderWidth: 2,
         },

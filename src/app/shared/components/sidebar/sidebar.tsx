@@ -10,7 +10,7 @@ import {
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "./sidebar.scss";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/sidabar_logo.png";
 import SidebarIconButton from "../buttons/sidebar-icon-button";
 import ConfirmationModal from "../modals/confirmation-modal";
 

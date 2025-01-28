@@ -38,7 +38,14 @@
     margin-bottom: 1.5em;
   }
 
-  .action-buttons {
+  .icon {
+    border: none; /* Remove any border */
+    padding: 0; /* Remove any padding */
+    margin: 0; /* Remove any margin */
+    background: none;
+  }
+
+  .status-buttons {
     display: flex;
     justify-content: center;
 
@@ -54,29 +61,36 @@
       }
     }
 
-    .user-details-button {
-      background-color: #00b7fe;
+    .pending-button {
+      background-color: #cfe2ff;
       color: white;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 14px;
 
       &:hover {
-        background-color: #09759e;
-      }
-    }
-
-    .review-button {
-      background-color: #ff9800;
-      color: white;
-
-      &:hover {
-        background-color: #c0770a;
+        background-color: #084298;
       }
     }
   }
 
+  .review-button {
+    background-color: #ff9800;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 9px;
+    color: white;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #c0770a;
+    }
+  }
+
   .custom-row td {
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Display ellipsis for truncated text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .status-indicator {

@@ -6,7 +6,8 @@ import ViewUserModal from "../../shared/components/modals/view-user-modal";
 import FlaggedModal from "../../shared/components/modals/flagged-modal";
 import { Tabs } from "antd";
 import UserTable from "../../shared/components/table/table";
-import placeholderProfileImage from "../../shared/assets/images/profile.jpg"; // Placeholder image
+import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
+import placeholderIdentificationCardImage from "../../shared/assets/images/id-sample2.jpg";
 import axios from "axios";
 
 interface User {
@@ -19,6 +20,8 @@ interface User {
   gender?: string; // Optional field
   birthdate?: string; // Optional field
   profileImage?: string; // Optional field
+  identificationCardImage?: string;
+  status: string;
 }
 
 interface Report {
@@ -94,6 +97,7 @@ function UserManagement() {
       contactNumber: "09635292636",
       email: "maefatima.aladad@bisu.edu.ph",
       address: "Panadtaran, Tubigon, Bohol",
+      status: "Pending",
     },
     {
       key: 2,
@@ -102,6 +106,7 @@ function UserManagement() {
       contactNumber: "09055885742",
       email: "michelle.bentulan@bisu.edu.ph",
       address: "Ilijan Norte, Tubigon, Bohol",
+      status: "Pending",
     },
   ]);
 
@@ -170,6 +175,36 @@ function UserManagement() {
     setSelectedReport(null);
   };
 
+  const getSortOptions = () => {
+    if (activeTab === "userAccounts") {
+      return [
+        { value: "name", label: "Name" },
+        { value: "address", label: "Address" },
+      ];
+    } else {
+      return [
+        { value: "username", label: "Username" },
+        { value: "dateReported", label: "Date Reported" },
+      ];
+    }
+  };
+
+  const getFilterOptions = () => {
+    if (activeTab === "userAccounts") {
+      return [
+        { value: "id", label: "ID" },
+        { value: "pending", label: "Pending" },
+        { value: "approved", label: "Approved" },
+        { value: "rejected", label: "Rejected" },
+      ];
+    } else {
+      return [
+        { value: "resolved", label: "Resolved" },
+        { value: "pending", label: "Pending" },
+      ];
+    }
+  };
+
   return (
     <div className="user-display">
       <PageHeading
@@ -185,14 +220,8 @@ function UserManagement() {
             onSearch={handleSearch}
             onSort={handleSort}
             onFilter={handleFilter}
-            sortOptions={[
-              { value: "name", label: "Name" },
-              { value: "address", label: "Address" },
-            ]}
-            filterOptions={[
-              { value: "id", label: "ID" },
-              { value: "unverified", label: "Unverified" },
-            ]}
+            sortOptions={getSortOptions()} // Use dynamic sort options
+            filterOptions={getFilterOptions()} // Use dynamic filter options
           />
         </div>
         <Tabs defaultActiveKey="1" onChange={handleTabChange}>
@@ -209,7 +238,7 @@ function UserManagement() {
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
                 onView={handleView}
-                onDelete={(id) => console.log("Delete user with ID:", id)}
+                // onDelete={(id) => console.log("Delete user with ID:", id)}
                 tableType="userAccounts"
               />
             </div>
@@ -227,7 +256,7 @@ function UserManagement() {
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
                 onFlag={handleFlag}
-                onDelete={(id) => console.log("Delete report with ID:", id)}
+                // onDelete={(id) => console.log("Delete report with ID:", id)}
                 tableType="reports"
               />
             </div>
@@ -244,6 +273,10 @@ function UserManagement() {
           gender={selectedUser.gender || "Female"}
           birthdate={selectedUser.birthdate || "July 2, 2003"}
           profileImage={selectedUser.profileImage || placeholderProfileImage}
+          identificationCardImage={
+            selectedUser.identificationCardImage ||
+            placeholderIdentificationCardImage
+          }
           onClose={handleCloseModal}
         />
       )}

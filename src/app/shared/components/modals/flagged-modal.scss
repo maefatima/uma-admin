@@ -215,19 +215,20 @@
     }
   }
 
-  .save-button {
-    background-color: #b8554c;
+  .flagged-save-button {
+    background-color: #32620e;
     color: #fff;
     width: 10em;
     padding: 0.8em;
     border-radius: 15px;
     font-size: 1em;
+    margin-top: 1em;
     text-align: center;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 
     &:hover {
-      background-color: #c13d33;
+      background-color: #2b550c;
     }
   }
 }

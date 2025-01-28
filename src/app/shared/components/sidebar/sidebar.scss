@@ -14,11 +14,10 @@
     margin-bottom: 0;
 
     img {
-      max-width: 7em;
+      max-width: 8em;
       width: 100%;
       max-height: 6em;
       height: 100%;
-      background-color: #c05850;
     }
   }
 
@@ -49,7 +48,7 @@
 
       &.active {
         background-color: white;
-        color: #c05850;
+        color: #32620e;
       }
 
       &.inactive {
@@ -63,7 +62,7 @@
         transition: color 0.3s ease;
 
         &:hover {
-          color: #c05850;
+          color: #32620e;
         }
       }
     }
@@ -83,7 +82,7 @@
         background-color 0.3s ease;
 
       &:hover {
-        color: #c05850;
+        color: #32620e;
         background-color: white;
       }
 

@@ -1,0 +1,96 @@
+.confirm-user-status-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-user-status-modal {
+  background: white;
+  padding: 3em;
+  border-radius: 15px;
+  text-align: center;
+  width: 38em;
+  height: 20em;
+  position: relative; /* Allow absolute positioning of the icon */
+
+  h1 {
+    font-size: 1.6em;
+    margin-top: -1em;
+    color: #083a50;
+  }
+
+  p {
+    margin-top: 2em;
+    font-size: 1.2em;
+    margin-bottom: 1.5em;
+    color: black;
+  }
+}
+
+.confirm-user-status-buttons {
+  margin-top: 3em;
+  margin-bottom: 1.5em;
+  margin-left: 2em;
+  display: flex;
+  justify-content: space-between;
+  gap: 3em;
+  justify-content: center;
+}
+
+.approve-button,
+.reject-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 0.7em;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.approve-button {
+  background-color: #32620e;
+  color: white;
+  width: 13em;
+  margin-right: 2em;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #2b550c;
+  }
+}
+
+.reject-button {
+  background-color: #b8554c;
+  width: 13em;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #99352c;
+  }
+}
+
+/* Style for the cancel icon */
+.cancel-icon {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  font-size: 1.5em;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #333;
+  }
+}
