@@ -3,7 +3,7 @@ import "./user-management.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
 import ViewUserModal from "../../shared/components/modals/view-user-modal";
-import FlaggedModal from "../../shared/components/modals/flagged-modal";
+import ConfirmUserStatus from "../../shared/components/modals/confirm-user-status";
 import { Tabs } from "antd";
 import UserTable from "../../shared/components/table/table";
 import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
@@ -17,38 +17,99 @@ interface User {
   contactNumber: string;
   email: string;
   address: string;
-  gender?: string; // Optional field
-  birthdate?: string; // Optional field
-  profileImage?: string; // Optional field
+  gender?: string;
+  birthdate?: string;
+  profileImage?: string;
   identificationCardImage?: string;
   status: string;
 }
 
-interface Report {
-  key: number;
-  id: number;
-  username: string;
-  dateReported: string;
-  status: string;
-}
-
 function UserManagement() {
-  type TabKey = "userAccounts" | "reports";
+  const [users, setUsers] = useState<User[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isViewModalVisible, setViewModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const pageSize = 10;
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:3000/users");
+  //       const formattedUsers = response.data.map(
+  //         (user: any, index: number) => ({
+  //           key: index + 1,
+  //           id: user.id,
+  //           username: `${user.first_name} ${user.last_name}`,
+  //           contactNumber: user.phone_number || "N/A",
+  //           email: user.email || "N/A",
+  //           address:
+  //             user.town && user.barangay
+  //               ? `${user.barangay}, ${user.town}`
+  //               : "Not provided",
+  //           status: user.account_status || "Pending",
+  //           profileImage: user.profile_image
+  //             ? `http://localhost:3000/uploads/profile-images/${user.profile_image}`
+  //             : placeholderProfileImage,
+
+  //           identificationCardImage: user.id_proof
+  //             ? `http://localhost:3000/uploads/id-proofs/${user.id_proof}`
+  //             : placeholderIdentificationCardImage,
+  //           gender: user.gender || "Not provided",
+  //           birthdate: user.birthdate || "Not provided",
+  //         })
+  //       );
+  //       setUsers(formattedUsers);
+  //     } catch (error) {
+  //       console.error("Error fetching users:", error);
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/users");
+      const formattedUsers = response.data.map((user: any, index: number) => ({
+        key: index + 1,
+        id: user.id,
+        username: `${user.first_name} ${user.last_name}`,
+        contactNumber: user.phone_number || "N/A",
+        email: user.email || "N/A",
+        address:
+          user.town && user.barangay
+            ? `${user.barangay}, ${user.town}`
+            : "Not provided",
+        status: user.account_status || "Pending",
+        profileImage: user.profile_image
+          ? `http://localhost:3000/uploads/profile-images/${user.profile_image}`
+          : placeholderProfileImage,
+        identificationCardImage: user.id_proof
+          ? `http://localhost:3000/uploads/id-proofs/${user.id_proof}`
+          : placeholderIdentificationCardImage,
+        gender: user.gender || "Not provided",
+        birthdate: user.birthdate || "Not provided",
+      }));
+      setUsers(formattedUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  // Use useEffect to fetch users on component mount
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const [adminProfile, setAdminProfile] = useState({
-    username: "Loading...", // Placeholder username
-    profileImage: placeholderProfileImage, // Placeholder profile image
+    username: "Loading...",
+    profileImage: placeholderProfileImage,
   });
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
       try {
         const username = localStorage.getItem("adminUsername");
-        console.log(
-          "Fetching admin profile for username from localStorage:",
-          username
-        );
-
         if (!username) {
           console.error(
             "No username found in localStorage. Redirecting to login..."
@@ -58,150 +119,168 @@ function UserManagement() {
 
         const response = await axios.get(
           `http://localhost:3000/admin-accounts/profile`,
-          { params: { username } }
+          {
+            params: { username },
+          }
         );
-        console.log("Profile data received from backend:", response.data);
 
         setAdminProfile({
           username: response.data.username || "Unknown User",
           profileImage: response.data.profileImage
-            ? `http://localhost:3000/${response.data.profileImage.replace(
-                /\\/g,
-                "/"
-              )}` // Prepend server URL and replace backslashes
+            ? `http://localhost:3000/${response.data.profileImage.replace(/\\/g, "/")}`
             : placeholderProfileImage,
         });
       } catch (err) {
-        if (axios.isAxiosError(err)) {
-          console.error(
-            "Axios error response:",
-            err.response?.data || err.message
-          );
-          alert(
-            `Failed to load profile: ${err.response?.data?.message || "Error occurred."}`
-          );
-        } else {
-          console.error("Unexpected error:", err);
-        }
+        console.error("Error fetching admin profile:", err);
       }
     };
-
     fetchAdminProfile();
   }, []);
 
-  const [users] = useState<User[]>([
-    {
-      key: 1,
-      id: 111,
-      username: "Mae Fatima Cabilan Aladad",
-      contactNumber: "09635292636",
-      email: "maefatima.aladad@bisu.edu.ph",
-      address: "Panadtaran, Tubigon, Bohol",
-      status: "Pending",
-    },
-    {
-      key: 2,
-      id: 112,
-      username: "Michelle Dupa Bentulan",
-      contactNumber: "09055885742",
-      email: "michelle.bentulan@bisu.edu.ph",
-      address: "Ilijan Norte, Tubigon, Bohol",
-      status: "Pending",
-    },
-  ]);
+  // const handleApproveUser = async (userId: number) => {
+  //   console.log(`Attempting to approve user: ${userId}`);
+  //   try {
+  //     const response = await axios.post(
+  //       `http://localhost:3000/admin-accounts/approve-user/${userId}`,
+  //       {},
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
 
-  const [reports] = useState<Report[]>([
-    {
-      key: 1,
-      id: 201,
-      username: "John Doe",
-      dateReported: "2024-11-25",
-      status: "Pending",
-    },
-    {
-      key: 2,
-      id: 202,
-      username: "Jane Smith",
-      dateReported: "2024-11-26",
-      status: "Resolved",
-    },
-  ]);
+  //     console.log("Approve API Response:", response);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isViewModalVisible, setViewModalVisible] = useState(false);
-  const [isFlaggedModalVisible, setFlaggedModalVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
-  const [activeTab, setActiveTab] = useState<TabKey>("userAccounts");
-  const pageSize = 10;
+  //     if (response.status === 200 || response.status === 201) {
+  //       // Accept 201 as success
+  //       console.log(`User ${userId} approved successfully.`);
+  //       setUsers((prevUsers) =>
+  //         prevUsers.map((user) =>
+  //           user.id === userId ? { ...user, status: "Approved" } : user
+  //         )
+  //       );
+  //       setIsConfirmModalOpen(false);
+  //     } else {
+  //       console.error(`Unexpected response status: ${response.status}`);
+  //     }
+  //   } catch (error) {
+  //     console.error(`Error approving user ${userId}:`, error);
+  //   }
+  // };
 
-  const handleTabChange = (key: string) => {
-    setActiveTab(key === "1" ? "userAccounts" : "reports");
-    setCurrentPage(1);
+  // const handleRejectUser = async (userId: number) => {
+  //   console.log(`Attempting to reject user: ${userId}`);
+  //   try {
+  //     const response = await axios.post(
+  //       `http://localhost:3000/admin-accounts/reject-user/${userId}`,
+  //       {},
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     console.log("Reject API Response:", response);
+
+  //     if (response.status === 200) {
+  //       console.log(`User ${userId} rejected successfully.`);
+  //       setUsers((prevUsers) =>
+  //         prevUsers.map((user) =>
+  //           user.id === userId ? { ...user, status: "Rejected" } : user
+  //         )
+  //       );
+  //       setIsConfirmModalOpen(false);
+  //     } else {
+  //       console.error(`Unexpected response status: ${response.status}`);
+  //     }
+  //   } catch (error) {
+  //     console.error(`Error rejecting user ${userId}:`, error);
+  //   }
+  // };
+
+  const handleApproveUser = async (userId: number) => {
+    console.log(`Attempting to approve user: ${userId}`);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/admin-accounts/approve-user/${userId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Approve API Response:", response);
+
+      if (response.status === 200 || response.status === 201) {
+        // Accept 201 as success
+        console.log(`User ${userId} approved successfully.`);
+
+        // Close the modal immediately
+        setIsConfirmModalOpen(false);
+        setSelectedUser(null);
+
+        // Refresh the user list from the backend to get the latest status
+        await fetchUsers();
+      } else {
+        console.error(`Unexpected response status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(`Error approving user ${userId}:`, error);
+    }
+  };
+
+  const handleRejectUser = async (userId: number) => {
+    console.log(`Attempting to reject user: ${userId}`);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/admin-accounts/reject-user/${userId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Reject API Response:", response);
+
+      if (response.status === 200 || response.status === 201) {
+        // Accept 201 as success
+        console.log(`User ${userId} rejected successfully.`);
+
+        // Close the modal immediately
+        setIsConfirmModalOpen(false);
+        setSelectedUser(null);
+
+        // Refresh the user list from the backend to get the latest status
+        await fetchUsers();
+      } else {
+        console.error(`Unexpected response status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(`Error rejecting user ${userId}:`, error);
+    }
   };
 
   const handleView = (id: number) => {
     const user = users.find((user) => user.id === id) || null;
-    setSelectedReport(null);
     setSelectedUser(user);
     setViewModalVisible(true);
-    setFlaggedModalVisible(false);
   };
 
-  const handleFlag = (id: number) => {
-    const report = reports.find((report) => report.id === id) || null;
-    setSelectedUser(null);
-    setSelectedReport(report);
-    setFlaggedModalVisible(true);
-    setViewModalVisible(false);
-  };
-
-  const handleSearch = (query: string) => {
-    console.log("Search query:", query);
-  };
-
-  const handleSort = (sortValue: string) => {
-    console.log("Sort by:", sortValue);
-  };
-
-  const handleFilter = (filterValue: string) => {
-    console.log("Filter by:", filterValue);
-  };
-
-  const handleCloseModal = () => {
-    setViewModalVisible(false);
-    setFlaggedModalVisible(false);
-    setSelectedUser(null);
-    setSelectedReport(null);
-  };
-
-  const getSortOptions = () => {
-    if (activeTab === "userAccounts") {
-      return [
-        { value: "name", label: "Name" },
-        { value: "address", label: "Address" },
-      ];
+  const handleApproveRejectModal = (id: number) => {
+    console.log(`Opening modal for user ID: ${id}`);
+    const user = users.find((user) => user.id === id);
+    if (user) {
+      console.log("Selected user data:", user);
+      setSelectedUser(user);
+      setIsConfirmModalOpen(true);
     } else {
-      return [
-        { value: "username", label: "Username" },
-        { value: "dateReported", label: "Date Reported" },
-      ];
-    }
-  };
-
-  const getFilterOptions = () => {
-    if (activeTab === "userAccounts") {
-      return [
-        { value: "id", label: "ID" },
-        { value: "pending", label: "Pending" },
-        { value: "approved", label: "Approved" },
-        { value: "rejected", label: "Rejected" },
-      ];
-    } else {
-      return [
-        { value: "resolved", label: "Resolved" },
-        { value: "pending", label: "Pending" },
-      ];
+      console.error("User not found.");
     }
   };
 
@@ -217,52 +296,50 @@ function UserManagement() {
       <div className="user-content">
         <div className="search">
           <SearchBar
-            onSearch={handleSearch}
-            onSort={handleSort}
-            onFilter={handleFilter}
-            sortOptions={getSortOptions()} // Use dynamic sort options
-            filterOptions={getFilterOptions()} // Use dynamic filter options
+            onSearch={() => {}}
+            onSort={() => {}}
+            onFilter={() => {}}
+            sortOptions={[]}
+            filterOptions={[]}
           />
         </div>
-        <Tabs defaultActiveKey="1" onChange={handleTabChange}>
+        <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="User Accounts" key="1">
-            <div className="table">
-              <h2>Account Management Table</h2>
-              <UserTable
-                users={users.slice(
-                  (currentPage - 1) * pageSize,
-                  currentPage * pageSize
-                )}
-                totalUsers={users.length}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={setCurrentPage}
-                onView={handleView}
-                // onDelete={(id) => console.log("Delete user with ID:", id)}
-                tableType="userAccounts"
-              />
-            </div>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Reports" key="2">
-            <div className="table">
-              <h2>Reports Table</h2>
-              <UserTable
-                users={reports.slice(
-                  (currentPage - 1) * pageSize,
-                  currentPage * pageSize
-                )}
-                totalUsers={reports.length}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={setCurrentPage}
-                onFlag={handleFlag}
-                // onDelete={(id) => console.log("Delete report with ID:", id)}
-                tableType="reports"
-              />
-            </div>
+            <UserTable
+              users={users.slice(
+                (currentPage - 1) * pageSize,
+                currentPage * pageSize
+              )}
+              totalUsers={users.length}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+              onView={handleView}
+              onApproveReject={handleApproveRejectModal}
+              tableType="userAccounts"
+            />
           </Tabs.TabPane>
         </Tabs>
       </div>
+
+      {isConfirmModalOpen && selectedUser && (
+        <ConfirmUserStatus
+          isOpen={isConfirmModalOpen}
+          message={`Approve or Reject ${selectedUser.username}'s account?`}
+          onApprove={() => {
+            console.log(`Approving user: ${selectedUser.id}`);
+            handleApproveUser(selectedUser.id);
+          }}
+          onReject={() => {
+            console.log(`Rejecting user: ${selectedUser.id}`);
+            handleRejectUser(selectedUser.id);
+          }}
+          onCancel={() => {
+            console.log("Closing modal without action.");
+            setIsConfirmModalOpen(false);
+          }}
+        />
+      )}
 
       {isViewModalVisible && selectedUser && (
         <ViewUserModal
@@ -270,36 +347,14 @@ function UserManagement() {
           contactNumber={selectedUser.contactNumber}
           email={selectedUser.email}
           address={selectedUser.address}
-          gender={selectedUser.gender || "Female"}
-          birthdate={selectedUser.birthdate || "July 2, 2003"}
+          gender={selectedUser.gender || "Not provided"}
+          birthdate={selectedUser.birthdate || "Not provided"}
           profileImage={selectedUser.profileImage || placeholderProfileImage}
           identificationCardImage={
             selectedUser.identificationCardImage ||
             placeholderIdentificationCardImage
           }
-          onClose={handleCloseModal}
-        />
-      )}
-
-      {isFlaggedModalVisible && selectedReport && (
-        <FlaggedModal
-          username={selectedReport.username}
-          reportedBy="System Admin"
-          reason="Reported for review"
-          actionOptions={[
-            "Action",
-            "Mark as Reviewed",
-            "Disable Account",
-            "Ban Account",
-            "Dismiss Report",
-          ]}
-          notifyUser={false}
-          profileImage={placeholderProfileImage}
-          onClose={handleCloseModal}
-          onSave={() => console.log("Save Flag Action")}
-          onNotifyChange={() => {}}
-          onActionChange={() => {}}
-          selectedAction="Action"
+          onClose={() => setViewModalVisible(false)}
         />
       )}
     </div>

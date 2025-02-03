@@ -48,14 +48,22 @@ const ViewUserModal: React.FC<ViewUserModalProps> = ({
             className="profile-image"
             onClick={() => openModal(profileImage)}
           >
-            <img src={profileImage} alt="User profile" />
+            <img
+              src={profileImage}
+              alt="User profile"
+              crossOrigin="anonymous"
+            />
           </div>
           <div className="id-card-label">Identification Card</div>{" "}
           <div
             className="identification-card"
             onClick={() => openModal(identificationCardImage)}
           >
-            <img src={identificationCardImage} alt="Identification Card" />
+            <img
+              src={identificationCardImage}
+              alt="Identification Card"
+              crossOrigin="anonymous"
+            />
           </div>
         </div>
 
