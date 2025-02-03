@@ -38,6 +38,17 @@
     margin-bottom: 1.5em;
   }
 
+  .ant-pagination-item-active {
+    background-color: #32620e !important;
+    border-color: #32620e !important;
+    color: white !important;
+  }
+
+  .ant-pagination-item {
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+
   .icon {
     border: none; /* Remove any border */
     padding: 0; /* Remove any padding */
@@ -72,6 +83,21 @@
         background-color: #084298;
       }
     }
+  }
+
+  .status-button.approved {
+    background-color: #28a745; /* Green */
+    color: white;
+  }
+
+  .status-button.rejected {
+    background-color: #dc3545; /* Red */
+    color: white;
+  }
+
+  .status-button.pending {
+    background-color: #ffc107; /* Yellow */
+    color: black;
   }
 
   .review-button {

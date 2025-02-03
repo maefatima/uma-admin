@@ -39,10 +39,22 @@ const ConfirmUserStatus: React.FC<ConfirmUserStatusProps> = ({
         )}
 
         <div className="confirm-user-status-buttons">
-          <button className="reject-button" onClick={onReject}>
+          <button
+            className="reject-button"
+            onClick={() => {
+              onReject();
+              onCancel?.(); // Close modal on reject
+            }}
+          >
             {rejectText}
           </button>
-          <button className="approve-button" onClick={onApprove}>
+          <button
+            className="approve-button"
+            onClick={() => {
+              onApprove();
+              onCancel?.(); // Close modal on approve
+            }}
+          >
             {confirmText}
           </button>
         </div>

@@ -5,9 +5,11 @@
   max-width: max-content;
   width: 100%;
   overflow-y: auto;
+  padding: 50px; /* Add padding around the content */
 
   .user-content {
     margin-top: 20px;
+    padding: 35px; /* Add padding */
 
     .search {
       margin-left: 3em;
