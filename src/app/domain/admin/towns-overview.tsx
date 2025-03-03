@@ -1,32 +1,33 @@
 import React, { useState } from "react";
-import "./message.scss";
+import "./towns-overview.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
 import sampleProfileImage from "../../shared/assets/images/sample-profile.jpg";
 
-const handleSearch = (query: string) => {
-  console.log("Search query:", query);
-};
+function TownsOverview() {
+  // Correct usage of useState inside the functional component
+  const [adminProfile, setAdminProfile] = useState({
+    username: "Admin User",
+    profileImage: sampleProfileImage,
+  });
 
-const handleSort = (sortValue: string) => {
-  console.log("Sort by:", sortValue);
-};
+  const handleSearch = (query: string) => {
+    console.log("Search query:", query);
+  };
 
-const handleFilter = (filterValue: string) => {
-  console.log("Filter by:", filterValue);
-};
+  const handleSort = (sortValue: string) => {
+    console.log("Sort by:", sortValue);
+  };
 
-const [adminProfile, setAdminProfile] = useState({
-  username: "Admin User",
-  profileImage: sampleProfileImage,
-});
+  const handleFilter = (filterValue: string) => {
+    console.log("Filter by:", filterValue);
+  };
 
-function Message() {
   return (
     <div className="message-display">
       <PageHeading
-        title="Message"
-        subtitle="Review Flagged Messages and Address User Abuse"
+        title="Towns Overview"
+        subtitle="View Town Users Overview"
         profileImage={adminProfile.profileImage}
         username={adminProfile.username}
       />
@@ -51,4 +52,4 @@ function Message() {
   );
 }
 
-export default Message;
+export default TownsOverview;
