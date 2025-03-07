@@ -79,7 +79,7 @@ function LoginForm() {
       </div>
 
       <div className="login-right">
-        <h2>Welcome to UMA!</h2>
+        <h2>Welcome to UMArket!</h2>
         <form className="login-form" onSubmit={handleLogin}>
           <InputField
             className="username"
