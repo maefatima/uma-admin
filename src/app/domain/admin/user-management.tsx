@@ -4,7 +4,6 @@ import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
 import ViewUserModal from "../../shared/components/modals/view-user-modal";
 import ConfirmUserStatus from "../../shared/components/modals/confirm-user-status";
-import { Tabs } from "antd";
 import UserTable from "../../shared/components/table/table";
 import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
 import placeholderIdentificationCardImage from "../../shared/assets/images/id-sample2.jpg";
@@ -303,23 +302,20 @@ function UserManagement() {
             filterOptions={[]}
           />
         </div>
-        <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab="User Accounts" key="1">
-            <UserTable
-              users={users.slice(
-                (currentPage - 1) * pageSize,
-                currentPage * pageSize
-              )}
-              totalUsers={users.length}
-              pageSize={pageSize}
-              currentPage={currentPage}
-              onPageChange={setCurrentPage}
-              onView={handleView}
-              onApproveReject={handleApproveRejectModal}
-              tableType="userAccounts"
-            />
-          </Tabs.TabPane>
-        </Tabs>
+        <h2>User Accounts</h2>
+        <UserTable
+          users={users.slice(
+            (currentPage - 1) * pageSize,
+            currentPage * pageSize
+          )}
+          totalUsers={users.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onView={handleView}
+          onApproveReject={handleApproveRejectModal}
+          tableType="userAccounts"
+        />
       </div>
 
       {isConfirmModalOpen && selectedUser && (

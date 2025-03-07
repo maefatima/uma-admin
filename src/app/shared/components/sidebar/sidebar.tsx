@@ -5,7 +5,9 @@ import {
   faUsers,
   // faStickyNote,
   // faComment,
-  faCoins,
+  faClipboardList,
+  faEarthAmericas,
+  // faCoins,
   faCog,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -61,30 +63,30 @@ function Sidebar() {
           isActive={activePath === "/dashboard/user-management"}
           onClick={() => setActivePath("/dashboard/user-management")}
         />
-        {/* <SidebarIconButton
+        <SidebarIconButton
           className="icon-button"
-          to="/dashboard/content-moderation"
-          icon={faStickyNote}
-          tooltip="Content Moderation"
-          isActive={activePath === "/dashboard/content-moderation"}
-          onClick={() => setActivePath("/dashboard/content-moderation")}
+          to="/dashboard/report-management"
+          icon={faClipboardList}
+          tooltip="Report Management"
+          isActive={activePath === "/dashboard/report-management"}
+          onClick={() => setActivePath("/dashboard/report-management")}
         />
         <SidebarIconButton
           className="icon-button"
-          to="/dashboard/message"
-          icon={faComment}
-          tooltip="Messages"
-          isActive={activePath === "/dashboard/message"}
-          onClick={() => setActivePath("/dashboard/message")}
-        /> */}
-        <SidebarIconButton
+          to="/dashboard/towns-overview"
+          icon={faEarthAmericas}
+          tooltip="Towns Overview"
+          isActive={activePath === "/dashboard/towns-overview"}
+          onClick={() => setActivePath("/dashboard/towns-overview")}
+        />
+        {/* <SidebarIconButton
           className="icon-button"
           to="/dashboard/price-monitoring"
-          icon={faCoins}
+          icon={faEarthAmericas}
           tooltip="Price Suggestion Monitoring"
           isActive={activePath === "/dashboard/price-monitoring"}
           onClick={() => setActivePath("/dashboard/price-monitoring")}
-        />
+        /> */}
         <SidebarIconButton
           className="icon-button"
           to="/dashboard/settings"
