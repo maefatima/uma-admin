@@ -24,14 +24,14 @@
   .sidebar-links {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 2em;
 
     .icon-button {
       display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 10px;
-      margin-left: 1em;
+      margin-left: 0.7em;
       background-color: transparent;
       color: #666666;
       border: none;

@@ -17,6 +17,8 @@ interface FlaggedModalProps {
   onNotifyChange: (checked: boolean) => void; // Specify boolean type for `checked`
   onActionChange: (action: string) => void;
   selectedAction: string;
+  disableDays?: number; // ✅ Add this
+  onDisableDaysChange?: (value: string) => void; // ✅ Add this
 }
 
 const FlaggedModal: React.FC<FlaggedModalProps> = ({
@@ -30,6 +32,7 @@ const FlaggedModal: React.FC<FlaggedModalProps> = ({
   onSave,
   onNotifyChange,
   onActionChange,
+  selectedAction,
 }) => {
   return (
     <div className="flag-overlay">
@@ -73,24 +76,30 @@ const FlaggedModal: React.FC<FlaggedModalProps> = ({
               </label>
               <select
                 className="action-dropdown"
+                value={selectedAction || ""}
                 onChange={(e) => onActionChange(e.target.value)}
               >
+                <option value="" disabled>
+                  Select Action
+                </option>
                 {actionOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
                 ))}
               </select>
+
               <FontAwesomeIcon icon={faCaretDown} className="dropdown-icon" />
-              <div className="notify-checkbox">
+              {/* <div className="notify-checkbox">
                 <input
                   type="checkbox"
                   id="notifyUser"
-                  checked={notifyUser}
-                  onChange={(e) => onNotifyChange(e.target.checked)}
+                  checked={notifyUser} // Ensures the checkbox reflects the state
+                  onChange={(e) => onNotifyChange(e.target.checked)} // Update the state when clicked
                 />
+
                 <label htmlFor="notifyUser">Notify User</label>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

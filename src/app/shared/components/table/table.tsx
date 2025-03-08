@@ -72,8 +72,8 @@ const UserTable: React.FC<UserTableProps> = ({
   tableType,
 }) => {
   const columns: ColumnsType<User> = [
-    { title: "ID", dataIndex: "id", key: "id", width: 60 },
-    { title: "Username", dataIndex: "username", key: "username", width: 200 },
+    { title: "ID", dataIndex: "id", key: "id", width: 80 },
+    { title: "Username", dataIndex: "username", key: "username", width: 210 },
     {
       title: "Contact",
       dataIndex: "contactNumber",
@@ -81,11 +81,11 @@ const UserTable: React.FC<UserTableProps> = ({
       width: 150,
     },
     { title: "Email", dataIndex: "email", key: "email", width: 230 },
-    { title: "Address", dataIndex: "address", key: "address", width: 240 },
+    { title: "Address", dataIndex: "address", key: "address", width: 260 },
     {
       title: "Status",
       key: "status",
-      width: 140,
+      width: 110,
       render: (_, record: User) => (
         <div className="status-buttons">
           <button
@@ -106,6 +106,7 @@ const UserTable: React.FC<UserTableProps> = ({
     {
       title: "Details",
       key: "details",
+      width: 80,
       render: (_, record) => (
         <Tooltip title="View Details">
           <InfoCircleOutlined onClick={() => onView(record.id)} />

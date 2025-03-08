@@ -4,7 +4,6 @@ import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
 import ViewUserModal from "../../shared/components/modals/view-user-modal";
 import ConfirmUserStatus from "../../shared/components/modals/confirm-user-status";
-import { Tabs } from "antd";
 import UserTable from "../../shared/components/table/table";
 import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
 import placeholderIdentificationCardImage from "../../shared/assets/images/id-sample2.jpg";
@@ -31,41 +30,6 @@ function UserManagement() {
   const [isViewModalVisible, setViewModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const pageSize = 10;
-
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:3000/users");
-  //       const formattedUsers = response.data.map(
-  //         (user: any, index: number) => ({
-  //           key: index + 1,
-  //           id: user.id,
-  //           username: `${user.first_name} ${user.last_name}`,
-  //           contactNumber: user.phone_number || "N/A",
-  //           email: user.email || "N/A",
-  //           address:
-  //             user.town && user.barangay
-  //               ? `${user.barangay}, ${user.town}`
-  //               : "Not provided",
-  //           status: user.account_status || "Pending",
-  //           profileImage: user.profile_image
-  //             ? `http://localhost:3000/uploads/profile-images/${user.profile_image}`
-  //             : placeholderProfileImage,
-
-  //           identificationCardImage: user.id_proof
-  //             ? `http://localhost:3000/uploads/id-proofs/${user.id_proof}`
-  //             : placeholderIdentificationCardImage,
-  //           gender: user.gender || "Not provided",
-  //           birthdate: user.birthdate || "Not provided",
-  //         })
-  //       );
-  //       setUsers(formattedUsers);
-  //     } catch (error) {
-  //       console.error("Error fetching users:", error);
-  //     }
-  //   };
-  //   fetchUsers();
-  // }, []);
 
   const fetchUsers = async () => {
     try {
@@ -136,69 +100,6 @@ function UserManagement() {
     };
     fetchAdminProfile();
   }, []);
-
-  // const handleApproveUser = async (userId: number) => {
-  //   console.log(`Attempting to approve user: ${userId}`);
-  //   try {
-  //     const response = await axios.post(
-  //       `http://localhost:3000/admin-accounts/approve-user/${userId}`,
-  //       {},
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     console.log("Approve API Response:", response);
-
-  //     if (response.status === 200 || response.status === 201) {
-  //       // Accept 201 as success
-  //       console.log(`User ${userId} approved successfully.`);
-  //       setUsers((prevUsers) =>
-  //         prevUsers.map((user) =>
-  //           user.id === userId ? { ...user, status: "Approved" } : user
-  //         )
-  //       );
-  //       setIsConfirmModalOpen(false);
-  //     } else {
-  //       console.error(`Unexpected response status: ${response.status}`);
-  //     }
-  //   } catch (error) {
-  //     console.error(`Error approving user ${userId}:`, error);
-  //   }
-  // };
-
-  // const handleRejectUser = async (userId: number) => {
-  //   console.log(`Attempting to reject user: ${userId}`);
-  //   try {
-  //     const response = await axios.post(
-  //       `http://localhost:3000/admin-accounts/reject-user/${userId}`,
-  //       {},
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     console.log("Reject API Response:", response);
-
-  //     if (response.status === 200) {
-  //       console.log(`User ${userId} rejected successfully.`);
-  //       setUsers((prevUsers) =>
-  //         prevUsers.map((user) =>
-  //           user.id === userId ? { ...user, status: "Rejected" } : user
-  //         )
-  //       );
-  //       setIsConfirmModalOpen(false);
-  //     } else {
-  //       console.error(`Unexpected response status: ${response.status}`);
-  //     }
-  //   } catch (error) {
-  //     console.error(`Error rejecting user ${userId}:`, error);
-  //   }
-  // };
 
   const handleApproveUser = async (userId: number) => {
     console.log(`Attempting to approve user: ${userId}`);
@@ -303,23 +204,20 @@ function UserManagement() {
             filterOptions={[]}
           />
         </div>
-        <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab="User Accounts" key="1">
-            <UserTable
-              users={users.slice(
-                (currentPage - 1) * pageSize,
-                currentPage * pageSize
-              )}
-              totalUsers={users.length}
-              pageSize={pageSize}
-              currentPage={currentPage}
-              onPageChange={setCurrentPage}
-              onView={handleView}
-              onApproveReject={handleApproveRejectModal}
-              tableType="userAccounts"
-            />
-          </Tabs.TabPane>
-        </Tabs>
+        <h2>User Accounts</h2>
+        <UserTable
+          users={users.slice(
+            (currentPage - 1) * pageSize,
+            currentPage * pageSize
+          )}
+          totalUsers={users.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onView={handleView}
+          onApproveReject={handleApproveRejectModal}
+          tableType="userAccounts"
+        />
       </div>
 
       {isConfirmModalOpen && selectedUser && (

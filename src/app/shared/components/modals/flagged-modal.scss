@@ -143,6 +143,54 @@
         flex-direction: column;
         gap: 0.8em;
 
+        // .notify-checkbox {
+        //   display: flex;
+        //   align-items: center;
+        //   gap: 0.5em;
+        //   margin-top: -1em;
+
+        //   input[type="checkbox"] {
+        //     width: 18px;
+        //     height: 18px;
+        //     cursor: pointer;
+        //     appearance: none; /* Disable default appearance */
+        //     border: 2px solid #333;
+        //     border-radius: 3px;
+        //     background-color: #fff;
+        //     position: relative;
+        //     transition:
+        //       background-color 0.3s ease,
+        //       border-color 0.3s ease;
+
+        //     /* When checked, change the background and add a check mark */
+        //     &:checked {
+        //       background-color: #32620e; /* Green color when checked */
+        //       border-color: #32620e;
+        //     }
+
+        //     /* Create a check mark using the :after pseudo-element */
+        //     &:checked::after {
+        //       content: "";
+        //       position: absolute;
+        //       top: 3px;
+        //       left: 3px;
+        //       width: 8px;
+        //       height: 8px;
+        //       background-color: #fff; /* White check mark */
+        //       clip-path: polygon(
+        //         0 0,
+        //         100% 100%,
+        //         100% 0
+        //       ); /* Triangle shape for the check mark */
+        //     }
+        //   }
+
+        //   label {
+        //     font-size: 1em;
+        //     color: #333;
+        //   }
+        // }
+
         .action-label {
           font-size: 0.8em;
           color: #2c3e50;
@@ -168,24 +216,6 @@
           pointer-events: none;
           color: #333;
           font-size: 0.9em;
-        }
-
-        .notify-checkbox {
-          display: flex;
-          align-items: center;
-          gap: 0.5em;
-          margin-top: -1em;
-
-          input[type="checkbox"] {
-            width: 17px;
-            height: 17px;
-            cursor: pointer;
-          }
-
-          label {
-            font-size: 1em;
-            color: #333;
-          }
         }
       }
     }
@@ -222,7 +252,7 @@
     padding: 0.8em;
     border-radius: 15px;
     font-size: 1em;
-    margin-top: 1em;
+    margin-top: 0.3em;
     text-align: center;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
