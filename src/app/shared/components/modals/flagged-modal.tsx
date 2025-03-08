@@ -17,6 +17,8 @@ interface FlaggedModalProps {
   onNotifyChange: (checked: boolean) => void; // Specify boolean type for `checked`
   onActionChange: (action: string) => void;
   selectedAction: string;
+  disableDays?: number; // ✅ Add this
+  onDisableDaysChange?: (value: string) => void; // ✅ Add this
 }
 
 const FlaggedModal: React.FC<FlaggedModalProps> = ({
