@@ -4,12 +4,18 @@ import "./Animation.scss";
 
 interface LottieAnimationProps {
   animationData: object; // Define the type for animationData prop
+  loop?: boolean;
+  className?: string;
 }
 
-const LottieAnimation: React.FC<LottieAnimationProps> = ({ animationData }) => {
+const LottieAnimation: React.FC<LottieAnimationProps> = ({
+  animationData,
+  loop = true,
+  className,
+}) => {
   return (
     <div className="animation-container">
-      <Lottie animationData={animationData} loop={true} />
+      <Lottie animationData={animationData} loop={loop} />
     </div>
   );
 };

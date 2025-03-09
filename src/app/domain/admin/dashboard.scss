@@ -15,7 +15,28 @@
 
 .reports-card {
   display: flex;
-  margin-top: 1.7em;
+  flex-direction: column;
+  margin-top: -2.1em;
+  margin-left: -28.6em;
+  width: 26.8em !important;
+  height: 17em !important;
+
+  .report-animation {
+    width: 15em;
+    height: 8em;
+    margin-top: 0.2em;
+    margin-left: -4.4em;
+  }
+
+  .title {
+    margin-top: 4.5em !important;
+    margin-left: -1em !important;
+  }
+
+  .count {
+    margin-left: 6em !important;
+    margin-top: -1.3em !important;
+  }
 }
 
 .total-card {
@@ -39,4 +60,24 @@
   margin-top: 0.4em;
   margin-left: 0.4em;
   font-size: 24px;
+}
+
+.additional-animation {
+  margin-top: -32.5em;
+  margin-left: 61em;
+  width: 28em;
+  height: 13.8em;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report-lottie {
+  transform: scale(0.4);
+  width: 16em;
+  height: 16em;
+  position: relative;
+  top: -4em;
+  left: -3em;
 }
