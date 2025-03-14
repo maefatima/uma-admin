@@ -9,6 +9,7 @@ import {
   faCalendarAlt,
   faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 Chart.register(...registerables);
 
@@ -72,28 +73,74 @@ const UserRegistrationChart = () => {
     setSelectedDate(updatedDate);
   };
 
-  const generateChartData = (): ChartData => {
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    return {
-      labels: Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`),
-      datasets: [
-        {
-          label: "User Registrations",
-          data: Array.from({ length: daysInMonth }, () =>
-            Math.floor(Math.random() * 100)
-          ),
-          borderColor: "#32620e",
-          backgroundColor: "rgba(184, 85, 76, 0.2)",
-          borderWidth: 2,
-        },
-      ],
-    };
-  };
-
+  // 🔥 **Fetch user registrations from backend**
   useEffect(() => {
-    const newChartData = generateChartData();
-    setChartData(newChartData);
-  }, [selectedDate]);
+    const fetchUserRegistrations = async () => {
+      try {
+        console.log(
+          `Fetching user registrations for Month: ${month + 1}, Year: ${year}`
+        );
+        const response = await axios.get(
+          `http://localhost:3000/users/registrations?month=${month + 1}&year=${year}`
+        );
+
+        console.log("✅ API Response:", response.data);
+
+        // Convert backend response into chart format
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const dataMap = new Map<number, number>();
+
+        response.data.forEach((entry: { day: number; count: number }) => {
+          dataMap.set(entry.day, entry.count);
+        });
+
+        const labels = Array.from({ length: daysInMonth }, (_, i) =>
+          (i + 1).toString()
+        );
+        const data = labels.map((day) => dataMap.get(parseInt(day)) || 0);
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: "User Registrations",
+              data,
+              borderColor: "#32620e",
+              backgroundColor: "rgba(184, 85, 76, 0.2)",
+              borderWidth: 2,
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("❌ Failed to fetch user registrations:", error);
+      }
+    };
+
+    fetchUserRegistrations();
+  }, [month, year]);
+
+  // const generateChartData = (): ChartData => {
+  //   const daysInMonth = new Date(year, month + 1, 0).getDate();
+  //   return {
+  //     labels: Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`),
+  //     datasets: [
+  //       {
+  //         label: "User Registrations",
+  //         data: Array.from({ length: daysInMonth }, () =>
+  //           Math.floor(Math.random() * 100)
+  //         ),
+  //         borderColor: "#32620e",
+  //         backgroundColor: "rgba(184, 85, 76, 0.2)",
+  //         borderWidth: 2,
+  //       },
+  //     ],
+  //   };
+  // };
+
+  // useEffect(() => {
+  //   const newChartData = generateChartData();
+  //   setChartData(newChartData);
+  // }, [selectedDate]);
 
   return (
     <div className="user-registration-chart">
@@ -117,7 +164,9 @@ const UserRegistrationChart = () => {
         <div className="chart-month-selector" onClick={toggleCalendar}>
           <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
           <span>
-            {selectedDate ? selectedDate.toLocaleDateString() : "Select Date"}
+            {selectedDate
+              ? `${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`
+              : "Select Date"}
           </span>
         </div>
       </div>
