@@ -1,0 +1,97 @@
+.town-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding-left: 1.8em;
+  padding-top: 0.8em;
+  width: 24em;
+  height: 13.5em;
+  position: relative;
+}
+
+.town-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 1em;
+  margin-bottom: 0.1em;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  left: 16px;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 1em;
+  width: 80%;
+  list-style: none;
+  padding: 8px 0;
+  z-index: 10;
+  max-height: calc(3 * 2.5em); // Each item is around 2.5em tall
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f5f5f5;
+}
+
+.dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.dropdown-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.6em;
+  font-weight: 400;
+}
+
+.dropdown-menu li:hover {
+  background: #f0f0f0;
+}
+
+.town-content {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.image-placeholder {
+  width: 11em;
+  height: 7.7em;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.user-info {
+  margin-left: 16px;
+}
+
+.label {
+  color: #666;
+  font-size: 1.3em;
+  margin-top: 0.2em;
+  margin-bottom: 0.8em;
+}
+
+.count {
+  font-size: 1.7em;
+  font-weight: bold;
+}

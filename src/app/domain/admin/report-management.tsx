@@ -34,6 +34,7 @@ function ReportManagement() {
   const [userCount, setUserCount] = useState(0);
   const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
@@ -171,7 +172,7 @@ function ReportManagement() {
           <ReportTable
             reports={reports}
             totalReports={reports.length}
-            pageSize={5}
+            pageSize={19}
             currentPage={1}
             onPageChange={(page: number) => console.log("Page changed:", page)}
             onView={(id: number) =>

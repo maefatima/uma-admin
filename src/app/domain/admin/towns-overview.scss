@@ -6,12 +6,19 @@
   overflow-y: auto;
 
   .message-content {
-    margin-top: 20px;
+    margin-top: -7em;
     padding: 35px;
+    margin-left: 2.5em;
+  }
 
-    .search-message {
-      margin-left: 1em;
-      margin-top: -8.6em;
-    }
+  .towns-overview {
+    padding: 20px;
+  }
+
+  .towns-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2em;
+    margin-top: 1.5em;
   }
 }

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./dashboard.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import UserRegistrationChart from "../../shared/components/charts/user-registration";
-import ActivePercentageChart from "../../shared/components/charts/active-percentage";
+// import ActivePercentageChart from "../../shared/components/charts/active-percentage";
+import LottieAnimation from "../../shared/components/lottie-animation/Animation";
+import AdditionalAnimationData from "../../shared/assets/animation/extradesign.json";
+import reportAnimation from "../../shared/assets/images/report.svg";
 import DonutChart from "../../shared/components/charts/popular-livestock";
 import StatCard from "../../shared/components/charts/status-card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -85,7 +88,7 @@ function Dashboard() {
 
       <div className="dashboard-content"></div>
       <UserRegistrationChart />
-      <ActivePercentageChart />
+      {/* <ActivePercentageChart /> */}
       <DonutChart />
       <StatCard
         className="user-card"
@@ -105,9 +108,22 @@ function Dashboard() {
         className="reports-card"
         title="Total Reports"
         count={7}
-        icon={<FontAwesomeIcon icon={faFileAlt} className="reports-icon" />}
+        icon={
+          <img
+            src={reportAnimation}
+            alt="Report Animation"
+            className="report-animation"
+          />
+        }
         iconBgColor="#EAF9FF"
       />
+      <div className="additional-animation">
+        <LottieAnimation
+          animationData={AdditionalAnimationData}
+          loop={true}
+          className="report-lottie"
+        />
+      </div>
     </div>
   );
 }
