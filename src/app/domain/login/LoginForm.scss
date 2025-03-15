@@ -22,6 +22,24 @@
   padding: 1em; /* Add padding for better spacing */
 }
 
+.login-subtitle {
+  font-size: 1.1em; /* Slightly smaller for better hierarchy */
+  color: #4a4a4a; /* A slightly darker gray for better readability */
+  font-weight: 400;
+  text-align: center;
+  margin-top: -1.9em; /* Bring it closer to the title */
+  margin-bottom: 1.5em; /* Space between subtitle and form */
+  width: 70%;
+  margin-right: 8em;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5em; /* Ensure spacing from the form */
+}
+
 .login-form {
   width: 85%;
   height: 55%;

@@ -111,6 +111,7 @@ function Sidebar() {
 
       <ConfirmationModal
         isOpen={showLogoutModal} // Use the correct state variable
+        title="Logout"
         message="Are you sure you want to log out?"
         onConfirm={confirmLogout} // Use the correct handler
         onCancel={cancelLogout} // Use the correct handler

@@ -8,16 +8,22 @@ import loginAnimationData from "../../shared/assets/animation/sample.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios, { AxiosError } from "axios"; // Import AxiosError
+import AlertModal from "../../shared/components/modals/alert-modal";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // State for alert modal
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const closeAlert = () => {
+    setAlertMessage(null); // Close the modal
   };
 
   async function handleLogin(e: React.FormEvent) {
@@ -25,7 +31,7 @@ function LoginForm() {
     console.log("Login form submitted with:", { username, password });
 
     if (!username || !password) {
-      alert("Please fill in all fields");
+      setAlertMessage("Please fill in all fields"); // Show modal instead of alert
       console.log("Validation failed: Empty fields");
       return;
     }
@@ -48,8 +54,8 @@ function LoginForm() {
         navigate("/dashboard");
       } else {
         console.error("Unexpected backend response format:", response.data);
-        alert(
-          "Unexpected response format from backend. Please contact support."
+        setAlertMessage(
+          "Unexpected response from backend. Please contact support."
         );
       }
     } catch (err) {
@@ -57,12 +63,10 @@ function LoginForm() {
 
       if (axios.isAxiosError(err)) {
         console.error("Axios error response:", err.response?.data);
-        alert(
-          `Login failed: ${err.response?.data?.message || "Invalid credentials."}`
-        );
+        setAlertMessage(err.response?.data?.message || "Invalid credentials.");
       } else {
         console.error("Unexpected error:", err);
-        alert("An unexpected error occurred. Please try again.");
+        setAlertMessage("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsLoggingIn(false);
@@ -77,7 +81,12 @@ function LoginForm() {
       </div>
 
       <div className="login-right">
-        <h2>Welcome to UMArket!</h2>
+        <div className="login-header">
+          <h2>Welcome to UMArket!</h2>
+          <p className="login-subtitle">
+            A Digital Marketplace for Livestock Trading
+          </p>
+        </div>
         <form className="login-form" onSubmit={handleLogin}>
           <InputField
             className="username"
@@ -111,6 +120,16 @@ function LoginForm() {
           />
         </form>
       </div>
+
+      {/* Alert Modal Component */}
+      {alertMessage && (
+        <AlertModal
+          isOpen={true}
+          title="Login Alert"
+          message={alertMessage}
+          onCancel={closeAlert} // OK button will close the modal
+        />
+      )}
     </div>
   );
 }
