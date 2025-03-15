@@ -119,29 +119,6 @@ const UserRegistrationChart = () => {
     fetchUserRegistrations();
   }, [month, year]);
 
-  // const generateChartData = (): ChartData => {
-  //   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  //   return {
-  //     labels: Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`),
-  //     datasets: [
-  //       {
-  //         label: "User Registrations",
-  //         data: Array.from({ length: daysInMonth }, () =>
-  //           Math.floor(Math.random() * 100)
-  //         ),
-  //         borderColor: "#32620e",
-  //         backgroundColor: "rgba(184, 85, 76, 0.2)",
-  //         borderWidth: 2,
-  //       },
-  //     ],
-  //   };
-  // };
-
-  // useEffect(() => {
-  //   const newChartData = generateChartData();
-  //   setChartData(newChartData);
-  // }, [selectedDate]);
-
   return (
     <div className="user-registration-chart">
       <div className="chart-header">

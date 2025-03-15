@@ -4,10 +4,11 @@ import InputField from "../fields/InputFields";
 import PrimaryButton from "../buttons/PrimaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 interface AddAdminModalProps {
   onClose: () => void;
-  onAddAdmin: (formData: any, profileImage: File | null) => void;
+  onAddAdmin: () => void;
 }
 
 const AddAdminModal: React.FC<AddAdminModalProps> = ({
@@ -25,6 +26,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -101,9 +103,54 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
     return Object.values(newErrors).every((error) => !error);
   };
 
-  const handleSubmit = () => {
-    if (isFormValid()) {
-      onAddAdmin(formData, profileImage);
+  // const handleSubmit = () => {
+  //   if (isFormValid()) {
+  //     onAddAdmin(formData, profileImage);
+  //   }
+  // };
+
+  const handleSubmit = async () => {
+    if (!isFormValid()) return;
+
+    setIsSubmitting(true);
+    try {
+      // 1️⃣ Register the administrator (API request)
+      const { username, email, address, phone, password } = formData;
+      const response = await axios.post(
+        "http://localhost:3000/admin-accounts/register",
+        {
+          username,
+          email,
+          address,
+          phoneNumber: phone,
+          password,
+        }
+      );
+
+      console.log("Admin added successfully:", response.data);
+
+      // 2️⃣ Upload profile image if provided
+      if (profileImage) {
+        const formData = new FormData();
+        formData.append("file", profileImage);
+
+        await axios.post(
+          `http://localhost:3000/admin-accounts/upload-profile-image?username=${username}`,
+          formData
+        );
+
+        console.log("Profile image uploaded successfully.");
+      }
+
+      alert("Administrator added successfully!");
+      // onAddAdminSuccess(); // Notify parent component to update UI
+      onAddAdmin();
+      onClose();
+    } catch (error) {
+      console.error("Failed to add admin:", error);
+      alert("An error occurred while adding the administrator.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./towns-overview.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 // import SearchBar from "../../shared/components/search-bar/search-bar";
-import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
+import placeholderProfileImage from "../../shared/assets/images/blank-profile.png";
 import Alburquerque from "../../shared/assets/images/Alburquerque.jpg";
 import Antequera from "../../shared/assets/images/Antequera.jpg";
 import Baclayon from "../../shared/assets/images/Baclayon.jpg";

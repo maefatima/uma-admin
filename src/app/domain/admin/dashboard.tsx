@@ -10,7 +10,7 @@ import DonutChart from "../../shared/components/charts/popular-livestock";
 import StatCard from "../../shared/components/charts/status-card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faList, faFileAlt } from "@fortawesome/free-solid-svg-icons";
-import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
+import placeholderProfileImage from "../../shared/assets/images/blank-profile.png";
 import axios from "axios";
 
 function Dashboard() {

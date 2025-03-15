@@ -5,7 +5,7 @@ import SearchBar from "../../shared/components/search-bar/search-bar";
 import ViewUserModal from "../../shared/components/modals/view-user-modal";
 import ConfirmUserStatus from "../../shared/components/modals/confirm-user-status";
 import UserTable from "../../shared/components/table/table";
-import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
+import placeholderProfileImage from "../../shared/assets/images/blank-profile.png";
 import placeholderIdentificationCardImage from "../../shared/assets/images/id-sample2.jpg";
 import axios from "axios";
 
