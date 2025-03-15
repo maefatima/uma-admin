@@ -14,11 +14,12 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
+  title = "Logout",
   message,
   onConfirm,
   onCancel,
   confirmText = "YES", // Default text for the confirm button
-  cancelText = "NO", // Default text for the cancel button
+  cancelText = "CANCEL", // Default text for the cancel button
   className = "", // Default to an empty string if no className is provided
 }) => {
   if (!isOpen) return null;
@@ -26,7 +27,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   return (
     <div className={`confirmation-modal-overlay ${className}`}>
       <div className="confirmation-modal">
-        <p>{message}</p>
+        <h2 className="modal-title">{title}</h2> {/* Add title */}
+        <p className="modal-message">{message}</p>
         <div className="confirmation-buttons">
           <button className="yes-button" onClick={onConfirm}>
             {confirmText}
