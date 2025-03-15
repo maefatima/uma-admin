@@ -13,6 +13,7 @@ import Settings from "../../domain/admin/settings";
 import ReportManagement from "../../domain/admin/report-management";
 import TownsOverview from "../../domain/admin/towns-overview";
 // import Welcome from "../../domain/login/welcome";
+import PrivateRoute from "./private-route";
 
 const router = createBrowserRouter([
   {
@@ -23,38 +24,19 @@ const router = createBrowserRouter([
     path: "login",
     element: <LoginForm />,
   },
-  // {
-  //   path: "welcome",
-  //   element: <Welcome />,
-  // },
   {
     path: "dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
-      {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: "user-management",
-        element: <UserManagement />,
-      },
-      {
-        path: "report-management",
-        element: <ReportManagement />,
-      },
-      {
-        path: "towns-overview",
-        element: <TownsOverview />,
-      },
-      // {
-      //   path: "price-monitoring",
-      //   element: <PriceMonitoring />,
-      // },
-      {
-        path: "settings",
-        element: <Settings />,
-      },
+      { index: true, element: <Dashboard /> },
+      { path: "user-management", element: <UserManagement /> },
+      { path: "report-management", element: <ReportManagement /> },
+      { path: "towns-overview", element: <TownsOverview /> },
+      { path: "settings", element: <Settings /> },
     ],
   },
 ]);

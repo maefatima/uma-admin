@@ -32,8 +32,9 @@ function Sidebar() {
   };
 
   const confirmLogout = () => {
+    localStorage.removeItem("adminUsername"); // 🚀 Clear stored admin session
     setShowLogoutModal(false);
-    navigate("/login"); // Redirect to login after confirming
+    navigate("/login", { replace: true }); // 🚀 Redirect to login
   };
 
   const cancelLogout = () => {

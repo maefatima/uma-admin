@@ -45,8 +45,6 @@ function LoginForm() {
       if (response.data?.message === "Login successful") {
         console.log("Login successful. Proceeding to dashboard...");
         localStorage.setItem("adminUsername", username); // Save username to localStorage
-
-        // Navigate to the dashboard
         navigate("/dashboard");
       } else {
         console.error("Unexpected backend response format:", response.data);

@@ -10,7 +10,7 @@ import DonutChart from "../../shared/components/charts/popular-livestock";
 import StatCard from "../../shared/components/charts/status-card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faList, faFileAlt } from "@fortawesome/free-solid-svg-icons";
-import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
+import placeholderProfileImage from "../../shared/assets/images/blank-profile.png";
 import axios from "axios";
 
 function Dashboard() {
@@ -20,6 +20,7 @@ function Dashboard() {
   });
 
   const [userCount, setUserCount] = useState(0); // State for user count
+  const [reportCount, setReportCount] = useState(0); // State for total reports
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
@@ -77,6 +78,19 @@ function Dashboard() {
     fetchUserCount(); // Fetch the user count when the component mounts
   }, []);
 
+  useEffect(() => {
+    const fetchReportCount = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/reports/all"); // Fetch reports
+        setReportCount(response.data.length); // Set total report count
+      } catch (err) {
+        console.error("Failed to fetch report count:", err);
+      }
+    };
+
+    fetchReportCount();
+  }, []);
+
   return (
     <div className="dashboard-display">
       <PageHeading
@@ -107,7 +121,7 @@ function Dashboard() {
       <StatCard
         className="reports-card"
         title="Total Reports"
-        count={7}
+        count={reportCount}
         icon={
           <img
             src={reportAnimation}

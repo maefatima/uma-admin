@@ -3,7 +3,7 @@ import "./report-management.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import SearchBar from "../../shared/components/search-bar/search-bar";
 import ReportTable from "../../shared/components/table/report-table";
-import placeholderProfileImage from "../../shared/assets/images/profile.jpg";
+import placeholderProfileImage from "../../shared/assets/images/blank-profile.png";
 import axios from "axios";
 
 interface Report {

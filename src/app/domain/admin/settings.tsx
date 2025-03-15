@@ -6,7 +6,7 @@ import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import InputField from "../../shared/components/fields/InputFields";
 import AddAdminModal from "../../shared/components/modals/add-admin-modal";
 import EditProfileModal from "../../shared/components/modals/edit-profile-modal";
-import placeholderProfileImage from "../../shared/assets/images/profile.jpg"; // Placeholder image
+import placeholderProfileImage from "../../shared/assets/images/blank-profile.png"; // Placeholder image
 import axios from "axios";
 
 type UpdatedFormData = {
