@@ -30,6 +30,12 @@ function UserManagement() {
   const [isViewModalVisible, setViewModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const pageSize = 10;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState<string>(""); // e.g. "name_asc", "name_desc"
+  const [filterStatus, setFilterStatus] = useState<string>(""); // e.g. "Approved"
+
+  const s3BaseUrl =
+    "https://umarket-livestock-images.s3.ap-southeast-2.amazonaws.com";
 
   const fetchUsers = async () => {
     try {
@@ -46,10 +52,10 @@ function UserManagement() {
             : "Not provided",
         status: user.account_status || "Pending",
         profileImage: user.profile_image
-          ? `http://localhost:3000/uploads/profile-images/${user.profile_image}`
+          ? `${s3BaseUrl}/${user.profile_image}`
           : placeholderProfileImage,
         identificationCardImage: user.id_proof
-          ? `http://localhost:3000/uploads/id-proofs/${user.id_proof}`
+          ? `${s3BaseUrl}/${user.id_proof}`
           : placeholderIdentificationCardImage,
         gender: user.gender || "Not provided",
         birthdate: user.birthdate || "Not provided",
@@ -185,6 +191,24 @@ function UserManagement() {
     }
   };
 
+  const filteredUsers = users
+    .filter(
+      (user) =>
+        user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.contactNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.address.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((user) => (filterStatus ? user.status === filterStatus : true))
+    .sort((a, b) => {
+      if (sortBy === "name_asc") {
+        return a.username.localeCompare(b.username);
+      } else if (sortBy === "name_desc") {
+        return b.username.localeCompare(a.username);
+      }
+      return 0;
+    });
+
   return (
     <div className="user-display">
       <PageHeading
@@ -197,16 +221,24 @@ function UserManagement() {
       <div className="user-content">
         <div className="search">
           <SearchBar
-            onSearch={() => {}}
-            onSort={() => {}}
-            onFilter={() => {}}
-            sortOptions={[]}
-            filterOptions={[]}
+            onSearch={(term) => setSearchTerm(term)}
+            onSort={(value) => setSortBy(value)}
+            onFilter={(value) => setFilterStatus(value)}
+            sortOptions={[
+              { label: "Name A-Z", value: "name_asc" },
+              { label: "Name Z-A", value: "name_desc" },
+            ]}
+            filterOptions={[
+              { label: "All", value: "" },
+              { label: "Pending", value: "pending" },
+              { label: "Approved", value: "approved" },
+              { label: "Rejected", value: "rejected" },
+            ]}
           />
         </div>
         <h2>User Accounts</h2>
         <UserTable
-          users={users.slice(
+          users={filteredUsers.slice(
             (currentPage - 1) * pageSize,
             currentPage * pageSize
           )}

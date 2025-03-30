@@ -15,6 +15,7 @@ import "./sidebar.scss";
 import logo from "../../assets/images/sidabar_logo.png";
 import SidebarIconButton from "../buttons/sidebar-icon-button";
 import ConfirmationModal from "../modals/confirmation-modal";
+import { faBacon } from "@fortawesome/free-solid-svg-icons";
 
 function Sidebar() {
   const [activePath, setActivePath] = useState("/dashboard"); // Track active route
@@ -88,6 +89,14 @@ function Sidebar() {
           isActive={activePath === "/dashboard/price-monitoring"}
           onClick={() => setActivePath("/dashboard/price-monitoring")}
         /> */}
+        <SidebarIconButton
+          className="icon-button"
+          to="/dashboard/livestock-settings"
+          icon={faBacon}
+          tooltip="Livestock Types"
+          isActive={activePath === "/dashboard/livestock-settings"}
+          onClick={() => setActivePath("/dashboard/livestock-settings")}
+        />
         <SidebarIconButton
           className="icon-button"
           to="/dashboard/settings"
