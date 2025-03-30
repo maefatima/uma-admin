@@ -27,6 +27,7 @@ function LivestockSettings() {
     keyof typeof initialTypes | null
   >(null);
   const [nextState, setNextState] = useState<boolean>(false);
+  const validKeys = Object.keys(initialTypes);
 
   const handleToggleClick = (type: keyof typeof initialTypes) => {
     setSelectedType(type);
@@ -97,7 +98,16 @@ function LivestockSettings() {
           `http://localhost:3000/admin-accounts/livestock-settings`
         );
 
-        setLivestockTypes(settingsRes.data);
+        // ✅ Only include keys that exist in initialTypes
+        const validKeys = Object.keys(initialTypes);
+
+        const filteredSettings = Object.fromEntries(
+          Object.entries(settingsRes.data).filter(([key]) =>
+            validKeys.includes(key)
+          )
+        );
+
+        setLivestockTypes(filteredSettings);
       } catch (err) {
         console.error("Error fetching admin data or livestock settings:", err);
       }
