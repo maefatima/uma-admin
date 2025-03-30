@@ -35,6 +35,9 @@ function ReportManagement() {
   const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
@@ -133,17 +136,42 @@ function ReportManagement() {
     fetchReports();
   }, []);
 
-  const handleSearch = (query: string) => {
-    console.log("Search query:", query);
-  };
+  const handleSearch = (query: string) => setSearchTerm(query);
+  const handleSort = (sortValue: string) => setSortBy(sortValue);
+  const handleFilter = (filterValue: string) => setFilterStatus(filterValue);
 
-  const handleSort = (sortValue: string) => {
-    console.log("Sort by:", sortValue);
-  };
-
-  const handleFilter = (filterValue: string) => {
-    console.log("Filter by:", filterValue);
-  };
+  const filteredReports = reports
+    .filter((report) => {
+      const fullReporterName =
+        `${report.reporter.first_name} ${report.reporter.last_name}`.toLowerCase();
+      const fullReportedName =
+        `${report.reportedUser.first_name} ${report.reportedUser.last_name}`.toLowerCase();
+      return (
+        fullReporterName.includes(searchTerm.toLowerCase()) ||
+        fullReportedName.includes(searchTerm.toLowerCase()) ||
+        report.reason.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        report.status.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    })
+    .filter((report) =>
+      filterStatus
+        ? report.status.toLowerCase() === filterStatus.toLowerCase()
+        : true
+    )
+    .sort((a, b) => {
+      if (sortBy === "name") {
+        const nameA =
+          `${a.reportedUser.first_name} ${a.reportedUser.last_name}`.toLowerCase();
+        const nameB =
+          `${b.reportedUser.first_name} ${b.reportedUser.last_name}`.toLowerCase();
+        return nameA.localeCompare(nameB);
+      } else if (sortBy === "date") {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      }
+      return 0;
+    });
 
   return (
     <div className="content-display">
@@ -164,15 +192,19 @@ function ReportManagement() {
               { value: "name", label: "Name" },
               { value: "date", label: "Date" },
             ]}
-            filterOptions={[{ value: "date", label: "Date" }]}
+            filterOptions={[
+              { value: "", label: "All" },
+              { value: "pending", label: "Pending" },
+              { value: "resolved", label: "Resolved" },
+            ]}
           />
 
           <h2>Reports</h2>
 
           <ReportTable
-            reports={reports}
+            reports={filteredReports}
             totalReports={reports.length}
-            pageSize={19}
+            pageSize={26}
             currentPage={1}
             onPageChange={(page: number) => console.log("Page changed:", page)}
             onView={(id: number) =>

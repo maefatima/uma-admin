@@ -14,6 +14,7 @@ import ReportManagement from "../../domain/admin/report-management";
 import TownsOverview from "../../domain/admin/towns-overview";
 // import Welcome from "../../domain/login/welcome";
 import PrivateRoute from "./private-route";
+import LivestockSettings from "../../domain/admin/livestock-settings";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Dashboard /> },
+      { path: "livestock-settings", element: <LivestockSettings /> },
       { path: "user-management", element: <UserManagement /> },
       { path: "report-management", element: <ReportManagement /> },
       { path: "towns-overview", element: <TownsOverview /> },
