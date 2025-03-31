@@ -73,14 +73,14 @@ function Sidebar() {
           isActive={activePath === "/dashboard/report-management"}
           onClick={() => setActivePath("/dashboard/report-management")}
         />
-        <SidebarIconButton
+        {/* <SidebarIconButton
           className="icon-button"
           to="/dashboard/towns-overview"
           icon={faEarthAmericas}
           tooltip="Towns Overview"
           isActive={activePath === "/dashboard/towns-overview"}
           onClick={() => setActivePath("/dashboard/towns-overview")}
-        />
+        /> */}
         {/* <SidebarIconButton
           className="icon-button"
           to="/dashboard/price-monitoring"

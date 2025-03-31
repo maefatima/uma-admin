@@ -7,17 +7,35 @@ import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function DonutChart() {
-  const data = {
-    labels: ["Pig", "Cow", "Chicken"],
+type DonutChartProps = {
+  data?: { type: string; count: number }[];
+  totalCount?: number;
+};
+
+const COLORS = ["#7459D9", "#8b77d5", "#bcb3dd"];
+
+function DonutChart({ data = [], totalCount = 0 }: DonutChartProps) {
+  console.log("🐞 DonutChart received data:", data);
+
+  if (!Array.isArray(data)) {
+    return <p>Invalid chart data</p>;
+  }
+
+  const labels = data.map(
+    (item) => item.type.charAt(0).toUpperCase() + item.type.slice(1)
+  );
+  const counts = data.map((item) => item.count);
+
+  const chartData = {
+    labels,
     datasets: [
       {
         label: "Popular Livestock",
-        data: [3124213, 1523151, 948213],
-        backgroundColor: ["#7459D9", "#8b77d5", "#bcb3dd"],
-        hoverBackgroundColor: ["#7459D9", "#8b77d5", "#bcb3dd"],
+        data: counts,
+        backgroundColor: COLORS,
+        hoverBackgroundColor: COLORS,
         borderWidth: 1,
-        cutout: "70%", // Makes the center hole bigger (for the donut effect)
+        cutout: "70%",
       },
     ],
   };
@@ -25,7 +43,7 @@ function DonutChart() {
   const options = {
     plugins: {
       legend: {
-        display: false, // Hide default legend to use custom one
+        display: false,
       },
     },
     maintainAspectRatio: false,
@@ -35,7 +53,7 @@ function DonutChart() {
     <div className="donut-chart-container">
       <div className="heading">
         <span className="header-icon">
-          <h4>Popular Livestock</h4>
+          <h4>Top 3 Popular Livestock</h4>
           <div className="tooltip-container">
             <FontAwesomeIcon
               icon={faExclamationCircle}
@@ -49,36 +67,36 @@ function DonutChart() {
           </div>
         </span>
       </div>
+
       <div className="donut-legend">
         <div className="donut-chart">
-          <Doughnut data={data} options={options} />
+          <Doughnut data={chartData} options={options} />
           <div className="center-label">
-            <p className="total-count">5,824,213</p>
-            <p className="label-text">Total Listings</p>
+            <p className="total-count">{totalCount.toLocaleString()}</p>
+            <p className="label-text">Total Sell Listings</p>
           </div>
         </div>
+
         <div className="custom-legend">
-          <div className="legend-item pig">
-            <span className="legend-color"></span>
-            <div className="legend-text">
-              <p className="livestock-name">Pig</p>
-              <p className="livestock-label">3,124,213 listings</p>
+          {data.map((item, index) => (
+            <div
+              className={`legend-item ${item.type.toLowerCase()}`}
+              key={item.type}
+            >
+              <span
+                className="legend-color"
+                style={{ backgroundColor: COLORS[index % COLORS.length] }}
+              ></span>
+              <div className="legend-text">
+                <p className="livestock-name">
+                  {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+                </p>
+                <p className="livestock-label">
+                  {item.count.toLocaleString()} listings
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="legend-item cow">
-            <span className="legend-color"></span>
-            <div className="legend-text">
-              <p className="livestock-name">Cow</p>
-              <p className="livestock-label">1,523,151 listings</p>
-            </div>
-          </div>
-          <div className="legend-item chicken">
-            <span className="legend-color"></span>
-            <div className="legend-text">
-              <p className="livestock-name">Chicken</p>
-              <p className="livestock-label">948,213 listings</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

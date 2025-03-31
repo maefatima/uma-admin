@@ -21,6 +21,9 @@ function Dashboard() {
 
   const [userCount, setUserCount] = useState(0); // State for user count
   const [reportCount, setReportCount] = useState(0); // State for total reports
+  const [listingCount, setListingCount] = useState(0);
+  const [popularLivestock, setPopularLivestock] = useState([]); // For DonutChart
+  const [popularLivestockTotal, setPopularLivestockTotal] = useState(0);
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
@@ -91,6 +94,36 @@ function Dashboard() {
     fetchReportCount();
   }, []);
 
+  useEffect(() => {
+    const fetchTotalListings = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/livestock-listings/count"
+        );
+        setListingCount(res.data);
+      } catch (err) {
+        console.error("Error fetching total listings:", err);
+      }
+    };
+
+    const fetchPopularLivestock = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/livestock-listings/popular"
+        );
+        console.log("✅ Popular Livestock Raw Response:", res.data);
+
+        setPopularLivestock(res.data.topTypes ?? []); // safe fallback
+        setPopularLivestockTotal(res.data.total ?? 0);
+      } catch (err) {
+        console.error("Error fetching popular livestock data:", err);
+      }
+    };
+
+    fetchTotalListings();
+    fetchPopularLivestock();
+  }, []);
+
   return (
     <div className="dashboard-display">
       <PageHeading
@@ -103,7 +136,8 @@ function Dashboard() {
       <div className="dashboard-content"></div>
       <UserRegistrationChart />
       {/* <ActivePercentageChart /> */}
-      <DonutChart />
+      <DonutChart data={popularLivestock} totalCount={popularLivestockTotal} />
+
       <StatCard
         className="user-card"
         title="Total Users"
@@ -114,7 +148,7 @@ function Dashboard() {
       <StatCard
         className="total-card"
         title="Total Listings"
-        count={550}
+        count={listingCount}
         icon={<FontAwesomeIcon icon={faList} className="total-icon" />}
         iconBgColor="#EDE8FF"
       />

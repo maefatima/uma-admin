@@ -66,13 +66,17 @@
 .donut-legend {
   display: flex;
   flex-direction: row;
+  gap: 4em;
 }
 
 .donut-chart {
   position: relative;
-  width: 17em;
-  height: 11.5em;
-  margin-left: -1em;
+  width: 12em; // You can adjust this to fit better beside the legend
+  height: 11em; // ✅ Increase height to make the donut visible
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2em;
 
   canvas {
     width: 100% !important;
@@ -98,59 +102,89 @@
   }
 }
 
-.custom-legend {
+// .custom-legend {
+//   display: flex;
+//   flex-direction: column;
+//   margin-top: -1em;
+//   margin-left: 1em;
+
+//   .legend-item {
+//     display: flex;
+//     align-items: center;
+//     font-size: 14px;
+//     margin: 5px 0;
+
+//     .legend-color {
+//       display: inline-block;
+//       width: 16px;
+//       height: 16px;
+//       margin-right: 8px;
+//     }
+
+//     &.pig .legend-color {
+//       width: 2em;
+//       height: 0.5em;
+//       background-color: #7459d9; /* Same color as chart's Pig */
+//     }
+
+//     &.cow .legend-color {
+//       width: 2em;
+//       height: 0.5em;
+//       background-color: #8b77d5; /* Same color as chart's Cow */
+//     }
+
+//     &.chicken .legend-color {
+//       width: 2em;
+//       height: 0.5em;
+//       background-color: #bcb3dd; /* Same color as chart's Chicken */
+//     }
+
+//     .legend-text {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       // margin-top: 1em;
+//     }
+
+//     .livestock-name {
+//       font-weight: normal;
+//       //   margin-bottom: 0.2em;
+//     }
+
+//     .livestock-label {
+//       font-size: 12px;
+//       color: black;
+//       font-weight: bold;
+//     }
+//   }
+// }
+
+.custom-legend .legend-item {
   display: flex;
-  flex-direction: column;
-  margin-top: -1em;
-  margin-left: 1em;
+  align-items: center;
+  font-size: 14px;
+  margin: 6px 0;
 
-  .legend-item {
+  .legend-color {
+    width: 2em;
+    height: 0.5em;
+    margin-right: 8px;
+  }
+
+  .legend-text {
     display: flex;
-    align-items: center;
-    font-size: 14px;
-    margin: 5px 0;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 5em;
+  }
 
-    .legend-color {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      margin-right: 8px;
-    }
+  .livestock-name {
+    font-weight: normal;
+  }
 
-    &.pig .legend-color {
-      width: 2em;
-      height: 0.5em;
-      background-color: #7459d9; /* Same color as chart's Pig */
-    }
-
-    &.cow .legend-color {
-      width: 2em;
-      height: 0.5em;
-      background-color: #8b77d5; /* Same color as chart's Cow */
-    }
-
-    &.chicken .legend-color {
-      width: 2em;
-      height: 0.5em;
-      background-color: #bcb3dd; /* Same color as chart's Chicken */
-    }
-
-    .legend-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-top: 1em;
-    }
-
-    .livestock-name {
-      font-weight: normal;
-      //   margin-bottom: 0.2em;
-    }
-
-    .livestock-label {
-      font-size: 12px;
-      color: black;
-      font-weight: bold;
-    }
+  .livestock-label {
+    font-size: 12px;
+    color: black;
+    font-weight: bold;
   }
 }
