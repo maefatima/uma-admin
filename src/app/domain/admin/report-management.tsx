@@ -87,14 +87,6 @@ function ReportManagement() {
     fetchAdminProfile();
   }, []);
 
-  // const handleActionTaken = (reportId: number, action: string) => {
-  //   setReports((prevReports) =>
-  //     prevReports.map((report) =>
-  //       report.id === reportId ? { ...report, status: action } : report
-  //     )
-  //   );
-  // };
-
   const handleActionTaken = async (reportId: number, action: string) => {
     setIsLoading(true);
     try {
