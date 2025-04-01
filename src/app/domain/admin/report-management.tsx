@@ -33,11 +33,13 @@ function ReportManagement() {
   });
   const [userCount, setUserCount] = useState(0);
   const [reports, setReports] = useState<Report[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+
+  const [successModal, setSuccessModal] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
@@ -94,6 +96,7 @@ function ReportManagement() {
   // };
 
   const handleActionTaken = async (reportId: number, action: string) => {
+    setIsLoading(true);
     try {
       // Update the backend first
       await axios.post(
@@ -108,8 +111,19 @@ function ReportManagement() {
 
       // Update the state with the new reports
       setReports(response.data);
+
+      const readable: Record<string, string> = {
+        warned: "User has been warned.",
+        disabled: "User account disabled.",
+        banned: "User has been banned.",
+        none: "Report dismissed.",
+      };
+
+      setSuccessModal(readable[action] || "Action completed.");
     } catch (error) {
       console.error("Error updating report status:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -217,6 +231,23 @@ function ReportManagement() {
           />
         </div>
       </div>
+
+      {successModal && (
+        <div className="modal-overlay">
+          <div className="confirmation-modal">
+            <h3>Action Complete</h3>
+            <p>{successModal}</p>
+            <div className="modal-actions">
+              <button
+                className="confirm-btn"
+                onClick={() => setSuccessModal(null)}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

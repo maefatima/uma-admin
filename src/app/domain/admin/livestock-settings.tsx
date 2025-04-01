@@ -28,6 +28,8 @@ function LivestockSettings() {
   >(null);
   const [nextState, setNextState] = useState<boolean>(false);
   const validKeys = Object.keys(initialTypes);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleToggleClick = (type: keyof typeof initialTypes) => {
     setSelectedType(type);
@@ -117,6 +119,7 @@ function LivestockSettings() {
   }, []);
 
   const handleSave = async () => {
+    setIsSaving(true);
     try {
       console.log("Saving livestock type settings:", livestockTypes);
 
@@ -125,10 +128,12 @@ function LivestockSettings() {
         livestockTypes // ✅ only changed values
       );
 
-      alert("Livestock Settings Updated Successfully!");
+      setShowSuccessModal(true);
     } catch (error) {
       console.error("Failed to save livestock settings:", error);
       alert("Failed to save settings. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -217,6 +222,30 @@ function LivestockSettings() {
               </button>
               <button onClick={cancelToggle} className="cancel-btn">
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isSaving && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+          <p>Saving Settings...</p>
+        </div>
+      )}
+
+      {showSuccessModal && (
+        <div className="modal-overlay">
+          <div className="confirmation-modal">
+            <h3>Success</h3>
+            <p>Livestock Settings Updated Successfully!</p>
+            <div className="modal-actions">
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="confirm-btn"
+              >
+                OK
               </button>
             </div>
           </div>

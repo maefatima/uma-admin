@@ -56,6 +56,7 @@ const ReportTable: React.FC<ReportTableProps> = ({
   const [selectedAction, setSelectedAction] = useState<string>("");
   const [notifyUser, setNotifyUser] = useState(false);
   const [disableDays, setDisableDays] = useState<number | undefined>(7);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleOpenModal = async (record: Report) => {
     // ✅ Open the modal immediately with initial data
@@ -131,6 +132,8 @@ const ReportTable: React.FC<ReportTableProps> = ({
   const handleSaveAction = async () => {
     if (!modalData || !selectedAction) return;
 
+    setIsSaving(true);
+
     try {
       const mappedAction = actionMap[selectedAction] || "none"; // ✅ Convert frontend action to backend enum
 
@@ -147,6 +150,8 @@ const ReportTable: React.FC<ReportTableProps> = ({
       handleCloseModal();
     } catch (error) {
       console.error("Failed to update report:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -242,6 +247,7 @@ const ReportTable: React.FC<ReportTableProps> = ({
           selectedAction={selectedAction} // Pass the selected action as a prop
           disableDays={disableDays}
           onDisableDaysChange={handleDisableDaysChange}
+          isSaving={isSaving}
         />
       )}
     </>

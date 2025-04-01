@@ -19,6 +19,7 @@ interface FlaggedModalProps {
   selectedAction: string;
   disableDays?: number; // ✅ Add this
   onDisableDaysChange?: (value: string) => void; // ✅ Add this
+  isSaving?: boolean;
 }
 
 const FlaggedModal: React.FC<FlaggedModalProps> = ({
@@ -33,6 +34,7 @@ const FlaggedModal: React.FC<FlaggedModalProps> = ({
   onNotifyChange,
   onActionChange,
   selectedAction,
+  isSaving,
 }) => {
   return (
     <div className="flag-overlay">
@@ -110,9 +112,10 @@ const FlaggedModal: React.FC<FlaggedModalProps> = ({
             className="cancel-button"
           />
           <PrimaryButton
-            buttonText="SAVE"
+            buttonText={isSaving ? "Saving..." : "SAVE"}
             onClick={onSave}
             className="flagged-save-button"
+            disabled={isSaving}
           />
         </div>
       </div>

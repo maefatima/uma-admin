@@ -33,6 +33,8 @@ function UserManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<string>(""); // e.g. "name_asc", "name_desc"
   const [filterStatus, setFilterStatus] = useState<string>(""); // e.g. "Approved"
+  const [isLoading, setIsLoading] = useState(false);
+  const [successModal, setSuccessModal] = useState<string | null>(null);
 
   const s3BaseUrl =
     "https://umarket-livestock-images.s3.ap-southeast-2.amazonaws.com";
@@ -111,6 +113,7 @@ function UserManagement() {
 
   const handleApproveUser = async (userId: number) => {
     console.log(`Attempting to approve user: ${userId}`);
+    setIsLoading(true);
     try {
       const response = await axios.post(
         `https://uma-backend-production-d139.up.railway.app/admin-accounts/approve-user/${userId}`,
@@ -127,6 +130,9 @@ function UserManagement() {
       if (response.status === 200 || response.status === 201) {
         // Accept 201 as success
         console.log(`User ${userId} approved successfully.`);
+        setSuccessModal(
+          `✅ ${selectedUser?.username} has been approved successfully.`
+        );
 
         // Close the modal immediately
         setIsConfirmModalOpen(false);
@@ -139,11 +145,14 @@ function UserManagement() {
       }
     } catch (error) {
       console.error(`Error approving user ${userId}:`, error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleRejectUser = async (userId: number) => {
     console.log(`Attempting to reject user: ${userId}`);
+    setIsLoading(true);
     try {
       const response = await axios.post(
         `https://uma-backend-production-d139.up.railway.app/admin-accounts/reject-user/${userId}`,
@@ -160,6 +169,7 @@ function UserManagement() {
       if (response.status === 200 || response.status === 201) {
         // Accept 201 as success
         console.log(`User ${userId} rejected successfully.`);
+        setSuccessModal(`⚠️ ${selectedUser?.username} has been rejected.`);
 
         // Close the modal immediately
         setIsConfirmModalOpen(false);
@@ -172,6 +182,8 @@ function UserManagement() {
       }
     } catch (error) {
       console.error(`Error rejecting user ${userId}:`, error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -288,6 +300,30 @@ function UserManagement() {
           }
           onClose={() => setViewModalVisible(false)}
         />
+      )}
+
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+          <p>Processing...</p>
+        </div>
+      )}
+
+      {successModal && (
+        <div className="modal-overlay">
+          <div className="confirmation-modal">
+            <h3>Action Complete</h3>
+            <p>{successModal}</p>
+            <div className="modal-actions">
+              <button
+                className="confirm-btn"
+                onClick={() => setSuccessModal(null)}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
