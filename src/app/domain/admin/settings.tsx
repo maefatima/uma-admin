@@ -44,7 +44,7 @@ function Settings() {
       }
 
       const response = await axios.get(
-        `http://localhost:3000/admin-accounts/profile`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
         { params: { username } }
       );
       console.log("Profile data received from backend:", response.data);
@@ -55,7 +55,7 @@ function Settings() {
         email: response.data.email || "No email provided",
         phone: response.data.phoneNumber || "No phone number provided",
         profileImage: response.data.profileImage
-          ? `http://localhost:3000/${response.data.profileImage.replace(
+          ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(
               /\\/g,
               "/"
             )}` // Prepend server URL and replace backslashes
@@ -120,17 +120,20 @@ function Settings() {
       };
 
       // Update text fields in backend
-      await axios.put(`http://localhost:3000/admin-accounts/update`, {
-        username: currentUsername,
-        ...updatedData,
-      });
+      await axios.put(
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/update`,
+        {
+          username: currentUsername,
+          ...updatedData,
+        }
+      );
 
       // If a new profile image is uploaded, send it to the backend
       if (updatedProfileImage) {
         const formData = new FormData();
         formData.append("file", updatedProfileImage);
         await axios.post(
-          `http://localhost:3000/admin-accounts/upload-profile-image?username=${updatedFormData.username}`,
+          `https://uma-backend-production-d139.up.railway.app/admin-accounts/upload-profile-image?username=${updatedFormData.username}`,
           formData
         );
       }

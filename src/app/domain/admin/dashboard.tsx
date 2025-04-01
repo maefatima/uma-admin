@@ -42,7 +42,7 @@ function Dashboard() {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/admin-accounts/profile`,
+          `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
           { params: { username } }
         );
         console.log("Profile data received from backend:", response.data);
@@ -50,7 +50,7 @@ function Dashboard() {
         setAdminProfile({
           username: response.data.username || "Unknown User",
           profileImage: response.data.profileImage
-            ? `http://localhost:3000/${response.data.profileImage.replace(
+            ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(
                 /\\/g,
                 "/"
               )}` // Prepend server URL and replace backslashes
@@ -70,7 +70,9 @@ function Dashboard() {
 
     const fetchUserCount = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/users/count");
+        const response = await axios.get(
+          "https://uma-backend-production-d139.up.railway.app/users/count"
+        );
         setUserCount(response.data); // Update the state with the user count
       } catch (err) {
         console.error("Failed to fetch user count:", err);
@@ -84,7 +86,9 @@ function Dashboard() {
   useEffect(() => {
     const fetchReportCount = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/reports/all"); // Fetch reports
+        const response = await axios.get(
+          "https://uma-backend-production-d139.up.railway.app/reports/all"
+        ); // Fetch reports
         setReportCount(response.data.length); // Set total report count
       } catch (err) {
         console.error("Failed to fetch report count:", err);
@@ -98,7 +102,7 @@ function Dashboard() {
     const fetchTotalListings = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/livestock-listings/count"
+          "https://uma-backend-production-d139.up.railway.app/livestock-listings/count"
         );
         setListingCount(res.data);
       } catch (err) {
@@ -109,7 +113,7 @@ function Dashboard() {
     const fetchPopularLivestock = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/livestock-listings/popular"
+          "https://uma-backend-production-d139.up.railway.app/livestock-listings/popular"
         );
         console.log("✅ Popular Livestock Raw Response:", res.data);
 

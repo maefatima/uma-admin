@@ -75,7 +75,7 @@ const ReportTable: React.FC<ReportTableProps> = ({
 
       // ✅ Fetch reported user’s profile using their ID
       const response = await axios.get(
-        `http://localhost:3000/users/${record.reportedUser.id}`
+        `https://uma-backend-production-d139.up.railway.app/users/${record.reportedUser.id}`
       );
 
       console.log("Fetched reported user profile:", response.data);
@@ -92,7 +92,7 @@ const ReportTable: React.FC<ReportTableProps> = ({
         reportedUser: {
           ...prevData.reportedUser,
           profile_image: reportedUserProfile.profile_image
-            ? `http://localhost:3000/uploads/profile-images/${response.data.profile_image}`
+            ? `https://uma-backend-production-d139.up.railway.app/uploads/profile-images/${response.data.profile_image}`
             : "https://via.placeholder.com/50", // Default profile image
         },
       }));
@@ -135,7 +135,7 @@ const ReportTable: React.FC<ReportTableProps> = ({
       const mappedAction = actionMap[selectedAction] || "none"; // ✅ Convert frontend action to backend enum
 
       await axios.post(
-        `http://localhost:3000/admin-accounts/reports/action/${modalData.id}`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/reports/action/${modalData.id}`,
         {
           action: mappedAction,
           disableDays: mappedAction === "disabled" ? disableDays : undefined,
