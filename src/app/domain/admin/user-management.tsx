@@ -39,7 +39,9 @@ function UserManagement() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/users");
+      const response = await axios.get(
+        "https://uma-backend-production-d139.up.railway.app/users"
+      );
       const formattedUsers = response.data.map((user: any, index: number) => ({
         key: index + 1,
         id: user.id,
@@ -88,7 +90,7 @@ function UserManagement() {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/admin-accounts/profile`,
+          `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
           {
             params: { username },
           }
@@ -97,7 +99,7 @@ function UserManagement() {
         setAdminProfile({
           username: response.data.username || "Unknown User",
           profileImage: response.data.profileImage
-            ? `http://localhost:3000/${response.data.profileImage.replace(/\\/g, "/")}`
+            ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(/\\/g, "/")}`
             : placeholderProfileImage,
         });
       } catch (err) {
@@ -111,7 +113,7 @@ function UserManagement() {
     console.log(`Attempting to approve user: ${userId}`);
     try {
       const response = await axios.post(
-        `http://localhost:3000/admin-accounts/approve-user/${userId}`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/approve-user/${userId}`,
         {},
         {
           headers: {
@@ -144,7 +146,7 @@ function UserManagement() {
     console.log(`Attempting to reject user: ${userId}`);
     try {
       const response = await axios.post(
-        `http://localhost:3000/admin-accounts/reject-user/${userId}`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/reject-user/${userId}`,
         {},
         {
           headers: {

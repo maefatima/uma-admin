@@ -57,14 +57,14 @@ function LivestockSettings() {
   //       if (!username) return;
 
   //       const response = await axios.get(
-  //         `http://localhost:3000/admin-accounts/profile`,
+  //         `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
   //         { params: { username } }
   //       );
 
   //       setAdminProfile({
   //         username: response.data.username || "Unknown User",
   //         profileImage: response.data.profileImage
-  //           ? `http://localhost:3000/${response.data.profileImage.replace(/\\/g, "/")}`
+  //           ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(/\\/g, "/")}`
   //           : placeholderProfileImage,
   //       });
   //     } catch (err) {
@@ -82,20 +82,20 @@ function LivestockSettings() {
 
         if (username) {
           const profileRes = await axios.get(
-            `http://localhost:3000/admin-accounts/profile`,
+            `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
             { params: { username } }
           );
 
           setAdminProfile({
             username: profileRes.data.username || "Unknown User",
             profileImage: profileRes.data.profileImage
-              ? `http://localhost:3000/${profileRes.data.profileImage.replace(/\\/g, "/")}`
+              ? `https://uma-backend-production-d139.up.railway.app/${profileRes.data.profileImage.replace(/\\/g, "/")}`
               : placeholderProfileImage,
           });
         }
 
         const settingsRes = await axios.get(
-          `http://localhost:3000/admin-accounts/livestock-settings`
+          `https://uma-backend-production-d139.up.railway.app/admin-accounts/livestock-settings`
         );
 
         // ✅ Only include keys that exist in initialTypes
@@ -121,7 +121,7 @@ function LivestockSettings() {
       console.log("Saving livestock type settings:", livestockTypes);
 
       await axios.post(
-        `http://localhost:3000/admin-accounts/livestock-settings`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/livestock-settings`,
         livestockTypes // ✅ only changed values
       );
 

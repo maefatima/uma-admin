@@ -56,7 +56,7 @@ function ReportManagement() {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/admin-accounts/profile`,
+          `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
           { params: { username } }
         );
         console.log("Profile data received from backend:", response.data);
@@ -64,7 +64,7 @@ function ReportManagement() {
         setAdminProfile({
           username: response.data.username || "Unknown User",
           profileImage: response.data.profileImage
-            ? `http://localhost:3000/${response.data.profileImage.replace(
+            ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(
                 /\\/g,
                 "/"
               )}` // Prepend server URL and replace backslashes
@@ -97,13 +97,13 @@ function ReportManagement() {
     try {
       // Update the backend first
       await axios.post(
-        `http://localhost:3000/admin-accounts/reports/action/${reportId}`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/reports/action/${reportId}`,
         { action }
       );
 
       // Fetch the updated reports from the backend
       const response = await axios.get(
-        "http://localhost:3000/admin-accounts/reports"
+        "https://uma-backend-production-d139.up.railway.app/admin-accounts/reports"
       );
 
       // Update the state with the new reports
@@ -117,7 +117,7 @@ function ReportManagement() {
     const fetchReports = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/admin-accounts/reports"
+          "https://uma-backend-production-d139.up.railway.app/admin-accounts/reports"
         );
         const reportsWithKeys = response.data.map(
           (report: any, index: number) => ({
