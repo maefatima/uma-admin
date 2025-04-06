@@ -3,6 +3,7 @@ import "./livestock-settings.scss";
 import PageHeading from "../../shared/components/heading/page-heading";
 import placeholderProfileImage from "../../shared/assets/images/blank-profile.png";
 import axios from "axios";
+import SearchBar from "../../shared/components/search-bar/search-bar";
 
 const initialTypes = {
   pig: true,
@@ -14,118 +15,95 @@ const initialTypes = {
 };
 
 function LivestockSettings() {
-  const [livestockTypes, setLivestockTypes] = useState<
-    Partial<typeof initialTypes>
-  >({});
+  const [livestockTypesByLocation, setLivestockTypesByLocation] = useState<{
+    [town: string]: {
+      [barangay: string]: Partial<typeof initialTypes>;
+    };
+  }>({});
+  const [expandedTown, setExpandedTown] = useState<string | null>(null);
+
   const [adminProfile, setAdminProfile] = useState({
     username: "Loading...",
     profileImage: placeholderProfileImage,
   });
 
-  const [showModal, setShowModal] = useState(false);
-  const [selectedType, setSelectedType] = useState<
-    keyof typeof initialTypes | null
-  >(null);
-  const [nextState, setNextState] = useState<boolean>(false);
-  const validKeys = Object.keys(initialTypes);
   const [isSaving, setIsSaving] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterTown, setFilterTown] = useState("");
+  const [sortBy, setSortBy] = useState("a_z");
 
-  const handleToggleClick = (type: keyof typeof initialTypes) => {
-    setSelectedType(type);
-    setNextState(!livestockTypes[type]);
-    setShowModal(true);
+  const handleToggleLocation = (
+    town: string,
+    barangay: string,
+    type: keyof typeof initialTypes
+  ) => {
+    setLivestockTypesByLocation((prev) => ({
+      ...prev,
+      [town]: {
+        ...prev[town],
+        [barangay]: {
+          ...prev[town][barangay],
+          [type]: !prev[town][barangay][type],
+        },
+      },
+    }));
   };
-
-  const confirmToggle = () => {
-    if (selectedType) {
-      setLivestockTypes((prev) => ({
-        ...prev,
-        [selectedType]: nextState,
-      }));
-    }
-    setShowModal(false);
-  };
-
-  const cancelToggle = () => {
-    setShowModal(false);
-    setSelectedType(null);
-  };
-
-  // useEffect(() => {
-  //   const fetchAdminProfile = async () => {
-  //     try {
-  //       const username = localStorage.getItem("adminUsername");
-  //       if (!username) return;
-
-  //       const response = await axios.get(
-  //         `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
-  //         { params: { username } }
-  //       );
-
-  //       setAdminProfile({
-  //         username: response.data.username || "Unknown User",
-  //         profileImage: response.data.profileImage
-  //           ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(/\\/g, "/")}`
-  //           : placeholderProfileImage,
-  //       });
-  //     } catch (err) {
-  //       console.error("Error fetching admin profile:", err);
-  //     }
-  //   };
-
-  //   fetchAdminProfile();
-  // }, []);
 
   useEffect(() => {
-    const fetchAdminProfileAndSettings = async () => {
+    const fetchData = async () => {
       try {
         const username = localStorage.getItem("adminUsername");
-
         if (username) {
-          const profileRes = await axios.get(
-            `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
-            { params: { username } }
+          const profile = await axios.get(
+            "http://localhost:3000/admin-accounts/profile",
+            {
+              params: { username },
+            }
           );
-
           setAdminProfile({
-            username: profileRes.data.username || "Unknown User",
-            profileImage: profileRes.data.profileImage
-              ? `https://uma-backend-production-d139.up.railway.app/${profileRes.data.profileImage.replace(/\\/g, "/")}`
+            username: profile.data.username,
+            profileImage: profile.data.profileImage
+              ? `http://localhost:3000/${profile.data.profileImage.replace(/\\/g, "/")}`
               : placeholderProfileImage,
           });
         }
 
-        const settingsRes = await axios.get(
-          `https://uma-backend-production-d139.up.railway.app/admin-accounts/livestock-settings`
+        const settings = await axios.get(
+          "http://localhost:3000/admin-accounts/livestock-settings/location"
         );
-
-        // ✅ Only include keys that exist in initialTypes
-        const validKeys = Object.keys(initialTypes);
-
-        const filteredSettings = Object.fromEntries(
-          Object.entries(settingsRes.data).filter(([key]) =>
-            validKeys.includes(key)
-          )
-        );
-
-        setLivestockTypes(filteredSettings);
+        setLivestockTypesByLocation(settings.data);
       } catch (err) {
-        console.error("Error fetching admin data or livestock settings:", err);
+        console.error("Failed to load admin or settings:", err);
       }
     };
 
-    fetchAdminProfileAndSettings();
+    fetchData();
   }, []);
+
+  const handleToggle = (
+    town: string,
+    barangay: string,
+    type: keyof typeof initialTypes
+  ) => {
+    setLivestockTypesByLocation((prev) => ({
+      ...prev,
+      [town]: {
+        ...prev[town],
+        [barangay]: {
+          ...prev[town][barangay],
+          [type]: !prev[town][barangay][type],
+        },
+      },
+    }));
+  };
 
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      console.log("Saving livestock type settings:", livestockTypes);
-
       await axios.post(
-        `https://uma-backend-production-d139.up.railway.app/admin-accounts/livestock-settings`,
-        livestockTypes // ✅ only changed values
+        `http://localhost:3000/admin-accounts/livestock-settings/location`,
+        livestockTypesByLocation
       );
 
       setShowSuccessModal(true);
@@ -141,92 +119,116 @@ function LivestockSettings() {
     <div className="livestock-settings-display">
       <PageHeading
         title="Livestock Settings"
-        subtitle="Manage Livestock Types"
+        subtitle="Manage Livestock Restrictions by Baranggay"
         profileImage={adminProfile.profileImage}
         username={adminProfile.username}
       />
 
+      <div className="search">
+        <SearchBar
+          onSearch={(term) => setSearchTerm(term)}
+          onSort={(sortValue) => setSortBy(sortValue)}
+          onFilter={(town) => setFilterTown(town)}
+          sortOptions={[
+            { label: "A-Z", value: "a_z" },
+            { label: "Z-A", value: "z_a" },
+          ]}
+          filterOptions={[
+            { label: "All", value: "" },
+            ...Object.keys(livestockTypesByLocation).map((town) => ({
+              label: town,
+              value: town,
+            })),
+          ]}
+        />
+      </div>
+
       <div className="livestock-settings-content">
-        <h2>Toggle Livestock Types</h2>
+        <h2>ASF & Disease Controls</h2>
         <p className="livestock-description">
-          Enable or disable livestock types that users are allowed to list.
+          Enable or disable livestock types per barangay during outbreaks.
         </p>
 
-        {/* <div className="toggle-list">
-          {Object.entries(livestockTypes).map(([type, enabled]) => (
-            <div className="toggle-item" key={type}>
-              <span className="toggle-label">
-                {type.charAt(0).toUpperCase() + type.slice(1)}
-              </span>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={enabled}
-                  onChange={() =>
-                    handleToggleClick(type as keyof typeof initialTypes)
-                  }
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
-          ))}
-        </div> */}
+        <div className="settings-wrapper">
+          {Object.entries(livestockTypesByLocation)
+            .filter(([town, barangays]) => {
+              const lowerSearch = searchTerm.toLowerCase();
 
-        <div className="toggle-container">
-          <div className="toggle-label-header">
-            <h3>Livestock Listing Options</h3>
-            <p>Turn on/off livestock types available for listing in the app.</p>
-          </div>
+              // Match if town name matches search OR any barangay matches search
+              const matchesTown = town.toLowerCase().includes(lowerSearch);
+              const matchesBarangay = Object.keys(barangays).some((barangay) =>
+                barangay.toLowerCase().includes(lowerSearch)
+              );
 
-          <div className="toggle-list">
-            {Object.entries(livestockTypes).map(([type, enabled]) => (
-              <div className="toggle-item" key={type}>
-                <span className="toggle-label">
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-                </span>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={enabled}
-                    onChange={() =>
-                      handleToggleClick(type as keyof typeof initialTypes)
-                    }
-                  />
-                  <span className="slider round"></span>
-                </label>
-              </div>
+              // If a town is selected in the dropdown, filter for it
+              const passesTownFilter = filterTown ? town === filterTown : true;
+
+              return passesTownFilter && (matchesTown || matchesBarangay);
+            })
+            .sort(([townA], [townB]) => {
+              if (sortBy === "z_a") {
+                return townB.localeCompare(townA);
+              }
+              return townA.localeCompare(townB); // default A-Z
+            })
+
+            .map(([town, barangays]) => (
+              <section className="town-section" key={town}>
+                <h2 className="town-heading">
+                  <span className="icon">📍</span>
+                  {town}
+                </h2>
+                <div className="barangay-grid">
+                  {Object.entries(barangays)
+                    .filter(
+                      ([barangay]) =>
+                        barangay
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase()) ||
+                        town.toLowerCase().includes(searchTerm.toLowerCase())
+                    )
+                    .map(([barangay, types]) => (
+                      <div className="barangay-card" key={barangay}>
+                        <div className="barangay-header">
+                          <span className="icon">🏠</span>
+                          <strong>{barangay}</strong>
+                        </div>
+                        <div className="toggle-grid">
+                          {Object.entries(types).map(([type, enabled]) => (
+                            <label key={type} className="toggle-row">
+                              <span>
+                                {type.charAt(0).toUpperCase() + type.slice(1)}
+                              </span>
+                              <label className="switch">
+                                <input
+                                  type="checkbox"
+                                  checked={enabled}
+                                  onChange={() =>
+                                    handleToggleLocation(
+                                      town,
+                                      barangay,
+                                      type as keyof typeof initialTypes
+                                    )
+                                  }
+                                />
+                                <span className="slider round" />
+                              </label>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </section>
             ))}
-          </div>
+        </div>
 
+        <div className="save-container">
           <button className="save-button" onClick={handleSave}>
             Save Settings
           </button>
         </div>
       </div>
-
-      {showModal && selectedType && (
-        <div className="modal-overlay">
-          <div className="confirmation-modal">
-            <h3>Confirm Toggle</h3>
-            <p>
-              Are you sure you want to{" "}
-              <strong>{nextState ? "enable" : "disable"}</strong>{" "}
-              <strong>
-                {selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}
-              </strong>{" "}
-              listings?
-            </p>
-            <div className="modal-actions">
-              <button onClick={confirmToggle} className="confirm-btn">
-                Yes
-              </button>
-              <button onClick={cancelToggle} className="cancel-btn">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {isSaving && (
         <div className="loading-overlay">

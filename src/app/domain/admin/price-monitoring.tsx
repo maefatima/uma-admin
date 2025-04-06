@@ -48,7 +48,7 @@ function PriceMonitoring() {
         }
 
         const response = await axios.get(
-          `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
+          `http://localhost:3000/admin-accounts/profile`,
           { params: { username } }
         );
         console.log("Profile data received from backend:", response.data);
@@ -56,7 +56,7 @@ function PriceMonitoring() {
         setAdminProfile({
           username: response.data.username || "Unknown User",
           profileImage: response.data.profileImage
-            ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(
+            ? `http://localhost:3000/${response.data.profileImage.replace(
                 /\\/g,
                 "/"
               )}` // Prepend server URL and replace backslashes
