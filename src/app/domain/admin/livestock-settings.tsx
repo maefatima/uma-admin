@@ -63,9 +63,7 @@ function LivestockSettings() {
           );
           setAdminProfile({
             username: profile.data.username,
-            profileImage: profile.data.profileImage
-              ? `http://localhost:3000/${profile.data.profileImage.replace(/\\/g, "/")}`
-              : placeholderProfileImage,
+            profileImage: profile.data.profileImage || placeholderProfileImage,
           });
         }
 

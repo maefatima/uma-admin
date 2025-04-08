@@ -65,12 +65,7 @@ function ReportManagement() {
 
         setAdminProfile({
           username: response.data.username || "Unknown User",
-          profileImage: response.data.profileImage
-            ? `http://localhost:3000/${response.data.profileImage.replace(
-                /\\/g,
-                "/"
-              )}` // Prepend server URL and replace backslashes
-            : placeholderProfileImage,
+          profileImage: response.data.profileImage || placeholderProfileImage,
         });
       } catch (err) {
         if (axios.isAxiosError(err)) {

@@ -55,10 +55,7 @@ function Settings() {
         email: response.data.email || "No email provided",
         phone: response.data.phoneNumber || "No phone number provided",
         profileImage: response.data.profileImage
-          ? `http://localhost:3000/${response.data.profileImage.replace(
-              /\\/g,
-              "/"
-            )}` // Prepend server URL and replace backslashes
+          ? response.data.profileImage
           : placeholderProfileImage,
       });
     } catch (err) {
@@ -131,7 +128,12 @@ function Settings() {
         formData.append("file", updatedProfileImage);
         await axios.post(
           `http://localhost:3000/admin-accounts/upload-profile-image?username=${updatedFormData.username}`,
-          formData
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       }
 
