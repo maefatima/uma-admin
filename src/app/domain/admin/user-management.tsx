@@ -100,9 +100,7 @@ function UserManagement() {
 
         setAdminProfile({
           username: response.data.username || "Unknown User",
-          profileImage: response.data.profileImage
-            ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(/\\/g, "/")}`
-            : placeholderProfileImage,
+          profileImage: response.data.profileImage || placeholderProfileImage,
         });
       } catch (err) {
         console.error("Error fetching admin profile:", err);

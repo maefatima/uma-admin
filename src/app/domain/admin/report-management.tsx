@@ -65,12 +65,7 @@ function ReportManagement() {
 
         setAdminProfile({
           username: response.data.username || "Unknown User",
-          profileImage: response.data.profileImage
-            ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(
-                /\\/g,
-                "/"
-              )}` // Prepend server URL and replace backslashes
-            : placeholderProfileImage,
+          profileImage: response.data.profileImage || placeholderProfileImage,
         });
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -86,14 +81,6 @@ function ReportManagement() {
 
     fetchAdminProfile();
   }, []);
-
-  // const handleActionTaken = (reportId: number, action: string) => {
-  //   setReports((prevReports) =>
-  //     prevReports.map((report) =>
-  //       report.id === reportId ? { ...report, status: action } : report
-  //     )
-  //   );
-  // };
 
   const handleActionTaken = async (reportId: number, action: string) => {
     setIsLoading(true);

@@ -55,10 +55,7 @@ function Settings() {
         email: response.data.email || "No email provided",
         phone: response.data.phoneNumber || "No phone number provided",
         profileImage: response.data.profileImage
-          ? `https://uma-backend-production-d139.up.railway.app/${response.data.profileImage.replace(
-              /\\/g,
-              "/"
-            )}` // Prepend server URL and replace backslashes
+          ? response.data.profileImage
           : placeholderProfileImage,
       });
     } catch (err) {
@@ -134,7 +131,12 @@ function Settings() {
         formData.append("file", updatedProfileImage);
         await axios.post(
           `https://uma-backend-production-d139.up.railway.app/admin-accounts/upload-profile-image?username=${updatedFormData.username}`,
-          formData
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
       }
 
