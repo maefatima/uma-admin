@@ -56,7 +56,7 @@ function LivestockSettings() {
         const username = localStorage.getItem("adminUsername");
         if (username) {
           const profile = await axios.get(
-            "http://localhost:3000/admin-accounts/profile",
+            "https://uma-backend-production-d139.up.railway.app/admin-accounts/profile",
             {
               params: { username },
             }
@@ -68,7 +68,7 @@ function LivestockSettings() {
         }
 
         const settings = await axios.get(
-          "http://localhost:3000/admin-accounts/livestock-settings/location"
+          "https://uma-backend-production-d139.up.railway.app/admin-accounts/livestock-settings/location"
         );
         setLivestockTypesByLocation(settings.data);
       } catch (err) {
@@ -100,7 +100,7 @@ function LivestockSettings() {
     setIsSaving(true);
     try {
       await axios.post(
-        `http://localhost:3000/admin-accounts/livestock-settings/location`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/livestock-settings/location`,
         livestockTypesByLocation
       );
 

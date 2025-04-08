@@ -81,7 +81,7 @@ const UserRegistrationChart = () => {
           `Fetching user registrations for Month: ${month + 1}, Year: ${year}`
         );
         const response = await axios.get(
-          `http://localhost:3000/users/registrations?month=${month + 1}&year=${year}`
+          `https://uma-backend-production-d139.up.railway.app/users/registrations?month=${month + 1}&year=${year}`
         );
 
         console.log("✅ API Response:", response.data);

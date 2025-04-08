@@ -117,7 +117,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
       // 1️⃣ Register the administrator (API request)
       const { username, email, address, phone, password } = formData;
       const response = await axios.post(
-        "http://localhost:3000/admin-accounts/register",
+        "https://uma-backend-production-d139.up.railway.app/admin-accounts/register",
         {
           username,
           email,
@@ -135,7 +135,7 @@ const AddAdminModal: React.FC<AddAdminModalProps> = ({
         formData.append("file", profileImage);
 
         await axios.post(
-          `http://localhost:3000/admin-accounts/upload-profile-image?username=${username}`,
+          `https://uma-backend-production-d139.up.railway.app/admin-accounts/upload-profile-image?username=${username}`,
           formData
         );
 

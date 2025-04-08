@@ -44,7 +44,7 @@ function Settings() {
       }
 
       const response = await axios.get(
-        `http://localhost:3000/admin-accounts/profile`,
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/profile`,
         { params: { username } }
       );
       console.log("Profile data received from backend:", response.data);
@@ -117,17 +117,20 @@ function Settings() {
       };
 
       // Update text fields in backend
-      await axios.put(`http://localhost:3000/admin-accounts/update`, {
-        username: currentUsername,
-        ...updatedData,
-      });
+      await axios.put(
+        `https://uma-backend-production-d139.up.railway.app/admin-accounts/update`,
+        {
+          username: currentUsername,
+          ...updatedData,
+        }
+      );
 
       // If a new profile image is uploaded, send it to the backend
       if (updatedProfileImage) {
         const formData = new FormData();
         formData.append("file", updatedProfileImage);
         await axios.post(
-          `http://localhost:3000/admin-accounts/upload-profile-image?username=${updatedFormData.username}`,
+          `https://uma-backend-production-d139.up.railway.app/admin-accounts/upload-profile-image?username=${updatedFormData.username}`,
           formData,
           {
             headers: {

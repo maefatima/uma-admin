@@ -41,7 +41,7 @@ function LoginForm() {
     try {
       console.log("Sending login request to backend...");
       const response = await axios.post(
-        "http://localhost:3000/admin-accounts/login",
+        "https://uma-backend-production-d139.up.railway.app/admin-accounts/login",
         { username, password }
       );
 
