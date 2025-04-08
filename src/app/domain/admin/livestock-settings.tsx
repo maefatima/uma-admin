@@ -146,7 +146,8 @@ function LivestockSettings() {
       <div className="livestock-settings-content">
         <h2>ASF & Disease Controls</h2>
         <p className="livestock-description">
-          Enable or disable livestock types per barangay during outbreaks.
+          Enable or disable livestock types per barangay during health concerns
+          and outbreaks.
         </p>
 
         <div className="settings-wrapper">
