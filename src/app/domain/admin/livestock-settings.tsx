@@ -4,6 +4,8 @@ import PageHeading from "../../shared/components/heading/page-heading";
 import placeholderProfileImage from "../../shared/assets/images/blank-profile.png";
 import axios from "axios";
 import SearchBar from "../../shared/components/search-bar/search-bar";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import HomeIcon from "@mui/icons-material/Home";
 
 const initialTypes = {
   pig: true,
@@ -174,7 +176,7 @@ function LivestockSettings() {
             .map(([town, barangays]) => (
               <section className="town-section" key={town}>
                 <h2 className="town-heading">
-                  <span className="icon">📍</span>
+                  <LocationOnIcon className="icon" />
                   {town}
                 </h2>
                 <div className="barangay-grid">
@@ -189,7 +191,7 @@ function LivestockSettings() {
                     .map(([barangay, types]) => (
                       <div className="barangay-card" key={barangay}>
                         <div className="barangay-header">
-                          <span className="icon">🏠</span>
+                          <HomeIcon className="icon" />
                           <strong>{barangay}</strong>
                         </div>
                         <div className="toggle-grid">
