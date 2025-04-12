@@ -57,6 +57,8 @@ const ReportTable: React.FC<ReportTableProps> = ({
   const [notifyUser, setNotifyUser] = useState(false);
   const [disableDays, setDisableDays] = useState<number | undefined>(7);
   const [isSaving, setIsSaving] = useState(false);
+  const s3BaseUrl =
+    "https://umarket-livestock-images.s3.ap-southeast-2.amazonaws.com";
 
   const handleOpenModal = async (record: Report) => {
     // ✅ Open the modal immediately with initial data
@@ -87,14 +89,16 @@ const ReportTable: React.FC<ReportTableProps> = ({
         console.warn("No profile image found for user:", reportedUserProfile);
       }
 
+      const profileImage = reportedUserProfile.profile_image
+        ? `${s3BaseUrl}/${reportedUserProfile.profile_image}`
+        : "https://via.placeholder.com/50"; // fallback
+
       // ✅ Update modal data **after fetching the profile**
       setModalData((prevData: any) => ({
         ...prevData,
         reportedUser: {
           ...prevData.reportedUser,
-          profile_image: reportedUserProfile.profile_image
-            ? `https://uma-backend-production-d139.up.railway.app/uploads/profile-images/${response.data.profile_image}`
-            : "https://via.placeholder.com/50", // Default profile image
+          profile_image: profileImage,
         },
       }));
     } catch (error) {
